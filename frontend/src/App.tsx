@@ -7,6 +7,8 @@ import { AppHome } from './components/AppHome'
 import { AppMenu } from './components/AppMenu'
 import { BookingDetails } from './components/booking/BookingDetails'
 import { BookingAdd } from './components/booking/BookingAdd'
+import { BookingDelete } from './components/booking/BookingDelete'
+import { BookingEdit } from './components/booking/BookingEdit'
 
 
 function App() {
@@ -20,8 +22,8 @@ function App() {
           <Route path="/" element={<AppHome />} />
           <Route path="/bookings" element={<AllBookings />} />
           <Route path="/bookings/:bookingId/details" element={<BookingDetails />} />
-					<Route path="/bookings/:bookingId/edit" element={<BookingDetails />} />
-					<Route path="/bookings/:bookingId/delete" element={<AppHome />} />
+					<Route path="/bookings/:bookingId/edit" element={<BookingEdit />} />
+					<Route path="/bookings/:bookingId/delete" element={<BookingDelete />} />
 					<Route path="/bookings/add" element={<BookingAdd />} />
         </Routes>
       </Router>

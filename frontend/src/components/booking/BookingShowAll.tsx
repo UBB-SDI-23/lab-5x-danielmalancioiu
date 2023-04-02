@@ -36,7 +36,8 @@ export const AllBookings = () => {
 
 	return (
 		<Container>
-			<h1>All bookings</h1>
+			<h1 style={{ margin: "100px 0 30px 0" }}>All bookings</h1>
+
 
 			{loading && <CircularProgress />}
 			{!loading && bookings.length === 0 && <p>No bookings found</p>}
