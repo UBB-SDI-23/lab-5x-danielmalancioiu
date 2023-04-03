@@ -1,12 +1,13 @@
 import { Booking } from "./Booking";
 
 export interface Passenger {
-    id: number;
+    id?: number;
     firstName: string;
     lastName: string;
-    dateOFBirth: string;
+    dateOfBirth: string;
     nationality: string;
     passportNumber: string;
-    bookings: Booking[];
+    averagePrice?: number;
+    bookings?: Booking[];
 }
 

@@ -40,7 +40,7 @@ export const BookingDetails = () => {
                     <ul>
                         <li>{booking?.passenger?.firstName}</li>
                         <li>{booking?.passenger?.lastName}</li>
-                        <li>{booking?.passenger?.dateOFBirth}</li>
+                        <li>{booking?.passenger?.dateOfBirth}</li>
                         <li>{booking?.passenger?.nationality}</li>
                         <li>{booking?.passenger?.passportNumber}</li>
    

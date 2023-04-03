@@ -74,13 +74,16 @@ export const AllBookings = () => {
 									<TableCell component="th" scope="row">
 										{index + 1}
 									</TableCell>
-									{/* <TableCell component="th" scope="row">
-										<Link to={`/bookings/${booking.id}/details`} title="View booking details">
-											{booking.id}
+									<TableCell align="center">
+										<Link to={`/flights/${booking.flight?.id}/details`} title="View flight details">
+											{booking.flight?.callSign}
 										</Link>
-									</TableCell> */}
-									<TableCell align="center">{booking.flight?.callSign}</TableCell>
-									<TableCell align="center">{booking.passenger?.firstName}</TableCell>
+									</TableCell>
+									<TableCell align="center">
+										<Link to={`/passengers/${booking.passenger?.id}/details`} title="View passenger details">
+											{booking.passenger?.firstName}
+										</Link>
+									</TableCell>
 									<TableCell align="center">{booking.seatNumber}</TableCell>
 									<TableCell align="center">{booking.price}</TableCell>
 									<TableCell align="center">{booking.date}</TableCell>

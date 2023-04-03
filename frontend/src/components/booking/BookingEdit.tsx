@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
+import { Airline } from "../../models/Airline";
 
 export const BookingEdit = () => {
     const navigate = useNavigate();
@@ -19,6 +20,8 @@ export const BookingEdit = () => {
         date: "",
         price: 0,
     });
+
+
 
 	useEffect(() => {
 		const fetchBooking = async () => {
@@ -46,24 +49,23 @@ export const BookingEdit = () => {
                     <IconButton component={Link} sx={{ mr: 3 }} to={`/bookings`}>
                         <ArrowBackIcon />
                     </IconButton>{" "}
-                    <form onSubmit={updateBooking}>
-                        <TextField
+                    <form onSubmit={updateBooking}>                 
+                    <TextField
                             id="flight-id"
                             label="Flight ID"
                             variant="outlined"
-                            type="number"
                             fullWidth
                             sx={{ mb: 2 }}
-                            value={booking?.flight?.id}
+                            value={booking.flight?.id}
                             onChange={(event) => setBooking({ ...booking, flightId: Number(event.target.value) })}
                         />
                         <TextField
-                            id="passenger-id"
+                            id="passenger-id"   
                             label="Passenger ID"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            value={booking?.passenger?.id}
+                            value={booking.passenger?.id}
                             onChange={(event) => setBooking({ ...booking, passengerId: Number(event.target.value) })}
                         />
                         <TextField
@@ -72,7 +74,7 @@ export const BookingEdit = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            value={booking?.seatNumber}
+                            value={booking.seatNumber}
                             onChange={(event) => setBooking({ ...booking, seatNumber: event.target.value })}
                         />
                         <TextField
@@ -82,7 +84,7 @@ export const BookingEdit = () => {
                             fullWidth
                             type="date"
                             sx={{ mb: 2 }}
-                            value={booking?.date}
+                            value={booking.date}
                             onChange={(event) => setBooking({ ...booking, date: event.target.value })}
                             InputLabelProps={{
                                 shrink: true,
@@ -94,7 +96,7 @@ export const BookingEdit = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            value={booking?.price}
+                            value={booking.price}
                             onChange={(event) => setBooking({ ...booking, price: Number(event.target.value) })}
                         />
 
