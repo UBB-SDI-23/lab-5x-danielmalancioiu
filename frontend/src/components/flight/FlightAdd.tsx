@@ -7,25 +7,26 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
+import { Flight } from "../../models/Flight";
 
 
-export const BookingAdd = () => {
+export const FlightAdd = () => {
     const navigate = useNavigate();
 
-    const [booking, setBooking] = useState<Booking>({ 
-        flightId: 0,
-        passengerId: 0,
-        seatNumber: "",
-        date: "",
-        price: 0,
+    const [flight, setFlight] = useState<Flight>({
+        callSign: "",
+        capacity: 0,
+        departureAirport: "",
+        arrivalAirport: "",
+        airlineId: 0,
     });
 
-    const addBooking = async (event: { preventDefault: () => void }) => {
+    const addFlight = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
 
-            await axios.post(`http://localhost:8080/api/bookings`, booking);
-            navigate("/bookings");
+            await axios.post(`http://localhost:8080/api/flights`, flight);
+            navigate("/flights");
         } catch (error) {
             console.log(error);
         }
@@ -35,58 +36,54 @@ export const BookingAdd = () => {
         <Container>
             <Card>
                 <CardContent>
-                    <h1>Add Booking</h1>
-                    <IconButton component={Link} sx={{ mr: 3 }} to={`/bookings`}>
+                    <h1>Add Flight</h1>
+                    <IconButton component={Link} sx={{ mr: 3 }} to={`/flights`}>
                         <ArrowBackIcon />
                     </IconButton>{" "}
-                    <form onSubmit={addBooking}>
+                    <form onSubmit={addFlight}>
                         <TextField
-                            id="flight-id"
-                            label="Flight ID"
+                            id="call-sign"
+                            label="Call Sign"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setBooking({ ...booking, flightId: Number(event.target.value) })}
+                            onChange={(event) => setFlight({ ...flight, callSign: event.target.value })}
                         />
                         <TextField
-                            id="passenger-id"
-                            label="Passenger ID"
+                            id="capacity"
+                            label="Capacity"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setBooking({ ...booking, passengerId: Number(event.target.value) })}
+                            onChange={(event) => setFlight({ ...flight, capacity: Number(event.target.value) })}
                         />
                         <TextField
-                            id="seat-number"
-                            label="Seat Number"
+                            id="departure-airport"
+                            label="Departure Airport"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setBooking({ ...booking, seatNumber: event.target.value })}
+                            onChange={(event) => setFlight({ ...flight, departureAirport: event.target.value })}
                         />
                         <TextField
-                            id="date"
-                            label="Date"
+                            id="arrival-airport"
+                            label="Arrival Airport"
                             variant="outlined"
                             fullWidth
-                            type="date"
                             sx={{ mb: 2 }}
-                            onChange={(event) => setBooking({ ...booking, date: event.target.value })}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
+                            onChange={(event) => setFlight({ ...flight, arrivalAirport: event.target.value })}
                         />
                         <TextField
-                            id="price"
-                            label="Price"
+                            id="airline-id"
+                            label="Airline ID"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setBooking({ ...booking, price: Number(event.target.value) })}
+                            onChange={(event) => setFlight({ ...flight, airlineId: Number(event.target.value) })}
                         />
 
 
-                        <Button type="submit">Add Booking</Button>
+                        <Button type="submit">Add Flight</Button>
                     </form>
                 </CardContent>
                 <CardActions></CardActions>

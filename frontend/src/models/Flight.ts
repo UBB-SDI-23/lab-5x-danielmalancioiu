@@ -1,11 +1,12 @@
 import { Airline } from "./Airline";
 
 export interface Flight {
-    id: number;
+    id?: number;
     callSign: string;
     capacity: number;
     departureAirport: string;
     arrivalAirport: string;
-    airline: Airline
+    airline?: Airline;
+    airlineId?: number;
 }
 

@@ -37,8 +37,8 @@ export const AppMenu = () => {
           </Button>
           
           <Button
-            variant={path.startsWith("/bookings") ? "outlined" : "text"}
-            to="/bookings"
+            variant={path.startsWith("/flights") ? "outlined" : "text"}
+            to="/flights"
             component={Link}
             color="inherit"
             sx={{ mr: 5 }}
