@@ -1,5 +1,5 @@
 export interface Airline {
-    id: number;
+    id?: number;
     name: string;
     iataCode: string;
     fleetSize: number;  
