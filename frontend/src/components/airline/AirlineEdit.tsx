@@ -32,7 +32,7 @@ export const AirlineEdit = () => {
 
 	useEffect(() => {
 		const fetchAirline = async () => {
-			const response = await fetch(`${BACKEND_API_URL}/${airlineId}`);
+			const response = await fetch(`${BACKEND_API_URL}/airlines/${airlineId}`);
 			const airlineOld = await response.json();
 			setAirlineOld(airlineOld);
 		};
