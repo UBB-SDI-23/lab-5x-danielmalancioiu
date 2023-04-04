@@ -123,6 +123,7 @@ export const AppMenu = () => {
         padding: "20px 0"
       }}
     >
+
       <List>
         {menuItems.map((item) => (
           <ListItem
@@ -145,7 +146,7 @@ export const AppMenu = () => {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, position: "fixed", top: 0, left: 0, backgroundColor: "#22bd4b", width: '100%', color: 'white' }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -157,7 +158,7 @@ export const AppMenu = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div">
-            Booking management
+            Airport management
           </Typography>
         </Toolbar>
       </Box>
