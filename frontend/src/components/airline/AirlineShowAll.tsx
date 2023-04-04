@@ -24,6 +24,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
+import { BACKEND_API_URL } from "../../constants";
 
 
 export const AllAirlines = () => {
@@ -33,7 +34,7 @@ export const AllAirlines = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost:8080/api/airlines`)
+        fetch(`${BACKEND_API_URL}/airlines`)
             .then((response) => response.json())
             .then((data) => {
                 setAirlines(data);
