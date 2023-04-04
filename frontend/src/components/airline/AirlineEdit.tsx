@@ -8,6 +8,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { Airline } from "../../models/Airline";
+import { BACKEND_API_URL } from "../../constants";
 
 export const AirlineEdit = () => {
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ export const AirlineEdit = () => {
     const updateAirline = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-            await axios.put(`http://localhost:8080/api/airlines/${airlineId}`, airlineOld);
+            await axios.put(`${BACKEND_API_URL}/airlines/${airlineId}`, airlineOld);
             navigate("/airlines");
         } catch (error) {
             console.log(error);

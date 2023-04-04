@@ -2,7 +2,7 @@ import { Container, Card, CardContent, IconButton, CardActions, Button } from "@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
-
+import { BACKEND_API_URL } from "../../constants";
 
 export const BookingDelete = () => {
 	const { bookingId } = useParams();
@@ -10,7 +10,7 @@ export const BookingDelete = () => {
 
 	const handleDelete = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
-		await axios.delete(`http://localhost:8080/api/bookings/${bookingId}`);
+		await axios.delete(`${BACKEND_API_URL}/bookings/${bookingId}`);
 
 		navigate("/bookings");
 	};

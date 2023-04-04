@@ -25,7 +25,7 @@ import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
 import { Passenger } from "../../models/Passenger";
-
+import { BACKEND_API_URL } from "../../constants";
 
 export const AllPassengers = () => {
     const [loading, setLoading] = useState(false);
@@ -34,7 +34,7 @@ export const AllPassengers = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost:8080/api/passengers`)
+        fetch(`${BACKEND_API_URL}/passengers`)
             .then((response) => response.json())
             .then((data) => {
                 setPassengers(data);

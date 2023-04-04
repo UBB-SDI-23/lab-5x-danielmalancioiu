@@ -10,7 +10,7 @@ import axios from "axios";
 import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
 import { Passenger } from "../../models/Passenger";
-
+import { BACKEND_API_URL } from "../../constants";
 
 export const PassengerAdd = () => {
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ export const PassengerAdd = () => {
         event.preventDefault();
         try {
 
-            await axios.post(`http://localhost:8080/api/passengers`, passenger);
+            await axios.post(`${BACKEND_API_URL}/passengers`, passenger);
             navigate("/passengers");
         } catch (error) {
             console.log(error);

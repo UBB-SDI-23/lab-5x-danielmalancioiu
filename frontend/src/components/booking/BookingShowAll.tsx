@@ -23,7 +23,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddIcon from "@mui/icons-material/Add";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { BookingAdd } from "./BookingAdd";
-
+import { BACKEND_API_URL } from "../../constants";
 
 export const AllBookings = () => {
 	const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ export const AllBookings = () => {
 
 	useEffect(() => {
 		setLoading(true);
-		fetch(`http://localhost:8080/api/bookings`)
+		fetch(`${BACKEND_API_URL}/bookings`)
 			.then((response) => response.json())
 			.then((data) => {
 				setBookings(data);

@@ -12,6 +12,7 @@ import { AirlineCapacity } from "../../models/AirlineCapacity";
 import { Passenger } from "../../models/Passenger";
 import { ArrowBack } from "@mui/icons-material";
 
+import { BACKEND_API_URL } from "../../constants";
 export const PassengerDetails = () => {
     const { passengerId } = useParams();
     const [passenger, setPassenger] = useState<Passenger>();
@@ -19,8 +20,8 @@ export const PassengerDetails = () => {
 
     useEffect(() => {
         const fetchPassenger = async () => {
-            const response = await fetch(`http://localhost:8080/api/passengers/${passengerId}`);
-            const response1 = await fetch(`http://localhost:8080/api/passengers/${passengerId}/averagePrice`);
+            const response = await fetch(`${BACKEND_API_URL}/passengers/${passengerId}`);
+            const response1 = await fetch(`${BACKEND_API_URL}/passengers/${passengerId}/averagePrice`);
             const passenger = await response.json();
             const passengerCapacity = await response1.json();
 

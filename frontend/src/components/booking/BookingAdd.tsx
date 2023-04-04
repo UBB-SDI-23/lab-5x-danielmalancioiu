@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
+import { BACKEND_API_URL } from "../../constants";
 
 
 export const BookingAdd = () => {
@@ -24,7 +25,7 @@ export const BookingAdd = () => {
         event.preventDefault();
         try {
 
-            await axios.post(`http://localhost:8080/api/bookings`, booking);
+            await axios.post(`${BACKEND_API_URL}/bookings`, booking);
             navigate("/bookings");
         } catch (error) {
             console.log(error);

@@ -23,7 +23,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddIcon from "@mui/icons-material/Add";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Flight } from "../../models/Flight";
-
+import { BACKEND_API_URL } from "../../constants";
 
 export const AllFlights = () => {
     const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ export const AllFlights = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost:8080/api/flights`)
+        fetch(`${BACKEND_API_URL}/flights`)
             .then((response) => response.json())
             .then((data) => {
                 setFlights(data);

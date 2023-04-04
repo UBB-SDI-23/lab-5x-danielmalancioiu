@@ -8,7 +8,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { Airline } from "../../models/Airline";
-
+import { BACKEND_API_URL } from "../../constants";
 export const BookingEdit = () => {
     const navigate = useNavigate();
     const { bookingId } = useParams();
@@ -25,7 +25,7 @@ export const BookingEdit = () => {
 
 	useEffect(() => {
 		const fetchBooking = async () => {
-			const response = await fetch(`http://localhost:8080/api/bookings/${bookingId}`);
+			const response = await fetch(`${BACKEND_API_URL}/bookings/${bookingId}`);
 			const booking = await response.json();
 			setBooking(booking);
 		};
@@ -35,7 +35,7 @@ export const BookingEdit = () => {
     const updateBooking = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-            await axios.put(`http://localhost:8080/api/bookings/${bookingId}`, booking);
+            await axios.put(`${BACKEND_API_URL}/bookings/${bookingId}`, booking);
             navigate("/bookings");
         } catch (error) {
             console.log(error);

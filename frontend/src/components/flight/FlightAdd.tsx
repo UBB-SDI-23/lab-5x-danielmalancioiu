@@ -8,7 +8,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { Flight } from "../../models/Flight";
-
+import { BACKEND_API_URL } from "../../constants";
 
 export const FlightAdd = () => {
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ export const FlightAdd = () => {
         event.preventDefault();
         try {
 
-            await axios.post(`http://localhost:8080/api/flights`, flight);
+            await axios.post(`${BACKEND_API_URL}/flights`, flight);
             navigate("/flights");
         } catch (error) {
             console.log(error);

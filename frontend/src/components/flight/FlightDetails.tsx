@@ -7,14 +7,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Flight } from "../../models/Flight";
-
+import { BACKEND_API_URL } from "../../constants";
 export const FlightDetails = () => {
     const { flightId } = useParams();
     const [flight, setFlight] = useState<Flight>();
 
     useEffect(() => {
         const fetchFlight = async () => {
-            const response = await fetch(`http://localhost:8080/api/flights/${flightId}`);
+            const response = await fetch(`${BACKEND_API_URL}/flights/${flightId}`);
             const flight = await response.json();
             setFlight(flight);
         };

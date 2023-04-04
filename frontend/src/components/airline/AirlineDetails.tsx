@@ -9,6 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
 import { AirlineCapacity } from "../../models/AirlineCapacity";
+import { BACKEND_API_URL } from "../../constants";
 
 export const AirlineDetails = () => {
     const { airlineId } = useParams();
@@ -17,8 +18,8 @@ export const AirlineDetails = () => {
 
     useEffect(() => {
         const fetchAirline = async () => {
-            const response = await fetch(`http://localhost:8080/api/airlines/${airlineId}`);
-            const response1 = await fetch(`http://localhost:8080/api/airlines/${airlineId}/averageCapacity`);
+            const response = await fetch(`${BACKEND_API_URL}/airlines/${airlineId}`);
+            const response1 = await fetch(`${BACKEND_API_URL}/airlines/${airlineId}/averageCapacity`);
             const airline = await response.json();
             const averageCapacity = await response1.json();
 

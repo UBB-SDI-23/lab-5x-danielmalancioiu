@@ -9,6 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
+import { BACKEND_API_URL } from "../../constants";
 
 
 export const AirlineAdd = () => {
@@ -26,7 +27,7 @@ export const AirlineAdd = () => {
         event.preventDefault();
         try {
 
-            await axios.post(`http://localhost:8080/api/airlines`, airline);
+            await axios.post(`${BACKEND_API_URL}/airlines`, airline);
             navigate("/airlines");
         } catch (error) {
             console.log(error);

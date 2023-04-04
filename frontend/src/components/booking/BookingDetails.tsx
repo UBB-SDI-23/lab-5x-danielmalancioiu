@@ -7,14 +7,14 @@ import { Booking } from "../../models/Booking";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
+import { BACKEND_API_URL } from "../../constants";
 export const BookingDetails = () => {
 	const { bookingId } = useParams();
 	const [booking, setBooking] = useState<Booking>();
 
 	useEffect(() => {
 		const fetchBooking = async () => {
-			const response = await fetch(`http://localhost:8080/api/bookings/${bookingId}`);
+			const response = await fetch(`${BACKEND_API_URL}/bookings/${bookingId}`);
 			const booking = await response.json();
 			setBooking(booking);
 		};

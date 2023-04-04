@@ -9,7 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { Airline } from "../../models/Airline";
 import { Passenger } from "../../models/Passenger";
-
+import { BACKEND_API_URL } from "../../constants";
 export const PassengerEdit = () => {
     const navigate = useNavigate();
     const { passengerId } = useParams();
@@ -24,7 +24,7 @@ export const PassengerEdit = () => {
 
 	useEffect(() => {
 		const fetchPassenger = async () => {
-			const response = await fetch(`http://localhost:8080/api/passengers/${passengerId}`);
+			const response = await fetch(`${BACKEND_API_URL}/passengers/${passengerId}`);
 			const passenger = await response.json();
 			setPassenger(passenger);
 		};
@@ -34,7 +34,7 @@ export const PassengerEdit = () => {
     const updatePassenger = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-            await axios.put(`http://localhost:8080/api/passenger/${passengerId}`, passenger);
+            await axios.put(`${BACKEND_API_URL}/passenger/${passengerId}`, passenger);
             navigate("/passengers");
         } catch (error) {
             console.log(error);

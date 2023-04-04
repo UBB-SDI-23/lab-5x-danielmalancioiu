@@ -2,7 +2,7 @@ import { Container, Card, CardContent, IconButton, CardActions, Button } from "@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
-
+import { BACKEND_API_URL } from "../../constants";
 
 export const PassengerDelete = () => {
 	const { passengerId } = useParams();
@@ -10,7 +10,7 @@ export const PassengerDelete = () => {
 
 	const handleDelete = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
-		await axios.delete(`http://localhost:8080/api/passengers/${passengerId}`);
+		await axios.delete(`${BACKEND_API_URL}/passengers/${passengerId}`);
 
 		navigate("/passengers");
 	};
