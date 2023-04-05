@@ -94,7 +94,7 @@ export const AllAirlines = () => {
                                             <EditIcon />
                                         </IconButton>
 
-                                        <IconButton component={Link} sx={{ mr: 3 }} to={`/ailrines/${airline.id}/delete`} >
+                                        <IconButton component={Link} sx={{ mr: 3 }} to={`/airlines/${airline.id}/delete`} >
                                             <DeleteForeverIcon sx={{ color: "red" }} />
                                         </IconButton>
                                     </TableCell>
