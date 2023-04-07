@@ -10,6 +10,8 @@ import dev.dmg.sdi.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@Validated
 @RequestMapping("/api/airlines")
 public class AirlineController {
 
@@ -52,11 +55,24 @@ public class AirlineController {
 	}
 
 	@PostMapping("")
-	public Airline addAirline( @RequestBody @Valid AirlineDto dto) throws Exception {
+	public ResponseEntity<Airline> addAirline(@Valid @RequestBody AirlineDto dto)  {
 
-		return this.service.create(dto);
+		Airline airline = this.service.create(dto);
 		//return new ResponseEntity<>(airline, HttpStatus.CREATED);
+		return ResponseEntity.ok(airline);
 	}
+
+	@PostMapping("/post")
+	public ResponseEntity<?> addAirline(@Valid @RequestBody AirlineDto dto, BindingResult result) {
+		if (result.hasErrors()) {
+			return ResponseEntity.badRequest().body(result.getAllErrors());
+		}
+
+		Airline airline = service.create(dto);
+		return ResponseEntity.ok(airline);
+	}
+
+
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Airline> updateAirline(@PathVariable Long id, @RequestBody AirlineDto dto) {

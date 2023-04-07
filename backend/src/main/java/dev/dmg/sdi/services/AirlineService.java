@@ -37,17 +37,8 @@ public class AirlineService {
 		this.entityManagerFactory = entityManagerFactory;
 	}
 
-	public Airline create(AirlineDto dto) throws Exception {
+	public Airline create(AirlineDto dto)  {
 		Airline airline = new Airline();
-		if(dto.getName().isEmpty()){
-			throw new Exception( "Name shoud not be empty.");
-		}
-		if(dto.getFleetSize() < 0){
-			throw new Exception( "Fleet size shoud not be positive.");
-		}
-		if(dto.getWebsite().isEmpty()){
-			throw new Exception("Website shoud not be empty.");
-		}
 		BeanUtils.copyProperties(dto, airline, "id");
 
 		return this.save(airline);
