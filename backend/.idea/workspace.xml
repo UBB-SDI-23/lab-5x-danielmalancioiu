@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="Swagger" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2NrZRYIXRNqRg76cyFf8G2oX78H" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/University UBB/Year 2/Semester 2/Systems for Design and Implementation/DMG-SDI/Backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.20821112&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.12360942&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;0efffbe143d1747cea58f8c3fe1b6f9b&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="JUnit.AirlineTests (1)">
+    <configuration name="AirlineServiceTest.testFilterByFleetSizeGreaterThan" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sdi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.dmg.sdi.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dev.dmg.sdi.services" />
+      <option name="MAIN_CLASS_NAME" value="dev.dmg.sdi.services.AirlineServiceTest" />
+      <option name="METHOD_NAME" value="testFilterByFleetSizeGreaterThan" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirlineServiceTest.testFilterByFleetSizeGreaterThan_NotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sdi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.dmg.sdi.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dev.dmg.sdi.services" />
+      <option name="MAIN_CLASS_NAME" value="dev.dmg.sdi.services.AirlineServiceTest" />
+      <option name="METHOD_NAME" value="testFilterByFleetSizeGreaterThan_NotFound" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirlineTests (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sdi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.dmg.sdi.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dev.dmg.sdi.services" />
+      <option name="MAIN_CLASS_NAME" value="dev.dmg.sdi.services.AirlineTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirlineTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sdi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.dmg.sdi.domain.entities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dev.dmg.sdi.domain.entities" />
+      <option name="MAIN_CLASS_NAME" value="dev.dmg.sdi.domain.entities.AirlineTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AirlineTests.testFilterByFleetSizeGreaterThan_NotFound" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sdi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dev.dmg.sdi.services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="dev.dmg.sdi.services" />
+      <option name="MAIN_CLASS_NAME" value="dev.dmg.sdi.services.AirlineTests" />
+      <option name="METHOD_NAME" value="testFilterByFleetSizeGreaterThan_NotFound" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SdiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="sdi" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="dev.dmg.sdi.SdiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AirlineTests (1)" />
+        <item itemvalue="JUnit.AirlineServiceTest.testFilterByFleetSizeGreaterThan" />
+        <item itemvalue="JUnit.AirlineTests.testFilterByFleetSizeGreaterThan_NotFound" />
+        <item itemvalue="JUnit.AirlineServiceTest.testFilterByFleetSizeGreaterThan_NotFound" />
+        <item itemvalue="JUnit.AirlineTests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="" />
+      <created>1680424158229</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680424158229</updated>
+      <workItem from="1680424160389" duration="446000" />
+      <workItem from="1680424624077" duration="8845000" />
+      <workItem from="1680536089636" duration="10018000" />
+      <workItem from="1680594541185" duration="709000" />
+      <workItem from="1680615624343" duration="9121000" />
+      <workItem from="1680639274496" duration="1734000" />
+      <workItem from="1680687305435" duration="3595000" />
+      <workItem from="1680692295858" duration="70000" />
+      <workItem from="1680692385787" duration="322000" />
+      <workItem from="1680692835764" duration="2332000" />
+      <workItem from="1680695395452" duration="2872000" />
+      <workItem from="1680898487390" duration="430000" />
+    </task>
+    <task id="LOCAL-00001" summary="Swagger">
+      <created>1680425239098</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1680425239098</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Swagger" />
+    <option name="LAST_COMMIT_MESSAGE" value="Swagger" />
+  </component>
+</project>
