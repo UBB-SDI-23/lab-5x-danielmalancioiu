@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://dmgbackend-env.eba-mm4q4fpd.eu-north-1.elasticbeanstalk.com/api",
+  "proxy": "http://16.171.53.6:8000/api",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
