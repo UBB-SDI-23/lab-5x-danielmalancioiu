@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "https://dmg-frontend.netlify.app/")
 @RequestMapping("/api/airlines")
 public class AirlineController {
 
