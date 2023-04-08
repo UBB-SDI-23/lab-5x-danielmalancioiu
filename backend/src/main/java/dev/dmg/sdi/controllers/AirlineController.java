@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.FieldError;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -56,18 +58,23 @@ public class AirlineController {
 
 	@PostMapping("")
 	public ResponseEntity<?> addAirline(@RequestBody @Valid AirlineDto dto, BindingResult result)  {
-
 		if(result.hasErrors()) {
 			List<String> errors = result.getFieldErrors()
 					.stream()
 					.map(FieldError::getDefaultMessage)
 					.collect(Collectors.toList());
-			return ResponseEntity.badRequest().body(errors);
+			Map<String, Object> response = new HashMap<>();
+			response.put("status", HttpStatus.BAD_REQUEST.value());
+			response.put("message", "Validation error");
+			response.put("errors", errors);
+			return ResponseEntity.badRequest().body(response);
 		}
 
 		Airline airline = this.service.create(dto);
 		return new ResponseEntity<>(airline, HttpStatus.CREATED);
 	}
+
+
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Airline> updateAirline(@PathVariable Long id, @RequestBody AirlineDto dto) {

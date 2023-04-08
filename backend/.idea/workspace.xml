@@ -4,46 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="try to fix validations">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_2_5_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_3_0_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sdi.iml" afterDir="false" />
+    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="fixed validations">
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/AirlineController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/AirlineController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/SdiApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/SdiApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/SpringdocConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/SpringdocConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/BookingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/BookingController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/FlightController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/FlightController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/PassengerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/PassengerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineCapacityDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineCapacityDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineFlightDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineFlightDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingFlightDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingFlightDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingPassengerDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingPassengerDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/FlightDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/FlightDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerBookingDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerBookingDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Airline.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Airline.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Booking.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Flight.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Flight.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Passenger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Passenger.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/AirlineRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/AirlineRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/BookingRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/BookingRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/FlightRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/FlightRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/PassengerRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/PassengerRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/BookingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/BookingService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/FlightService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/FlightService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/PassengerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/PassengerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-dev.dmg.sdi.SdiApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-dev.dmg.sdi.SdiApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/dev.dmg.sdi.SdiApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/dev.dmg.sdi.SdiApplicationTests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/dev/dmg/sdi/SdiApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/dev/dmg/sdi/SdiApplicationTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +190,7 @@
       <workItem from="1680692835764" duration="2332000" />
       <workItem from="1680695395452" duration="2872000" />
       <workItem from="1680898487390" duration="5747000" />
-      <workItem from="1680953762194" duration="1411000" />
+      <workItem from="1680953762194" duration="2268000" />
     </task>
     <task id="LOCAL-00001" summary="Swagger">
       <created>1680425239098</created>
@@ -257,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680904163615</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fixed validations">
+      <created>1680955336271</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1680955336271</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -279,7 +249,8 @@
     <MESSAGE value="added backend folder" />
     <MESSAGE value="changed configuration for postgresql" />
     <MESSAGE value="try to fix validations" />
-    <option name="LAST_COMMIT_MESSAGE" value="try to fix validations" />
+    <MESSAGE value="fixed validations" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed validations" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
