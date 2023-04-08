@@ -13,13 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.FieldError;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin
-@Validated
 @RequestMapping("/api/airlines")
 public class AirlineController {
 
@@ -55,24 +55,19 @@ public class AirlineController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<Airline> addAirline(@Valid @RequestBody AirlineDto dto)  {
+	public ResponseEntity<?> addAirline(@RequestBody @Valid AirlineDto dto, BindingResult result)  {
 
-		Airline airline = this.service.create(dto);
-		//return new ResponseEntity<>(airline, HttpStatus.CREATED);
-		return ResponseEntity.ok(airline);
-	}
-
-	@PostMapping("/post")
-	public ResponseEntity<?> addAirline(@Valid @RequestBody AirlineDto dto, BindingResult result) {
-		if (result.hasErrors()) {
-			return ResponseEntity.badRequest().body(result.getAllErrors());
+		if(result.hasErrors()) {
+			List<String> errors = result.getFieldErrors()
+					.stream()
+					.map(FieldError::getDefaultMessage)
+					.collect(Collectors.toList());
+			return ResponseEntity.badRequest().body(errors);
 		}
 
-		Airline airline = service.create(dto);
-		return ResponseEntity.ok(airline);
+		Airline airline = this.service.create(dto);
+		return new ResponseEntity<>(airline, HttpStatus.CREATED);
 	}
-
-
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Airline> updateAirline(@PathVariable Long id, @RequestBody AirlineDto dto) {

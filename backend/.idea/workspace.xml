@@ -4,24 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="changed configuration for postgresql">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_3_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_2_27.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_mysql_mysql_connector_j_8_0_32.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_13_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_2_2.xml" beforeDir="false" />
+    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="try to fix validations">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_2_5_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_3_0_5.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sdi.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sdi.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/AirlineController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/AirlineController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/AirlineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/AirlineService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/SdiApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/SdiApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/SpringdocConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/SpringdocConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/BookingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/BookingController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/FlightController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/FlightController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/PassengerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/PassengerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineCapacityDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineCapacityDto.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineFlightDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineFlightDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingFlightDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingFlightDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingPassengerDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingPassengerDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/FlightDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/FlightDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerBookingDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerBookingDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Airline.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Airline.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Booking.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Flight.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Flight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Passenger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Passenger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/AirlineRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/AirlineRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/BookingRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/BookingRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/FlightRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/FlightRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/PassengerRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/PassengerRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/BookingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/BookingService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/FlightService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/FlightService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/PassengerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/PassengerService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-dev.dmg.sdi.SdiApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-dev.dmg.sdi.SdiApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/dev.dmg.sdi.SdiApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/dev.dmg.sdi.SdiApplicationTests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/dev/dmg/sdi/SdiApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/dev/dmg/sdi/SdiApplicationTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +56,10 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/6.0.6/spring-aop-6.0.6.jar!/org/springframework/aop/framework/AdvisedSupport.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/6.0.6/spring-aop-6.0.6.jar!/org/springframework/aop/framework/CglibAopProxy.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -51,29 +77,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/University UBB/Year 2/Semester 2/Systems for Design and Implementation/DMG-SDI/Backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.20821112",
-    "project.structure.side.proportion": "0.12360942",
-    "spring.configuration.checksum": "0efffbe143d1747cea58f8c3fe1b6f9b",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/University UBB/Year 2/Semester 2/Systems for Design and Implementation/DMG-SDI/Backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.20821112&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.12360942&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;0efffbe143d1747cea58f8c3fe1b6f9b&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Spring Boot.SdiApplication">
     <configuration name="AirlineServiceTest.testFilterByFleetSizeGreaterThan" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sdi" />
@@ -200,7 +226,8 @@
       <workItem from="1680692385787" duration="322000" />
       <workItem from="1680692835764" duration="2332000" />
       <workItem from="1680695395452" duration="2872000" />
-      <workItem from="1680898487390" duration="5533000" />
+      <workItem from="1680898487390" duration="5747000" />
+      <workItem from="1680953762194" duration="1411000" />
     </task>
     <task id="LOCAL-00001" summary="Swagger">
       <created>1680425239098</created>
@@ -223,7 +250,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680900770253</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="try to fix validations">
+      <created>1680904163615</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1680904163615</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,7 +278,8 @@
     <MESSAGE value="Swagger" />
     <MESSAGE value="added backend folder" />
     <MESSAGE value="changed configuration for postgresql" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed configuration for postgresql" />
+    <MESSAGE value="try to fix validations" />
+    <option name="LAST_COMMIT_MESSAGE" value="try to fix validations" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
