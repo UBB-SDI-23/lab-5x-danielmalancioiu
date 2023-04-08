@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: dev.dmg.sdi.SdiApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.012 s - in dev.dmg.sdi.SdiApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.965 s - in dev.dmg.sdi.SdiApplicationTests

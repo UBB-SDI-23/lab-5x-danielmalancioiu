@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="jar update" />
+    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="jar update( port 80 )">
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -187,7 +189,7 @@
       <workItem from="1680692835764" duration="2332000" />
       <workItem from="1680695395452" duration="2872000" />
       <workItem from="1680898487390" duration="5747000" />
-      <workItem from="1680953762194" duration="4289000" />
+      <workItem from="1680953762194" duration="4837000" />
     </task>
     <task id="LOCAL-00001" summary="Swagger">
       <created>1680425239098</created>
@@ -245,7 +247,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680961257592</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="jar update( port 80 )">
+      <created>1680961843751</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1680961843751</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,7 +279,8 @@
     <MESSAGE value="fixed validations" />
     <MESSAGE value="validations final" />
     <MESSAGE value="jar update" />
-    <option name="LAST_COMMIT_MESSAGE" value="jar update" />
+    <MESSAGE value="jar update( port 80 )" />
+    <option name="LAST_COMMIT_MESSAGE" value="jar update( port 80 )" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
