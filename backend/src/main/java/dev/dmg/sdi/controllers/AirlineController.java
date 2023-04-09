@@ -5,9 +5,12 @@ import dev.dmg.sdi.domain.dto.AirlineDto;
 import dev.dmg.sdi.domain.dto.AirlineFlightDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
+import dev.dmg.sdi.repositories.AirlineRepository;
 import dev.dmg.sdi.services.AirlineService;
 import dev.dmg.sdi.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,12 +25,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin()
+@CrossOrigin
 @RequestMapping("/api/airlines")
 public class AirlineController {
 
 	@Autowired
 	AirlineService service;
+
+	@Autowired
+	AirlineRepository repository;
 
 	@Autowired
 	private FlightService flightService;
@@ -36,6 +42,11 @@ public class AirlineController {
 	public ResponseEntity<List<AirlineDto>> getAllAirlines() {
 		List<AirlineDto> airlines = service.getAll();
 		return ResponseEntity.ok(airlines);
+	}
+
+	@GetMapping("/autocomplete")
+	public List<Airline> autocompleteAirline(@RequestParam String query, @RequestParam int maxResults) {
+		return repository.findByNameContainingIgnoreCaseOrderByName(query, PageRequest.of(0, maxResults, Sort.by("name")));
 	}
 
 	@GetMapping("/{id}")

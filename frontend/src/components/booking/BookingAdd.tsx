@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, IconButton, TextField } from "@mui/material";
+import { Autocomplete, Button, Card, CardActions, CardContent, IconButton, TextField } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -8,18 +8,56 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { BACKEND_API_URL } from "../../constants";
+import { Flight } from "../../models/Flight";
+import { Passenger } from "../../models/Passenger";
 
 
 export const BookingAdd = () => {
     const navigate = useNavigate();
 
-    const [booking, setBooking] = useState<Booking>({ 
+    const [booking, setBooking] = useState<Booking>({
         flightId: 0,
         passengerId: 0,
         seatNumber: "",
         date: "",
         price: 0,
     });
+
+    const [flightSuggestions, setFlightSuggestions] = useState<Flight[]>([]);
+
+    const handleFlightInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            const query = event.target.value;
+            const response = await axios.get(`${BACKEND_API_URL}/flights/autocomplete?query=${query}&maxResults=5`);
+            setFlightSuggestions(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleFlightSelection = (event: React.ChangeEvent<{}>, value: Flight | null) => {
+        if (value) {
+            setBooking({ ...booking, flightId: value.id });
+        }
+    };
+
+    const [passengerSuggestions, setPassengerSuggestions] = useState<Passenger[]>([]);
+
+    const handlePassengerInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            const query = event.target.value;
+            const response = await axios.get(`${BACKEND_API_URL}/passengers/autocomplete?query=${query}&maxResults=5`);
+            setPassengerSuggestions(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handlePassengerSelection = (event: React.ChangeEvent<{}>, value: Passenger | null) => {
+        if (value) {
+            setBooking({ ...booking, passengerId: value.id });
+        }
+    };
 
     const addBooking = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
@@ -41,21 +79,37 @@ export const BookingAdd = () => {
                         <ArrowBackIcon />
                     </IconButton>{" "}
                     <form onSubmit={addBooking}>
-                        <TextField
+                        <Autocomplete
                             id="flight-id"
-                            label="Flight ID"
-                            variant="outlined"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            onChange={(event) => setBooking({ ...booking, flightId: Number(event.target.value) })}
+                            options={flightSuggestions}
+                            getOptionLabel={(flight) => `${flight.callSign} - ${flight.airline?.name} - ${flight.departureAirport}`}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Flight"
+                                    variant="outlined"
+                                    fullWidth
+                                    sx={{ mb: 2 }}
+                                    onChange={handleFlightInputChange}
+                                />
+                            )}
+                            onChange={handleFlightSelection}
                         />
-                        <TextField
+                        <Autocomplete
                             id="passenger-id"
-                            label="Passenger ID"
-                            variant="outlined"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            onChange={(event) => setBooking({ ...booking, passengerId: Number(event.target.value) })}
+                            options={passengerSuggestions}
+                            getOptionLabel={(passenger) => `${passenger.firstName} - ${passenger.lastName} - ${passenger.nationality}`}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Passenger"
+                                    variant="outlined"
+                                    fullWidth
+                                    sx={{ mb: 2 }}
+                                    onChange={handlePassengerInputChange}
+                                />
+                            )}
+                            onChange={handlePassengerSelection}
                         />
                         <TextField
                             id="seat-number"

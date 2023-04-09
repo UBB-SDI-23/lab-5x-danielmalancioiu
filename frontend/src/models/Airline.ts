@@ -5,5 +5,6 @@ export interface Airline {
     fleetSize: number;  
     website: string;
     country: string;
+    [key: string]: any;
 }
 

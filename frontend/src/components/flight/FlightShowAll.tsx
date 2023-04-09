@@ -24,10 +24,13 @@ import AddIcon from "@mui/icons-material/Add";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { Flight } from "../../models/Flight";
 import { BACKEND_API_URL } from "../../constants";
+import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 
 export const AllFlights = () => {
     const [loading, setLoading] = useState(false);
     const [flights, setFlights] = useState<Flight[]>([]);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+	const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
 
     useEffect(() => {
@@ -39,6 +42,18 @@ export const AllFlights = () => {
                 setLoading(false);
             });
     }, []);
+
+    const sortFlights = () => {
+		if (sortOrder === 'asc') {
+			setFlights(prevState => [...prevState.sort((a, b) => a.capacity - b.capacity)]);
+			setSortOrder('desc');
+			setSortDirection('desc');
+		} else {
+			setFlights(prevState => [...prevState.sort((a, b) => b.capacity - a.capacity)]);
+			setSortOrder('asc');
+			setSortDirection('asc');
+		}
+	}
 
     return (
         <Container>
@@ -59,7 +74,10 @@ export const AllFlights = () => {
                             <TableRow>
                                 <TableCell>#</TableCell>
                                 <TableCell align="center">Call Sign</TableCell>
-                                <TableCell align="center">Capacity</TableCell>
+                                <TableCell align="center" onClick={sortFlights} style={{ cursor: 'pointer' }}>
+									<span>Capacity</span>
+									{sortOrder === 'asc' ? <ArrowDropUp style={{ fontSize: 18 }} /> : <ArrowDropDown style={{ fontSize: 18 }} />}
+								</TableCell>
                                 <TableCell align="center">Departure Arirport</TableCell>
                                 <TableCell align="center">Arrival Airport</TableCell>
                                 <TableCell align="center">Airline Name</TableCell>

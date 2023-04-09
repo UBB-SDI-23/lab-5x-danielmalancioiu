@@ -3,9 +3,13 @@ package dev.dmg.sdi.controllers;
 import dev.dmg.sdi.domain.dto.AirlineCapacityDto;
 import dev.dmg.sdi.domain.dto.PassengerBookingDto;
 import dev.dmg.sdi.domain.dto.PassengerDto;
+import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Passenger;
+import dev.dmg.sdi.repositories.PassengerRepository;
 import dev.dmg.sdi.services.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +24,19 @@ public class PassengerController {
 	@Autowired
 	PassengerService service;
 
+	@Autowired
+	PassengerRepository repository;
+
 	@GetMapping("")
 	public ResponseEntity<List<Passenger>> getAllPassengers() {
 
 		List<Passenger> passengers = this.service.getAll();
 		return ResponseEntity.ok(passengers);
+	}
+
+	@GetMapping("/autocomplete")
+	public List<Passenger> autocompletePassenger(@RequestParam String query, @RequestParam int maxResults) {
+		return repository.findByFirstNameContainingIgnoreCaseOrderByFirstName(query, PageRequest.of(0, maxResults, Sort.by("firstName")));
 	}
 
 	@GetMapping("/{id}")

@@ -40,7 +40,7 @@ export const AirlineDetails = () => {
                 textAlign: "center",
             }}>
                 <CardContent sx={{ paddingBottom: "16px" }}>
-                    <IconButton component={Link} to={`/home`} sx={{ marginBottom: "16px" }}>
+                    <IconButton component={Link} to={`/airlines`} sx={{ marginBottom: "16px" }}>
                         <ArrowBackIcon sx={{ fontSize: "30px", color: "#555",  }} />
                     </IconButton>
                     <Typography variant="h4" sx={{ fontSize: "24px", marginBottom: "16px", color: "#444" }}>

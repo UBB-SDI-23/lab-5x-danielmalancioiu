@@ -8,5 +8,6 @@ export interface Flight {
     arrivalAirport: string;
     airline?: Airline;
     airlineId?: number;
+    [key: string]: any;
 }
 

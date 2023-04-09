@@ -26,11 +26,13 @@ import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
 import { Passenger } from "../../models/Passenger";
 import { BACKEND_API_URL } from "../../constants";
+import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 
 export const AllPassengers = () => {
     const [loading, setLoading] = useState(false);
     const [passengers, setPassengers] = useState<Passenger[]>([]);
-
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+	const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
     useEffect(() => {
         setLoading(true);
@@ -41,6 +43,16 @@ export const AllPassengers = () => {
                 setLoading(false);
             });
     }, []);
+
+    const sortPassengers = () => {
+        if (sortOrder === 'asc') {
+          setPassengers(prevState => [...prevState.sort((a, b) => new Date(a.dateOfBirth).getTime() - new Date(b.dateOfBirth).getTime())]);
+          setSortOrder('desc');
+        } else {
+          setPassengers(prevState => [...prevState.sort((a, b) => new Date(b.dateOfBirth).getTime() - new Date(a.dateOfBirth).getTime())]);
+          setSortOrder('asc');
+        }
+    }
 
     return (
         <Container>
@@ -62,7 +74,10 @@ export const AllPassengers = () => {
                                 <TableCell>#</TableCell>
                                 <TableCell align="center">First Name</TableCell>
                                 <TableCell align="center">Last Name</TableCell>
-                                <TableCell align="center">Date of Birth</TableCell>
+                                <TableCell align="center" onClick={sortPassengers} style={{ cursor: 'pointer' }}>
+                                    <span>Date Of Birth</span>
+                                    {sortOrder === 'asc' ? <ArrowDropUp style={{ fontSize: 18 }} /> : <ArrowDropDown style={{ fontSize: 18 }} />}
+                                </TableCell>
                                 <TableCell align="center">Nationality</TableCell>
                                 <TableCell align="center">Passport Number</TableCell>
                                 <TableCell align="center">Operations</TableCell>
@@ -79,7 +94,7 @@ export const AllPassengers = () => {
                                     <TableCell align="center">{passenger.dateOfBirth}</TableCell>
                                     <TableCell align="center">{passenger.nationality}</TableCell>
                                     <TableCell align="center">{passenger.passportNumber}</TableCell>
-                                    
+
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}

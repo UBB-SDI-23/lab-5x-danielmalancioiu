@@ -9,5 +9,6 @@ export interface Passenger {
     passportNumber: string;
     averagePrice?: number;
     bookings?: Booking[];
+    [key: string]: any;
 }
 

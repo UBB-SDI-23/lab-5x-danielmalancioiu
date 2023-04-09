@@ -12,6 +12,7 @@ import {
 	Tooltip,
 	Button,
 	DialogActions,
+
 } from "@mui/material";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -24,6 +25,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { BookingAdd } from "./BookingAdd";
 import { BACKEND_API_URL } from "../../constants";
+import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
+
 
 export const AllBookings = () => {
 	const [loading, setLoading] = useState(false);
@@ -39,6 +45,8 @@ export const AllBookings = () => {
 				setLoading(false);
 			});
 	}, []);
+
+
 
 	return (
 		<Container>
@@ -64,6 +72,8 @@ export const AllBookings = () => {
 								<TableCell align="center">Passenger Name</TableCell>
 								<TableCell align="center">Seat Number</TableCell>
 								<TableCell align="center">Price</TableCell>
+
+
 								<TableCell align="center">Date</TableCell>
 								<TableCell align="center">Operations</TableCell>
 							</TableRow>
@@ -114,3 +124,4 @@ export const AllBookings = () => {
 		</Container>
 	);
 };
+

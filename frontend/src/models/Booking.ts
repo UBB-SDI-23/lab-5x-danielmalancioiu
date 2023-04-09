@@ -10,5 +10,6 @@ export interface Booking {
     seatNumber: string;
     date: string;
     price: number;
+    [key: string]: any;
 }
 
