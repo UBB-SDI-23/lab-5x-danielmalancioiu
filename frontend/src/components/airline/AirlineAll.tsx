@@ -16,6 +16,7 @@ import {
     CircularProgress,
     IconButton,
     Tooltip,
+    TablePagination,
 
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -32,17 +33,30 @@ export const AirlinesTable = () => {
     const [tableData, setTableData] = useState<TableRowData[]>([]);
     const [sortedData, setSortedData] = useState<TableRowData[]>([]);
     const [sortColumn, setSortColumn] = useState<string>("");
+    const [page, setPage] = useState<number>(0);
+    const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
+    // useEffect(() => {
+    //     setLoading(true);
+    //     fetch(`${BACKEND_API_URL}/airlines`)
+    //         .then((response) => response.json())
+    //         .then((data: TableRowData[]) => {
+    //             setTableData(data);
+    //             setSortedData(data);
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${BACKEND_API_URL}/airlines`)
-            .then((response) => response.json())
-            .then((data: TableRowData[]) => {
-                setTableData(data);
-                setSortedData(data);
-                setLoading(false);
-            });
-    }, []);
+        fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${rowsPerPage}&sort=${sortColumn}`)
+          .then((response) => response.json())
+          .then((data) => {
+            setTableData(data.content);
+            setSortedData(data.content);
+            setLoading(false);
+          });
+      }, [page, rowsPerPage, sortColumn]);
 
     const handleSort = (columnName: string) => {
         if (sortColumn === columnName) {
@@ -64,6 +78,21 @@ export const AirlinesTable = () => {
             setSortedData(newSortedData);
         }
     };
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const totalItems = sortedData.length;
+    const startIndex = page * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const displayedData = Array.isArray(sortedData) ? sortedData.slice(startIndex, endIndex) : [];
+
 
     return (
         <Container>
@@ -136,9 +165,9 @@ export const AirlinesTable = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sortedData.map((row,index) => (
+                            {sortedData.map((row, index) => (
                                 <TableRow key={row.id}>
-                                    <TableCell>{index+1}</TableCell>
+                                    <TableCell>{index + 1}</TableCell>
                                     <TableCell>{row.name}</TableCell>
                                     <TableCell>{row.iataCode}</TableCell>
                                     <TableCell>{row.fleetSize}</TableCell>
@@ -167,6 +196,16 @@ export const AirlinesTable = () => {
                         </TableBody>
 
                     </Table>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        component="div"
+                        count={totalItems}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+
                 </TableContainer>
             )}
         </Container>
