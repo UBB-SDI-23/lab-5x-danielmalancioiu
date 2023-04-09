@@ -16,6 +16,8 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ public class AirlineService {
 		this.entityManagerFactory = entityManagerFactory;
 	}
 
-	public Airline create(AirlineDto dto)  {
+	public Airline create(AirlineDto dto) {
 		Airline airline = new Airline();
 		BeanUtils.copyProperties(dto, airline, "id");
 
@@ -51,28 +53,36 @@ public class AirlineService {
 		return this.save(airline);
 	}
 
-	public List<AirlineDto> getAll() {
-		List<Airline> airlines = repository.findAll();
-		List<AirlineDto> airlineDtos = new ArrayList<>();
+	//	public List<AirlineDto> getAll() {
+//		List<Airline> airlines = repository.findAll();
+//		List<AirlineDto> airlineDtos = new ArrayList<>();
+//		if (airlines.isEmpty()) {
+//			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No airlines found.");
+//		} else {
+//
+//			for (Airline airline : airlines) {
+//				AirlineDto airlineDto = new AirlineDto(airline.getId(), airline.getName(), airline.getIataCode(), airline.getFleetSize(), airline.getWebsite(), airline.getCountry());
+//
+//				airlineDtos.add(airlineDto);
+//			}
+//		}
+//		return airlineDtos;
+//	}
+	public Page<AirlineDto> getAll(Pageable pageable) {
+		Page<Airline> airlines = repository.findAll(pageable);
 		if (airlines.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No airlines found.");
-		} else {
-
-			for (Airline airline : airlines) {
-				AirlineDto airlineDto = new AirlineDto(airline.getId(), airline.getName(), airline.getIataCode(), airline.getFleetSize(), airline.getWebsite(), airline.getCountry());
-
-				airlineDtos.add(airlineDto);
-			}
 		}
-		return airlineDtos;
+		return airlines.map(airline -> new AirlineDto(airline.getId(), airline.getName(), airline.getIataCode(), airline.getFleetSize(), airline.getWebsite(),
+				airline.getCountry()));
 	}
-
 
 	public ResponseEntity<List<Airline>> filterByFleetSizeGreaterThan(Integer fleetSize) {
 		List<Airline> airlines = repository.findByFleetSizeGreaterThan(fleetSize);
 		if (airlines.isEmpty()) {
 			return ResponseEntity.notFound().build();
-		} else {
+		}
+		else {
 			return ResponseEntity.ok(airlines);
 		}
 	}
@@ -82,22 +92,26 @@ public class AirlineService {
 		if (airlineOptional.isPresent()) {
 
 			return airlineOptional.get();
-		} else {
+		}
+		else {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Airline not found with ID " + id);
 		}
 	}
 
 	public AirlineFlightDto getByDtoId(Long id) {
 		Optional<Airline> airlineOptional = repository.findById(id);
-		if(airlineOptional.isPresent()) {
+		if (airlineOptional.isPresent()) {
 			List<Flight> flights = airlineOptional.get().getFlights();
 			List<FlightDto> flightDtos = new ArrayList<>();
 
-			for ( Flight flight : flights) {
-				FlightDto flightDto = new FlightDto(flight.getId(), flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(), flight.getArrivalAirport(), flight.getAirline().getId());
+			for (Flight flight : flights) {
+				FlightDto flightDto = new FlightDto(flight.getId(), flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(),
+						flight.getArrivalAirport(), flight.getAirline().getId());
 				flightDtos.add(flightDto);
 			}
-			AirlineFlightDto airlineFlightDto = new AirlineFlightDto(airlineOptional.get().getId(), airlineOptional.get().getName(), airlineOptional.get().getIataCode(),airlineOptional.get().getFleetSize(),airlineOptional.get().getWebsite(),airlineOptional.get().getCountry(), flightDtos);
+			AirlineFlightDto airlineFlightDto = new AirlineFlightDto(airlineOptional.get().getId(), airlineOptional.get().getName(),
+					airlineOptional.get().getIataCode(), airlineOptional.get().getFleetSize(), airlineOptional.get().getWebsite(),
+					airlineOptional.get().getCountry(), flightDtos);
 			return airlineFlightDto;
 		}
 		else {
@@ -112,12 +126,14 @@ public class AirlineService {
 			CriteriaQuery<AirlineCapacityDto> criteriaQuery = criteriaBuilder.createQuery(AirlineCapacityDto.class);
 			Root<Airline> airlineRoot = criteriaQuery.from(Airline.class);
 			Join<Airline, Flight> flightJoin = airlineRoot.join("flights");
-			criteriaQuery.select(criteriaBuilder.construct(AirlineCapacityDto.class, airlineRoot.get("id"), airlineRoot.get("name"), criteriaBuilder.avg(flightJoin.get("capacity"))))
+			criteriaQuery.select(criteriaBuilder.construct(AirlineCapacityDto.class, airlineRoot.get("id"), airlineRoot.get("name"),
+							criteriaBuilder.avg(flightJoin.get("capacity"))))
 					.groupBy(airlineRoot.get("id"))
 					.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(flightJoin.get("capacity"))));
 			TypedQuery<AirlineCapacityDto> query = entityManager.createQuery(criteriaQuery);
 			return query.getResultList();
-		} finally {
+		}
+		finally {
 			entityManager.close();
 		}
 	}
@@ -133,12 +149,11 @@ public class AirlineService {
 		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Airline not found with ID " + id);
 	}
 
+	public Airline save(Airline airline) {
+		return this.repository.save(airline);
+	}
 
-
-
-
-
-	public Airline save(Airline airline) {return this.repository.save(airline); }
-
-	public void delete(Airline airline) { this.repository.delete(airline); }
+	public void delete(Airline airline) {
+		this.repository.delete(airline);
+	}
 }

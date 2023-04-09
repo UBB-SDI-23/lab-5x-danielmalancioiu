@@ -9,6 +9,8 @@ import dev.dmg.sdi.domain.entities.Passenger;
 import dev.dmg.sdi.repositories.BookingRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -73,8 +75,8 @@ public class BookingService {
 		return bookingDtos;
 	}
 
-	public List<Booking> getAllBookings() {
-		List<Booking> bookings = repository.findAll();
+	public Page<Booking> getAllBookings(Pageable pageable) {
+		Page<Booking> bookings = repository.findAll(pageable);
 		if(bookings.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No bookings found.");
 		}

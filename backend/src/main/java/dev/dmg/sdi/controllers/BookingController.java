@@ -6,6 +6,8 @@ import dev.dmg.sdi.domain.dto.BookingPassengerDto;
 import dev.dmg.sdi.domain.entities.Booking;
 import dev.dmg.sdi.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,8 @@ public class BookingController {
 	BookingService service;
 
 	@GetMapping("")
-	public ResponseEntity<List<Booking>> getAllBookings() {
-		List<Booking> bookings = this.service.getAllBookings();
+	public ResponseEntity<Page<Booking>> getAllBookings(Pageable pageable) {
+		Page<Booking> bookings = this.service.getAllBookings(pageable);
 		return ResponseEntity.ok(bookings);
 	}
 

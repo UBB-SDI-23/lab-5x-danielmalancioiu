@@ -4,17 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="airline cross origin">
+    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="airline cross origin + autocomplete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/AirlineController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/AirlineController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/FlightController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/FlightController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/PassengerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/PassengerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/AirlineRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/AirlineRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/FlightRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/FlightRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/PassengerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/PassengerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/BookingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/AirlineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/AirlineService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/BookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/BookingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/diagram-entities.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/diagrams/diagram-entities.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/diagram-full.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/diagrams/diagram-full.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/img.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/diagrams/img.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sdi.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/diagrams/sdi.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/FlightController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/FlightController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/PassengerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/PassengerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/diagram-entities.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/diagram-full.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/sdi.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sdi-0.0.1-SNAPSHOT.jar.original" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-dev.dmg.sdi.SdiApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-dev.dmg.sdi.SdiApplicationTests.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/dev.dmg.sdi.SdiApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/dev.dmg.sdi.SdiApplicationTests.txt" afterDir="false" />
     </list>
@@ -73,6 +84,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\University UBB\Year 2\Semester 2\Systems for Design and Implementation\lab-5x-danielmalancioiu\backend\src\main\resources\diagrams" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.SdiApplication">
     <configuration name="AirlineServiceTest.testFilterByFleetSizeGreaterThan" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sdi" />
@@ -202,7 +218,8 @@
       <workItem from="1680898487390" duration="5747000" />
       <workItem from="1680953762194" duration="8056000" />
       <workItem from="1680981668534" duration="631000" />
-      <workItem from="1681035973909" duration="6515000" />
+      <workItem from="1681035973909" duration="6787000" />
+      <workItem from="1681059562543" duration="4586000" />
     </task>
     <task id="LOCAL-00001" summary="Swagger">
       <created>1680425239098</created>
@@ -295,7 +312,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681036122253</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="airline cross origin + autocomplete">
+      <created>1681053339908</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1681053339908</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,7 +347,8 @@
     <MESSAGE value="jar update( port 80 )" />
     <MESSAGE value="jar update( port 8000 )" />
     <MESSAGE value="airline cross origin" />
-    <option name="LAST_COMMIT_MESSAGE" value="airline cross origin" />
+    <MESSAGE value="airline cross origin + autocomplete" />
+    <option name="LAST_COMMIT_MESSAGE" value="airline cross origin + autocomplete" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

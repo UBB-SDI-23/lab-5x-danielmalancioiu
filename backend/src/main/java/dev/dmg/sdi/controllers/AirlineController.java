@@ -9,7 +9,9 @@ import dev.dmg.sdi.repositories.AirlineRepository;
 import dev.dmg.sdi.services.AirlineService;
 import dev.dmg.sdi.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +41,8 @@ public class AirlineController {
 	private FlightService flightService;
 
 	@GetMapping("")
-	public ResponseEntity<List<AirlineDto>> getAllAirlines() {
-		List<AirlineDto> airlines = service.getAll();
+	public ResponseEntity<Page<AirlineDto>> getAllAirlines(Pageable pageable) {
+		Page<AirlineDto> airlines = service.getAll(pageable);
 		return ResponseEntity.ok(airlines);
 	}
 
