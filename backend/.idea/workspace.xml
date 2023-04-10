@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="pagination">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/FlightController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/FlightController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/PassengerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/PassengerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/FlightService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/FlightService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/PassengerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/PassengerService.java" afterDir="false" />
+    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="pagination on passenger and flight + jar">
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/FlightService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/FlightService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/flight/FlightAll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/flight/FlightAll.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/passenger/PassengerAll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/passenger/PassengerAll.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,29 +41,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/University UBB/Year 2/Semester 2/Systems for Design and Implementation/DMG-SDI/Backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.20821112&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.12360942&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;0efffbe143d1747cea58f8c3fe1b6f9b&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/University UBB/Year 2/Semester 2/Systems for Design and Implementation/DMG-SDI/Backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.20821112",
+    "project.structure.side.proportion": "0.12360942",
+    "spring.configuration.checksum": "0efffbe143d1747cea58f8c3fe1b6f9b",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2022.2.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\University UBB\Year 2\Semester 2\Systems for Design and Implementation\lab-5x-danielmalancioiu\backend\src\main\resources\diagrams" />
@@ -202,7 +201,7 @@
       <workItem from="1680981668534" duration="631000" />
       <workItem from="1681035973909" duration="6787000" />
       <workItem from="1681059562543" duration="6418000" />
-      <workItem from="1681106951609" duration="353000" />
+      <workItem from="1681106951609" duration="887000" />
     </task>
     <task id="LOCAL-00001" summary="Swagger">
       <created>1680425239098</created>
@@ -316,7 +315,28 @@
       <option name="project" value="LOCAL" />
       <updated>1681066431462</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="pagination on passenger and flight">
+      <created>1681107622994</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1681107622994</updated>
+    </task>
+    <task id="LOCAL-00018" summary="pagination on passenger and flight + jar">
+      <created>1681107718912</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1681107718912</updated>
+    </task>
+    <task id="LOCAL-00019" summary="pagination on passenger and flight + jar">
+      <created>1681107748053</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1681107748053</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,7 +366,9 @@
     <MESSAGE value="airline cross origin" />
     <MESSAGE value="airline cross origin + autocomplete" />
     <MESSAGE value="pagination" />
-    <option name="LAST_COMMIT_MESSAGE" value="pagination" />
+    <MESSAGE value="pagination on passenger and flight" />
+    <MESSAGE value="pagination on passenger and flight + jar" />
+    <option name="LAST_COMMIT_MESSAGE" value="pagination on passenger and flight + jar" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

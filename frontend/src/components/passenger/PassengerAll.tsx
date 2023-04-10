@@ -16,6 +16,7 @@ import {
     CircularProgress,
     IconButton,
     Tooltip,
+    TablePagination,
 
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -31,17 +32,31 @@ export const PassengersTable = () => {
     const [tableData, setTableData] = useState<TableRowData[]>([]);
     const [sortedData, setSortedData] = useState<TableRowData[]>([]);
     const [sortColumn, setSortColumn] = useState<string>("");
+    const [page, setPage] = useState<number>(0);
+    const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+
+
+    // useEffect(() => {
+    //     setLoading(true);
+    //     fetch(`${BACKEND_API_URL}/passengers`)
+    //         .then((response) => response.json())
+    //         .then((data: TableRowData[]) => {
+    //             setTableData(data);
+    //             setSortedData(data);
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${BACKEND_API_URL}/passengers`)
-            .then((response) => response.json())
-            .then((data: TableRowData[]) => {
-                setTableData(data);
-                setSortedData(data);
-                setLoading(false);
-            });
-    }, []);
+        fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${rowsPerPage}&sort=${sortColumn}`)
+          .then((response) => response.json())
+          .then((data) => {
+            setTableData(data.content);
+            setSortedData(data.content);
+            setLoading(false);
+          });
+      }, [page, rowsPerPage, sortColumn]);
 
     const handleSort = (columnName: string) => {
         if (sortColumn === columnName) {
@@ -63,6 +78,22 @@ export const PassengersTable = () => {
             setSortedData(newSortedData);
         }
     };
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+        const startIndex = newPage * rowsPerPage;
+        const endIndex = startIndex + rowsPerPage;
+        setSortedData(sortedData.slice(startIndex, endIndex));
+      };
+    
+      const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      };
+
+    const totalItems = sortedData.length;
+    const startIndex = page * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
 
     return (
         <Container>
@@ -166,6 +197,15 @@ export const PassengersTable = () => {
                         </TableBody>
 
                     </Table>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, 50]}
+                        component="div"
+                        count={totalItems}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                 </TableContainer>
             )}
         </Container>
