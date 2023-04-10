@@ -16,6 +16,8 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -55,8 +57,8 @@ public class PassengerService {
 		return this.save(passenger);
 	}
 
-	public List<Passenger> getAll() {
-		List<Passenger> passengers = repository.findAll();
+	public Page<Passenger> getAll(Pageable pageable) {
+		Page<Passenger> passengers = repository.findAll(pageable);
 		if (passengers.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No passengers found.");
 		} else {

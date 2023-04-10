@@ -8,7 +8,9 @@ import dev.dmg.sdi.domain.entities.Passenger;
 import dev.dmg.sdi.repositories.PassengerRepository;
 import dev.dmg.sdi.services.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +30,9 @@ public class PassengerController {
 	PassengerRepository repository;
 
 	@GetMapping("")
-	public ResponseEntity<List<Passenger>> getAllPassengers() {
+	public ResponseEntity<Page<Passenger>> getAllPassengers(Pageable pageable) {
 
-		List<Passenger> passengers = this.service.getAll();
+		Page<Passenger> passengers = this.service.getAll(pageable);
 		return ResponseEntity.ok(passengers);
 	}
 
