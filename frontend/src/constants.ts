@@ -1,4 +1,4 @@
-const PROD_BACKEND_API_URL = "https://dmg-sdi.mooo.com/api"
+const PROD_BACKEND_API_URL = "https://dmgsdi.hopto.org//api"
 const DEV_BACKEND_API_URL = "http://localhost:8000/api";
 
 // export  const BACKEND_API_URL = "https://dmg-sdi.mooo.com/api";
