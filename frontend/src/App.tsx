@@ -27,12 +27,14 @@ import SortableTable from './components/booking/BookingAll'
 import PassengersTable from './components/passenger/PassengerAll'
 import AirlinesTable from './components/airline/AirlineAll'
 import FlightsTable from './components/flight/FlightAll'
+import { ToastContainer } from 'react-toastify'
 
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
+    
     <React.Fragment>
       <Router>
         <AppMenu />
@@ -65,8 +67,12 @@ function App() {
           <Route path="/passengers/:passengerId/edit" element={<PassengerEdit />} />
           <Route path="/passengers/add" element={<PassengerAdd   />} />
         </Routes>
+        <ToastContainer />
       </Router>
+      
     </React.Fragment>
+    
+  
   )
 }
 

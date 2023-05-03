@@ -10,10 +10,12 @@ import axios from "axios";
 import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
 import { BACKEND_API_URL } from "../../constants";
+import { ToastContainer, toast } from "react-toastify";
 
 
 export const AirlineAdd = () => {
     const navigate = useNavigate();
+
 
     const [airline, setAirline] = useState<Airline>({
         name: "",
@@ -23,14 +25,16 @@ export const AirlineAdd = () => {
         country: "",
     });
 
+
     const addAirline = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
 
             await axios.post(`${BACKEND_API_URL}/airlines`, airline);
             navigate("/airlines");
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
+
         }
     };
 
@@ -49,15 +53,48 @@ export const AirlineAdd = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setAirline({ ...airline, name: event.target.value })}
+                            required
+                            error={airline.name.trim() === ''}
+                            helperText={airline.name.trim() === '' ? 'Name is required' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim() === '' ? 'Name is required' : '');
+                                setAirline({ ...airline, name: target.value })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('The name cannot be empty')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
+
+
+
                         <TextField
                             id="iata-code"
                             label="Iata Code"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setAirline({ ...airline, iataCode: event.target.value })}
+                            required
+                            error={airline.iataCode.trim() === ''}
+                            helperText={airline.iataCode.trim() === '' ? 'IataCode is required' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim() === '' ? 'IataCode is required' : '');
+                                setAirline({ ...airline, iataCode: target.value })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('The iata code cannot be empty')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
                         <TextField
                             id="fleet-size"
@@ -65,15 +102,49 @@ export const AirlineAdd = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setAirline({ ...airline, fleetSize: Number(event.target.value) })}
+                            required
+                            error={airline.fleetSize < 0}
+                            helperText={airline.fleetSize < 0 ? 'Fleet size must be positive' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim().startsWith('-') ? 'Fleet size must be positive' : '');
+                                setAirline({ ...airline, fleetSize: Number(event.target.value) })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('Fleet size must be positive')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
+
+
+
+
                         <TextField
                             id="website"
                             label="Website"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setAirline({ ...airline, website: event.target.value })}
+                            required
+                            error={airline.website.trim() === ''}
+                            helperText={airline.website.trim() === '' ? 'Website is required' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim() === '' ? 'Website is required' : '');
+                                setAirline({ ...airline, website: target.value })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('The website cannot be empty')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
                         <TextField
                             id="country"
@@ -81,15 +152,32 @@ export const AirlineAdd = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setAirline({ ...airline, country: event.target.value})}
+                            required
+                            error={airline.country.trim() === ''}
+                            helperText={airline.country.trim() === '' ? 'Country is required' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim() === '' ? 'Country is required' : '');
+                                setAirline({ ...airline, country: target.value })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('The country cannot be empty')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
 
 
                         <Button type="submit">Add Airline</Button>
                     </form>
+                    <ToastContainer />
                 </CardContent>
                 <CardActions></CardActions>
             </Card>
         </Container>
+
     );
 };
