@@ -32,9 +32,11 @@ public class Airline {
 	@Column(name = "fleet_size")
 	private Integer fleetSize;
 
+	@NotBlank(message = "website is required")
 	@Column(name = "website")
 	private String website;
 
+	@NotBlank(message = "Country is required")
 	@Column(name = "country")
 	private String country;
 
