@@ -17,6 +17,7 @@ import {
     IconButton,
     Tooltip,
     TablePagination,
+    Pagination,
 
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -29,70 +30,31 @@ interface TableRowData extends Booking { }
 export const SortableTable = () => {
     const [loading, setLoading] = useState(false);
     const [tableData, setTableData] = useState<TableRowData[]>([]);
-    const [sortedData, setSortedData] = useState<TableRowData[]>([]);
-    const [sortColumn, setSortColumn] = useState<string>("");
+    const [totalPages, setTotalPages] = useState(0);
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
 
-    // useEffect(() => {
-    //     setLoading(true);
-    //     fetch(`${BACKEND_API_URL}/bookings`)
-    //         .then((response) => response.json())
-    //         .then((data: TableRowData[]) => {
-    //             setTableData(data);
-    //             setSortedData(data);
-    //             setLoading(false);
-    //         });
-    // }, []);
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${BACKEND_API_URL}/bookings?page=${page}&size=${rowsPerPage}&sort=${sortColumn}`)
+        fetch(`${BACKEND_API_URL}/bookings?page=${page}&size=${rowsPerPage}`)
           .then((response) => response.json())
           .then((data) => {
             setTableData(data.content);
-            setSortedData(data.content);
+            setTotalPages(data.totalPages);
             setLoading(false);
           });
-      }, [page, rowsPerPage, sortColumn]);
+      }, [page, rowsPerPage]);
 
-    const handleSort = (columnName: string) => {
-        if (sortColumn === columnName) {
-            // If clicking on the same column again, reverse the sorting order
-            setSortedData([...sortedData].reverse());
-        } else {
-            setSortColumn(columnName);
-            const newSortedData = [...sortedData].sort((a, b) => {
-                const aValue = columnName
-                    .split(".")
-                    .reduce((obj, key) => obj?.[key], a);
-                const bValue = columnName
-                    .split(".")
-                    .reduce((obj, key) => obj?.[key], b);
-                if (aValue < bValue) return -1;
-                if (aValue > bValue) return 1;
-                return 0;
-            });
-            setSortedData(newSortedData);
-        }
-    };
-    
-    const handleChangePage = (event: unknown, newPage: number) => {
+
+      const handleChangePage = (event: any, newPage: number) => {
         setPage(newPage);
-        const startIndex = newPage * rowsPerPage;
-        const endIndex = startIndex + rowsPerPage;
-        setSortedData(sortedData.slice(startIndex, endIndex));
-      };
-    
-      const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-      };
+    };
 
-    const totalItems = sortedData.length;
+
     const startIndex = page * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    //const displayedData = Array.isArray(sortedData) ? sortedData.slice(startIndex, endIndex) : [];
+
 
 
     return (
@@ -113,67 +75,23 @@ export const SortableTable = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>#</TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "flight.callSign"}
-                                        direction={
-                                            sortColumn === "flight.callSign" ? "asc" : "desc"
-                                        }
-                                        onClick={() => handleSort("flight.callSign")}
-                                    >
-                                        Flight
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "passenger.lastName"}
-                                        direction={
-                                            sortColumn === "passenger.lastName" ? "asc" : "desc"
-                                        }
-                                        onClick={() => handleSort("passenger.lastName")}
-                                    >
-                                        Passenger
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "date"}
-                                        direction={sortColumn === "date" ? "asc" : "desc"}
-                                        onClick={() => handleSort("date")}
-                                    >
-                                        Date
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "seatNumber"}
-                                        direction={sortColumn === "seatNumber" ? "asc" : "desc"}
-                                        onClick={() => handleSort("seatNumber")}
-                                    >
-                                        Seat Number
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "price"}
-                                        direction={sortColumn === "price" ? "asc" : "desc"}
-                                        onClick={() => handleSort("price")}
-                                    >
-                                        Price
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell align="center">Operations</TableCell>
+                                <TableCell>Flight</TableCell>
+                                <TableCell>Passenger</TableCell>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Seat Number</TableCell>
+                                <TableCell>Price</TableCell>
+                                <TableCell>Operations</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sortedData.map((row,index) => (
+                            {tableData.map((row,index) => (
                                 <TableRow key={row.id}>
-                                    <TableCell>{index+1}</TableCell>
-                                    <TableCell>{row.flight?.callSign}</TableCell>
-                                    <TableCell>{row.passenger?.lastName}</TableCell>
-                                    <TableCell>{row.date}</TableCell>
-                                    <TableCell>{row.seatNumber}</TableCell>
-                                    <TableCell>{row.price}</TableCell>
+                                    <TableCell align="center">{index+1}</TableCell>
+                                    <TableCell align="center">{row.flight?.callSign}</TableCell>
+                                    <TableCell align="center">{row.passenger?.lastName}</TableCell>
+                                    <TableCell align="center">{row.date}</TableCell>
+                                    <TableCell align="center">{row.seatNumber}</TableCell>
+                                    <TableCell align="center">{row.price.toFixed(2)}</TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}
@@ -197,14 +115,12 @@ export const SortableTable = () => {
                         </TableBody>
 
                     </Table>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, 50]}
-                        component="div"
-                        count={totalItems}
-                        rowsPerPage={rowsPerPage}
+                    <Pagination
+                        count={totalPages - 1}
                         page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        defaultPage={1}
+                        boundaryCount={2}
+                        onChange={handleChangePage}
                     />
                 </TableContainer>
             )}
