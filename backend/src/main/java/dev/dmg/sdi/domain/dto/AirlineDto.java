@@ -27,14 +27,16 @@ public class AirlineDto {
 
 	private String country;
 
+	private Long numberOfFlights;
 
-	public AirlineDto(Long id, String name, String iataCode, Integer fleetSize, String website, String country) {
+	public AirlineDto(Long id, String name, String iataCode, Integer fleetSize, String website, String country, Long numberOfFlights) {
 		this.id = id;
 		this.name = name;
 		this.iataCode = iataCode;
 		this.fleetSize = fleetSize;
 		this.website = website;
 		this.country = country;
+		this.numberOfFlights = numberOfFlights;
 	}
 
 	public AirlineDto() {

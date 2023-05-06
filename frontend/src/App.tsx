@@ -28,6 +28,11 @@ import PassengersTable from './components/passenger/PassengerAll'
 import AirlinesTable from './components/airline/AirlineAll'
 import FlightsTable from './components/flight/FlightAll'
 import { ToastContainer } from 'react-toastify'
+import { FlightEdit } from './components/flight/FlightEdit'
+import PassengerReport from './components/passenger/PassengerReport'
+import AirlineReport from './components/airline/AirlineReport'
+import AirlinesFiltered from './components/airline/AirlineFiltered'
+
 
 
 function App() {
@@ -52,6 +57,7 @@ function App() {
           <Route path="/flights/:flightId/details" element={<FlightDetails />} />
           <Route path="/flights/:flightId/delete" element={<FlightDelete />} />
           <Route path="/flights/add" element={<FlightAdd />} />
+          <Route path="/flights/:flightId/edit" element={<FlightEdit />} />
 
           {/* Ailrine */}
           <Route path="/airlines" element={<AirlinesTable />} />
@@ -59,6 +65,8 @@ function App() {
           <Route path="/airlines/:airlineId/delete" element={<AirlineDelete />} />
           <Route path="/airlines/:airlineId/edit" element={<AirlineEdit />} />
           <Route path="/airlines/add" element={<AirlineAdd />} />
+          <Route path="/airlines/statistics" element={<AirlineReport   />} />
+          <Route path="/airlines/filter/:fleetSize" element={<AirlinesFiltered   />} />
 
           {/* Passenger */}
           <Route path="/passengers" element={<PassengersTable />} />
@@ -66,6 +74,7 @@ function App() {
           <Route path="/passengers/:passengerId/delete" element={<PassengerDelete />} />
           <Route path="/passengers/:passengerId/edit" element={<PassengerEdit />} />
           <Route path="/passengers/add" element={<PassengerAdd   />} />
+          <Route path="/passengers/statistics" element={<PassengerReport   />} />
         </Routes>
         <ToastContainer />
       </Router>

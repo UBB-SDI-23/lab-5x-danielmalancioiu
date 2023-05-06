@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { BACKEND_API_URL } from "../../constants";
 import { Link } from "react-router-dom";
@@ -17,12 +16,19 @@ import {
     IconButton,
     Tooltip,
     TablePagination,
+    Pagination,
+    Select,
+    MenuItem,
+    SelectChangeEvent,
+    TextField,
+    Button,
 
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { Passenger } from "../../models/Passenger";
 import { Airline } from "../../models/Airline";
 
@@ -31,72 +37,54 @@ interface TableRowData extends Airline { }
 export const AirlinesTable = () => {
     const [loading, setLoading] = useState(false);
     const [tableData, setTableData] = useState<TableRowData[]>([]);
-    const [sortedData, setSortedData] = useState<TableRowData[]>([]);
-    const [sortColumn, setSortColumn] = useState<string>("");
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+    const [totalPages, setTotalPages] = useState(0);
+    const [fleetSize, setFleetSize] = useState('');
 
-    // useEffect(() => {
-    //     setLoading(true);
-    //     fetch(`${BACKEND_API_URL}/airlines`)
-    //         .then((response) => response.json())
-    //         .then((data: TableRowData[]) => {
-    //             setTableData(data);
-    //             setSortedData(data);
-    //             setLoading(false);
-    //         });
-    // }, []);
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${rowsPerPage}&sort=${sortColumn}`)
-          .then((response) => response.json())
-          .then((data) => {
-            setTableData(data.content);
-            setSortedData(data.content);
-            setLoading(false);
-          });
-      }, [page, rowsPerPage, sortColumn]);
-
-    const handleSort = (columnName: string) => {
-        if (sortColumn === columnName) {
-            // If clicking on the same column again, reverse the sorting order
-            setSortedData([...sortedData].reverse());
-        } else {
-            setSortColumn(columnName);
-            const newSortedData = [...sortedData].sort((a, b) => {
-                const aValue = columnName
-                    .split(".")
-                    .reduce((obj, key) => obj?.[key], a);
-                const bValue = columnName
-                    .split(".")
-                    .reduce((obj, key) => obj?.[key], b);
-                if (aValue < bValue) return -1;
-                if (aValue > bValue) return 1;
-                return 0;
+        fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${rowsPerPage}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setTableData(data.content);
+                setTotalPages(data.totalPages);
+                setLoading(false);
             });
-            setSortedData(newSortedData);
-        }
-    };
+    }, [page, rowsPerPage]);
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+
+
+    const handleChangePage = (event: any, newPage: number) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    const totalItems = sortedData.length;
     const startIndex = page * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
-    const displayedData = Array.isArray(sortedData) ? sortedData.slice(startIndex, endIndex) : [];
-
 
     return (
         <Container>
             <h1 style={{ margin: "100px 0 30px 0" }}>All airlines</h1>
+            <IconButton component={Link} sx={{ mr: 3, fontSize: "16px", color: "#444", borderRadius: "12px", "&:hover": { backgroundColor: "#E0E0E0" } }} to={`/airlines/statistics`} >
+                <BarChartIcon sx={{ fontSize: "20px", mr: "8px" }} /> Airline Statistics
+            </IconButton>
+            <TextField
+                label="Fleet Size"
+                InputProps={{ inputProps: { type: 'number' } }}
+                value={fleetSize}
+                onChange={(e) => setFleetSize(e.target.value)}
+                sx={{ mr: 4, width: '150px', height: '50px' }} 
+            />
+            <Button
+                component={Link}
+                to={`/airlines/filter/${fleetSize}`}
+                variant="contained"
+                sx={{ height: '40px', borderRadius: '20px' }}
+            >
+                Filter
+            </Button>
+
             {loading && <CircularProgress />}
             {!loading && tableData.length === 0 && <p>No airlines found</p>}
             {!loading && (
@@ -112,67 +100,25 @@ export const AirlinesTable = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>#</TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "name"}
-                                        direction={
-                                            sortColumn === "name" ? "asc" : "desc"
-                                        }
-                                        onClick={() => handleSort("name")}
-                                    >
-                                        Name
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "iataCode"}
-                                        direction={
-                                            sortColumn === "iataCode" ? "asc" : "desc"
-                                        }
-                                        onClick={() => handleSort("iataCode")}
-                                    >
-                                        Iata Code
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "fleetSize"}
-                                        direction={sortColumn === "fleetSize" ? "asc" : "desc"}
-                                        onClick={() => handleSort("fleetSize")}
-                                    >
-                                        Fleet Size
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "website"}
-                                        direction={sortColumn === "website" ? "asc" : "desc"}
-                                        onClick={() => handleSort("website")}
-                                    >
-                                        Website
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "country"}
-                                        direction={sortColumn === "country" ? "asc" : "desc"}
-                                        onClick={() => handleSort("country")}
-                                    >
-                                        Country
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell align="center">Operations</TableCell>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Iata Code</TableCell>
+                                <TableCell>Fleet Size</TableCell>
+                                <TableCell>Website</TableCell>
+                                <TableCell>Country</TableCell>
+                                <TableCell>Number of flights</TableCell>
+                                <TableCell>Operations</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sortedData.map((row, index) => (
+                            {tableData.map((row, index) => (
                                 <TableRow key={row.id}>
-                                    <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.iataCode}</TableCell>
-                                    <TableCell>{row.fleetSize}</TableCell>
-                                    <TableCell>{row.website}</TableCell>
-                                    <TableCell>{row.country}</TableCell>
+                                    <TableCell align="center">{index + 1}</TableCell>
+                                    <TableCell align="center">{row.name}</TableCell>
+                                    <TableCell align="center">{row.iataCode}</TableCell>
+                                    <TableCell align="center">{row.fleetSize}</TableCell>
+                                    <TableCell align="center">{row.website}</TableCell>
+                                    <TableCell align="center">{row.country}</TableCell>
+                                    <TableCell align="center">{row.numberOfFlights}</TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}
@@ -196,14 +142,12 @@ export const AirlinesTable = () => {
                         </TableBody>
 
                     </Table>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, 50]}
-                        component="div"
-                        count={totalItems}
-                        rowsPerPage={rowsPerPage}
+                    <Pagination
+                        count={totalPages - 1}
                         page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        defaultPage={1}
+                        boundaryCount={2}
+                        onChange={handleChangePage}
                     />
 
                 </TableContainer>

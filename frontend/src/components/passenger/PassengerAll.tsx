@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { BACKEND_API_URL } from "../../constants";
 import { Link } from "react-router-dom";
 import { Booking } from "../../models/Booking";
@@ -17,6 +16,7 @@ import {
     IconButton,
     Tooltip,
     TablePagination,
+    Pagination,
 
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -24,80 +24,43 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Passenger } from "../../models/Passenger";
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 interface TableRowData extends Passenger { }
 
 export const PassengersTable = () => {
     const [loading, setLoading] = useState(false);
     const [tableData, setTableData] = useState<TableRowData[]>([]);
-    const [sortedData, setSortedData] = useState<TableRowData[]>([]);
-    const [sortColumn, setSortColumn] = useState<string>("");
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-
-
-    // useEffect(() => {
-    //     setLoading(true);
-    //     fetch(`${BACKEND_API_URL}/passengers`)
-    //         .then((response) => response.json())
-    //         .then((data: TableRowData[]) => {
-    //             setTableData(data);
-    //             setSortedData(data);
-    //             setLoading(false);
-    //         });
-    // }, []);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${rowsPerPage}&sort=${sortColumn}`)
-          .then((response) => response.json())
-          .then((data) => {
-            setTableData(data.content);
-            setSortedData(data.content);
-            setLoading(false);
-          });
-      }, [page, rowsPerPage, sortColumn]);
-
-    const handleSort = (columnName: string) => {
-        if (sortColumn === columnName) {
-            // If clicking on the same column again, reverse the sorting order
-            setSortedData([...sortedData].reverse());
-        } else {
-            setSortColumn(columnName);
-            const newSortedData = [...sortedData].sort((a, b) => {
-                const aValue = columnName
-                    .split(".")
-                    .reduce((obj, key) => obj?.[key], a);
-                const bValue = columnName
-                    .split(".")
-                    .reduce((obj, key) => obj?.[key], b);
-                if (aValue < bValue) return -1;
-                if (aValue > bValue) return 1;
-                return 0;
+        fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${rowsPerPage}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setTableData(data.content);
+                setTotalPages(data.totalPages);
+                setLoading(false);
             });
-            setSortedData(newSortedData);
-        }
-    };
+    }, [page, rowsPerPage]);
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+    const handleChangePage = (event: any, newPage: number) => {
         setPage(newPage);
-        const startIndex = newPage * rowsPerPage;
-        const endIndex = startIndex + rowsPerPage;
-        setSortedData(sortedData.slice(startIndex, endIndex));
-      };
+        
+    };
     
-      const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-      };
-
-    const totalItems = sortedData.length;
     const startIndex = page * rowsPerPage;
     const endIndex = startIndex + rowsPerPage;
 
     return (
         <Container>
             <h1 style={{ margin: "100px 0 30px 0" }}>All passengers</h1>
+            <IconButton component={Link} sx={{ mr: 3, fontSize: "16px", color: "#444", borderRadius: "12px", "&:hover": { backgroundColor: "#E0E0E0" } }} to={`/passengers/statistics`} >
+                <BarChartIcon sx={{ fontSize: "20px", mr: "8px" }} /> Passengers Statistics
+            </IconButton>
             {loading && <CircularProgress />}
             {!loading && tableData.length === 0 && <p>No passengers found</p>}
             {!loading && (
@@ -113,67 +76,25 @@ export const PassengersTable = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>#</TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "firstName"}
-                                        direction={
-                                            sortColumn === "firstName" ? "asc" : "desc"
-                                        }
-                                        onClick={() => handleSort("firstName")}
-                                    >
-                                        First Name
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "lastName"}
-                                        direction={
-                                            sortColumn === "lastName" ? "asc" : "desc"
-                                        }
-                                        onClick={() => handleSort("lastName")}
-                                    >
-                                        Last Name
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "dateOfBirth"}
-                                        direction={sortColumn === "dateOfBirth" ? "asc" : "desc"}
-                                        onClick={() => handleSort("dateOfBirth")}
-                                    >
-                                        Birth Date
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "nationality"}
-                                        direction={sortColumn === "nationality" ? "asc" : "desc"}
-                                        onClick={() => handleSort("nationality")}
-                                    >
-                                        Nationality
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell>
-                                    <TableSortLabel
-                                        active={sortColumn === "passportNumber"}
-                                        direction={sortColumn === "passportNumber" ? "asc" : "desc"}
-                                        onClick={() => handleSort("passportNumber")}
-                                    >
-                                        Passport Number
-                                    </TableSortLabel>
-                                </TableCell>
-                                <TableCell align="center">Operations</TableCell>
+                                <TableCell>First Name</TableCell>
+                                <TableCell>Last Name</TableCell>
+                                <TableCell>Birth Date</TableCell>
+                                <TableCell>Nationality</TableCell>
+                                <TableCell>Passport Number</TableCell>
+                                <TableCell> Number of Bookings</TableCell>
+                                <TableCell >Operations</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sortedData.map((row,index) => (
+                            {tableData.map((row, index) => (
                                 <TableRow key={row.id}>
-                                    <TableCell>{index+1}</TableCell>
-                                    <TableCell>{row.firstName}</TableCell>
-                                    <TableCell>{row.lastName}</TableCell>
-                                    <TableCell>{row.dateOfBirth}</TableCell>
-                                    <TableCell>{row.nationality}</TableCell>
-                                    <TableCell>{row.passportNumber}</TableCell>
+                                    <TableCell align="center">{index + 1}</TableCell>
+                                    <TableCell align="center">{row.firstName}</TableCell>
+                                    <TableCell align="center">{row.lastName}</TableCell>
+                                    <TableCell align="center">{row.dateOfBirth}</TableCell>
+                                    <TableCell align="center">{row.nationality}</TableCell>
+                                    <TableCell align="center">{row.passportNumber}</TableCell>
+                                    <TableCell align="center">{row.numberOfBookings}</TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}
@@ -197,14 +118,12 @@ export const PassengersTable = () => {
                         </TableBody>
 
                     </Table>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, 50]}
-                        component="div"
-                        count={totalItems}
-                        rowsPerPage={rowsPerPage}
+                    <Pagination
+                        count={totalPages-1}
                         page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        defaultPage={1}
+                        boundaryCount={2}
+                        onChange={handleChangePage}
                     />
                 </TableContainer>
             )}

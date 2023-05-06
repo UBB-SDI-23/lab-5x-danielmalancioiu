@@ -1,5 +1,6 @@
 package dev.dmg.sdi.controllers;
 
+import dev.dmg.sdi.domain.dto.FlightAllDto;
 import dev.dmg.sdi.domain.dto.FlightDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
@@ -33,8 +34,8 @@ public class FlightController {
 //		return ResponseEntity.ok(flights);
 //	}
 	@GetMapping("")
-	public ResponseEntity<Page<Flight>> getAllFlights(Pageable pageable) {
-		Page<Flight> flights = service.getFlights(pageable);
+	public ResponseEntity<Page<FlightAllDto>> getAllFlights(Pageable pageable) {
+		Page<FlightAllDto> flights = service.getAllPaged(pageable);
 		return ResponseEntity.ok(flights);
 	}
 

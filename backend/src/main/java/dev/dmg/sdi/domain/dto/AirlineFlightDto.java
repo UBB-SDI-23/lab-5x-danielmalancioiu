@@ -24,9 +24,9 @@ public class AirlineFlightDto {
 
 	private String country;
 
-	private List<FlightDto> flights;
+	private List<FlightAllDto> flights;
 
-	public AirlineFlightDto(Long id, String name, String iataCode, Integer fleetSize, String website, String country, List<FlightDto> flights) {
+	public AirlineFlightDto(Long id, String name, String iataCode, Integer fleetSize, String website, String country, List<FlightAllDto> flights) {
 		this.id = id;
 		this.name = name;
 		this.iataCode = iataCode;

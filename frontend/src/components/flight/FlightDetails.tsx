@@ -22,37 +22,7 @@ export const FlightDetails = () => {
     }, [flightId]);
 
     return (
-        // <Container>
-        //     <Card>
-        //         <CardContent>
-        //             <IconButton component={Link} sx={{ mr: 3 }} to={`/flights`}>
-        //                 <ArrowBackIcon />
-        //             </IconButton>{" "}
-        //             <h1>Flight Details</h1>
-        //             <p>Callsign:{flight?.callSign}</p>
-        //             <p>Capacity : {flight?.capacity}</p>
-        //             <p>Departure Airport: {flight?.departureAirport}</p>
-        //             <p>Arrival Airport: {flight?.arrivalAirport}</p>
-        //             <p>Airline:</p>
-        //             <ul>
-        //                 <li>Name : {flight?.airline?.name}</li>
-        //                 <li>Iata Code : {flight?.airline?.iataCode}</li>
-        //                 <li>Country : {flight?.airline?.country}</li>
-        //                 <li>Fleet Size : {flight?.airline?.fleetSize}</li>
-        //                 <li>Website : {flight?.airline?.website}</li>
-        //             </ul>
-        //         </CardContent>
-        //         <CardActions>
-        //             <IconButton component={Link} sx={{ mr: 3 }} to={`/flights/${flightId}/edit`}>
-        //                 <EditIcon />
-        //             </IconButton>
 
-        //             <IconButton component={Link} sx={{ mr: 3 }} to={`/flights/${flightId}/delete`}>
-        //                 <DeleteForeverIcon sx={{ color: "red" }} />
-        //             </IconButton>
-        //         </CardActions>
-        //     </Card>
-        // </Container>
         <Container maxWidth="md">
             <Card sx={{
                 backgroundColor: "#F7F7F7",

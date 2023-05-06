@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface FlightRepository  extends JpaRepository<Flight, Long> {
 	List<Flight> findByCallSignContainingIgnoreCaseOrderByCallSign(String query, PageRequest name);
+
+	Long countByAirline_Id(Long id);
 }

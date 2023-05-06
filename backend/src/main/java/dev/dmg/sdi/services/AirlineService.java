@@ -1,12 +1,11 @@
 package dev.dmg.sdi.services;
 
-import dev.dmg.sdi.domain.dto.AirlineCapacityDto;
-import dev.dmg.sdi.domain.dto.AirlineDto;
-import dev.dmg.sdi.domain.dto.AirlineFlightDto;
-import dev.dmg.sdi.domain.dto.FlightDto;
+import dev.dmg.sdi.domain.dto.*;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
 import dev.dmg.sdi.repositories.AirlineRepository;
+import dev.dmg.sdi.repositories.BookingRepository;
+import dev.dmg.sdi.repositories.FlightRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -17,6 +16,7 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +32,12 @@ public class AirlineService {
 
 	@Autowired
 	private AirlineRepository repository;
+
+	@Autowired
+	private FlightRepository flightRepository;
+
+	@Autowired
+	BookingRepository bookingRepository;
 
 	private EntityManagerFactory entityManagerFactory;
 
@@ -73,19 +79,25 @@ public class AirlineService {
 		if (airlines.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No airlines found.");
 		}
+
 		return airlines.map(airline -> new AirlineDto(airline.getId(), airline.getName(), airline.getIataCode(), airline.getFleetSize(), airline.getWebsite(),
-				airline.getCountry()));
+				airline.getCountry(), this.flightRepository.countByAirline_Id(airline.getId())));
 	}
 
-	public ResponseEntity<List<Airline>> filterByFleetSizeGreaterThan(Integer fleetSize) {
-		List<Airline> airlines = repository.findByFleetSizeGreaterThan(fleetSize);
-		if (airlines.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		else {
-			return ResponseEntity.ok(airlines);
-		}
+//	public ResponseEntity<List<Airline>> filterByFleetSizeGreaterThan(Integer fleetSize) {
+//		List<Airline> airlines = repository.findByFleetSizeGreaterThan(fleetSize);
+//		if (airlines.isEmpty()) {
+//			return ResponseEntity.notFound().build();
+//		}
+//		else {
+//			return ResponseEntity.ok(airlines);
+//		}
+//	}
+
+	public Page<Airline> filterByFleetSizeGreaterThan(Integer fleetSize, Pageable pageable) {
+		return repository.findByFleetSizeGreaterThan(fleetSize, pageable);
 	}
+
 
 	public Airline getById(Long id) {
 		Optional<Airline> airlineOptional = repository.findById(id);
@@ -102,11 +114,11 @@ public class AirlineService {
 		Optional<Airline> airlineOptional = repository.findById(id);
 		if (airlineOptional.isPresent()) {
 			List<Flight> flights = airlineOptional.get().getFlights();
-			List<FlightDto> flightDtos = new ArrayList<>();
+			List<FlightAllDto> flightDtos = new ArrayList<>();
 
 			for (Flight flight : flights) {
-				FlightDto flightDto = new FlightDto(flight.getId(), flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(),
-						flight.getArrivalAirport(), flight.getAirline().getId());
+				FlightAllDto flightDto = new FlightAllDto(flight.getId(), flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(),
+						flight.getArrivalAirport(), flight.getAirline(), this.bookingRepository.countByFlight_Id(flight.getId()));
 				flightDtos.add(flightDto);
 			}
 			AirlineFlightDto airlineFlightDto = new AirlineFlightDto(airlineOptional.get().getId(), airlineOptional.get().getName(),
@@ -127,11 +139,36 @@ public class AirlineService {
 			Root<Airline> airlineRoot = criteriaQuery.from(Airline.class);
 			Join<Airline, Flight> flightJoin = airlineRoot.join("flights");
 			criteriaQuery.select(criteriaBuilder.construct(AirlineCapacityDto.class, airlineRoot.get("id"), airlineRoot.get("name"),
+							airlineRoot.get("iataCode"), airlineRoot.get("fleetSize"), airlineRoot.get("website"), airlineRoot.get("country"),
 							criteriaBuilder.avg(flightJoin.get("capacity"))))
 					.groupBy(airlineRoot.get("id"))
 					.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(flightJoin.get("capacity"))));
 			TypedQuery<AirlineCapacityDto> query = entityManager.createQuery(criteriaQuery);
 			return query.getResultList();
+		}
+		finally {
+			entityManager.close();
+		}
+	}
+
+	public Page<AirlineCapacityDto> getAirlinesByAverageCapacityPaged(Pageable pageable) {
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		try {
+			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+			CriteriaQuery<AirlineCapacityDto> criteriaQuery = criteriaBuilder.createQuery(AirlineCapacityDto.class);
+			Root<Airline> airlineRoot = criteriaQuery.from(Airline.class);
+			Join<Airline, Flight> flightJoin = airlineRoot.join("flights");
+			criteriaQuery.select(criteriaBuilder.construct(AirlineCapacityDto.class, airlineRoot.get("id"), airlineRoot.get("name"),
+							airlineRoot.get("iataCode"), airlineRoot.get("fleetSize"), airlineRoot.get("website"), airlineRoot.get("country"),
+							criteriaBuilder.avg(flightJoin.get("capacity"))))
+					.groupBy(airlineRoot.get("id"))
+					.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(flightJoin.get("capacity"))));
+			TypedQuery<AirlineCapacityDto> query = entityManager.createQuery(criteriaQuery);
+			int totalElements = query.getResultList().size();
+			query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+			query.setMaxResults(pageable.getPageSize());
+			List<AirlineCapacityDto> content = query.getResultList();
+			return new PageImpl<>(content, pageable, totalElements);
 		}
 		finally {
 			entityManager.close();

@@ -17,6 +17,7 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -57,13 +58,14 @@ public class PassengerService {
 		return this.save(passenger);
 	}
 
-	public Page<Passenger> getAll(Pageable pageable) {
+	public Page<PassengerDto> getAll(Pageable pageable) {
 		Page<Passenger> passengers = repository.findAll(pageable);
+
 		if (passengers.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No passengers found.");
-		} else {
-			return passengers;
 		}
+		return passengers.map(passenger -> new PassengerDto(passenger.getId(), passenger.getFirstName(), passenger.getLastName(), passenger.getDateOfBirth(), passenger.getNationality(), passenger.getPassportNumber(), this.bookingRepository.countByPassenger_Id(
+				passenger.getId())));
 	}
 
 	public Passenger getById(Long id) {
@@ -75,7 +77,51 @@ public class PassengerService {
 		}
 	}
 
-	public List<PassengerBookingDto> getAllPassengersOrderedByAverageBookingDate() {
+		public List<PassengerBookingDto> getAllPassengersOrderedByAverageBookingDate() {
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			try {
+				CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+				CriteriaQuery<PassengerBookingDto> criteriaQuery = criteriaBuilder.createQuery(PassengerBookingDto.class);
+				Root<Passenger> passengerRoot = criteriaQuery.from(Passenger.class);
+				Join<Passenger, Booking> bookingJoin = passengerRoot.join("bookings");
+				criteriaQuery.select(criteriaBuilder.construct(PassengerBookingDto.class,
+								passengerRoot.get("id"),
+								passengerRoot.get("firstName"),
+								passengerRoot.get("lastName"),
+								passengerRoot.get("dateOfBirth"),
+								passengerRoot.get("nationality"),
+								passengerRoot.get("passportNumber"),
+								criteriaBuilder.avg(bookingJoin.get("price")).as(Double.class)))
+						.groupBy(passengerRoot.get("id"))
+						.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(bookingJoin.get("price"))));
+				TypedQuery<PassengerBookingDto> query = entityManager.createQuery(criteriaQuery);
+				return query.getResultList();
+			} finally {
+				entityManager.close();
+			}
+		}
+
+
+
+	public PassengerBookingDto getPassengerAveragePrice(Long id) {
+		List<PassengerBookingDto> passengerBookingDtos = this.getAllPassengersOrderedByAverageBookingDate();
+		for (PassengerBookingDto passengerBookingDto : passengerBookingDtos) {
+			if (passengerBookingDto.getId().equals(id)) {
+				return passengerBookingDto;
+			}
+		}
+
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Passenger not found with ID " + id);
+	}
+
+
+	public Passenger save(Passenger passenger) {return this.repository.save(passenger); }
+
+	public void delete(Passenger passenger) { this.repository.delete(passenger); }
+
+
+
+	public Page<PassengerBookingDto> getAllPassengersOrderedByAverageBookingDatePaginated(Pageable pageable) {
 		EntityManager entityManager = entityManagerFactory.createEntityManager();
 		try {
 			CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -93,25 +139,18 @@ public class PassengerService {
 					.groupBy(passengerRoot.get("id"))
 					.orderBy(criteriaBuilder.asc(criteriaBuilder.avg(bookingJoin.get("price"))));
 			TypedQuery<PassengerBookingDto> query = entityManager.createQuery(criteriaQuery);
-			return query.getResultList();
+			int totalElements = query.getResultList().size();
+			query.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+			query.setMaxResults(pageable.getPageSize());
+			List<PassengerBookingDto> content = query.getResultList();
+			return new PageImpl<>(content, pageable, totalElements);
 		} finally {
 			entityManager.close();
 		}
 	}
 
-	public PassengerBookingDto getPassengerAveragePrice(Long id) {
-		List<PassengerBookingDto> passengerBookingDtos = this.getAllPassengersOrderedByAverageBookingDate();
-		for (PassengerBookingDto passengerBookingDto : passengerBookingDtos) {
-			if (passengerBookingDto.getId().equals(id)) {
-				return passengerBookingDto;
-			}
-		}
 
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Passenger not found with ID " + id);
-	}
-
-
-	public Passenger save(Passenger passenger) {return this.repository.save(passenger); }
-
-	public void delete(Passenger passenger) { this.repository.delete(passenger); }
 }
+
+
+

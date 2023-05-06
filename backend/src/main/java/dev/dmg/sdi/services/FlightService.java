@@ -1,9 +1,11 @@
 package dev.dmg.sdi.services;
 
+import dev.dmg.sdi.domain.dto.FlightAllDto;
 import dev.dmg.sdi.domain.dto.FlightDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
 import dev.dmg.sdi.repositories.AirlineRepository;
+import dev.dmg.sdi.repositories.BookingRepository;
 import dev.dmg.sdi.repositories.FlightRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class FlightService {
 
 	@Autowired
 	private AirlineRepository airlineRepository;
+
+	@Autowired
+	private BookingRepository bookingRepository;
 
 
 	public Flight create(FlightDto dto) {
@@ -59,7 +64,7 @@ public class FlightService {
 
 			for (Flight flight : flights) {
 				FlightDto flightDto = new FlightDto(flight.getId(),flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(), flight.getArrivalAirport(),
-						flight.getAirline().getId());
+						flight.getAirline().getId() );
 
 				flightDtos.add(flightDto);
 			}
@@ -67,7 +72,25 @@ public class FlightService {
 		return flightDtos;
 	}
 
-	public Page<Flight> getFlights(Pageable pageable) {
+	public Page<FlightAllDto> getAllPaged(Pageable pageable) {
+		Page<Flight> flights = repository.findAll(pageable);
+
+		if (flights.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No flights found.");
+		}
+
+		return flights.map(
+				flight -> new FlightAllDto(flight.getId(), flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(), flight.getArrivalAirport(),
+						flight.getAirline(), this.bookingRepository.countByFlight_Id(flight.getId())));
+
+
+
+}
+
+
+
+
+public Page<Flight> getFlights(Pageable pageable) {
 		Page<Flight> flights = repository.findAll(pageable);
 		if (flights.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No flights found.");

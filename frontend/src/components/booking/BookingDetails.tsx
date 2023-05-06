@@ -97,14 +97,7 @@ export const BookingDetails = () => {
 												{booking?.flight?.arrivalAirport}
 											</TableCell>
 										</TableRow>
-										<TableRow>
-											<TableCell component="th" scope="row">
-												Airline Name
-											</TableCell>
-											<TableCell align="right">
-												{booking?.flight?.airline?.name}
-											</TableCell>
-										</TableRow>
+
 									</TableBody>
 								</Table>
 							</TableContainer>

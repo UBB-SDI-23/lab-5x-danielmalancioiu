@@ -3,6 +3,7 @@ package dev.dmg.sdi.controllers;
 import dev.dmg.sdi.domain.dto.AirlineCapacityDto;
 import dev.dmg.sdi.domain.dto.AirlineDto;
 import dev.dmg.sdi.domain.dto.AirlineFlightDto;
+import dev.dmg.sdi.domain.dto.PassengerBookingDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
 import dev.dmg.sdi.repositories.AirlineRepository;
@@ -57,11 +58,11 @@ public class AirlineController {
 		return ResponseEntity.ok(airline);
 	}
 
-	@GetMapping("/statistics")
-	public ResponseEntity<List<AirlineCapacityDto>> getAirlinesByAverageCapacity() {
-		List<AirlineCapacityDto> airlines = service.getAirlinesByAverageCapacity();
-		return new ResponseEntity<>(airlines, HttpStatus.OK);
-	}
+//	@GetMapping("/statistics")
+//	public ResponseEntity<List<AirlineCapacityDto>> getAirlinesByAverageCapacity() {
+//		List<AirlineCapacityDto> airlines = service.getAirlinesByAverageCapacity();
+//		return new ResponseEntity<>(airlines, HttpStatus.OK);
+//	}
 
 	@GetMapping("/{id}/averageCapacity")
 	public ResponseEntity<AirlineCapacityDto> getAirlineAverageCapacity(@PathVariable Long id) {
@@ -103,21 +104,37 @@ public class AirlineController {
 		Airline airline = this.service.getById(id);
 		this.service.delete(airline);
 	}
+//
+//	@GetMapping("/filter/{fleetSize}")
+//	public ResponseEntity<Page<Airline>> filterByFleetSizeGreaterThan(@PathVariable Integer fleetSize, Pageable pageable) {
+//		Page<Airline> page = service.filterByFleetSizeGreaterThan(fleetSize, pageable);
+//		return ResponseEntity.ok(page);
+//	}
 
 	@GetMapping("/filter/{fleetSize}")
-	public ResponseEntity<List<Airline>> filterByFleetSizeGreaterThan(@PathVariable Integer fleetSize) {
-		ResponseEntity<List<Airline>> response = service.filterByFleetSizeGreaterThan(fleetSize);
-		if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-			return ResponseEntity.notFound().build();
-		}
-		else {
-			return response;
-		}
+	public ResponseEntity<Page<Airline>> filterAirlinesByFleetSizeGreaterThan(
+			@PathVariable("fleetSize") int fleetSize,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size,
+			@RequestParam(defaultValue = "id,desc") String[] sort) {
+
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sort[0]).descending());
+		Page<Airline> airlines = service.filterByFleetSizeGreaterThan(fleetSize, pageable);
+
+		return ResponseEntity.ok(airlines);
 	}
 
 	@PostMapping("/{airlineId}/flights")
 	public ResponseEntity<List<Flight>> updateFlightsAirline(@PathVariable Long airlineId, @RequestBody List<Long> flightIds) {
 		List<Flight> updatedFlights = flightService.updateBulkAirline(airlineId, flightIds);
 		return ResponseEntity.ok().body(updatedFlights);
+	}
+
+
+	@GetMapping("/statistics")
+	public ResponseEntity<Page<AirlineCapacityDto>> getAllAirlinesByAverageCapacity(Pageable pageable)
+	{
+		Page<AirlineCapacityDto> airlinesPage = service.getAirlinesByAverageCapacityPaged(pageable);
+		return ResponseEntity.ok(airlinesPage);
 	}
 }

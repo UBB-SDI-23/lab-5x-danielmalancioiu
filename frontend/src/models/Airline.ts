@@ -1,3 +1,5 @@
+import { Flight } from "./Flight";
+
 export interface Airline {
     id?: number;
     name: string;
@@ -5,6 +7,9 @@ export interface Airline {
     fleetSize: number;  
     website: string;
     country: string;
+    numberOfFlights?: number;
+    averageCapacity?: number;
+    flights?: Flight[];
     [key: string]: any;
 }
 
