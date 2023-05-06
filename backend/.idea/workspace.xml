@@ -5,60 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="Lab7 finish">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database_generators/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database_generators/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database_generators/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database_generators/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database_generators/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database_generators/insert/insert_bookings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database_generators/insert/insert_passengers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_generators/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_generators/insert/insert_airlines.py" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/insert/insert_airlines.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_generators/insert/insert_flights.py" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/insert/insert_flights.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_generators/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_generators/queries/insert_airlines.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/queries/insert_airlines.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_generators/queries/insert_bookings.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/queries/insert_bookings.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_generators/queries/insert_flights.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/queries/insert_flights.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/AirlineController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/AirlineController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/FlightController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/FlightController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/PassengerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/controllers/PassengerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineCapacityDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineCapacityDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineFlightDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/AirlineFlightDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/FlightDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/FlightDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/PassengerDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/PassengerDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/entities/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/entities/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/AirlineRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/AirlineRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/BookingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/BookingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/FlightRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/repositories/FlightRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/AirlineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/AirlineService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/FlightService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/FlightService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/PassengerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/PassengerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/PassengerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/PassengerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineCapacityDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineCapacityDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Booking.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/AirlineRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/repositories/AirlineRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/PassengerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/PassengerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-dev.dmg.sdi.SdiApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-dev.dmg.sdi.SdiApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/dev.dmg.sdi.SdiApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/dev.dmg.sdi.SdiApplicationTests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/airline/AirlineAll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/airline/AirlineAll.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/airline/AirlineDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/airline/AirlineDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/booking/BookingDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/booking/BookingDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/flight/FlightDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/flight/FlightDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/passenger/PassengerAll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/passenger/PassengerAll.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/passenger/PassengerDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/passenger/PassengerDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/models/Airline.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/models/Airline.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/models/AirlineCapacity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/models/AirlineCapacity.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +17,13 @@
       <list>
         <option value="Class" />
       </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -173,7 +127,7 @@
       <module name="sdi" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dev.dmg.sdi.domain.entities.*" />
+          <option name="PATTERN" value="dev.dmg.sdi.domain.entities.User.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -258,7 +212,7 @@
       <workItem from="1683105818859" duration="5540000" />
       <workItem from="1683364181721" duration="2048000" />
       <workItem from="1683371677237" duration="13987000" />
-      <workItem from="1683401349905" duration="4331000" />
+      <workItem from="1683401349905" duration="7140000" />
     </task>
     <task id="LOCAL-00001" summary="Swagger">
       <created>1680425239098</created>
@@ -498,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683408484000</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Lab7 finish">
+      <created>1683408598130</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1683408598130</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
