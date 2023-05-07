@@ -1,5 +1,6 @@
 package dev.dmg.sdi.services;
 
+import dev.dmg.sdi.domain.dto.BookingAllDto;
 import dev.dmg.sdi.domain.dto.BookingDto;
 import dev.dmg.sdi.domain.dto.BookingFlightDto;
 import dev.dmg.sdi.domain.dto.FlightDto;
@@ -67,7 +68,7 @@ public class BookingService {
 		else {
 
 			for (Booking booking : bookings) {
-				BookingDto bookingDto = new BookingDto( booking.getFlight().getId(), booking.getPassenger().getId(), booking.getSeatNumber(), booking.getDate(), booking.getPrice());
+				BookingDto bookingDto = new BookingDto( booking.getFlight().getId(), booking.getPassenger().getId(), booking.getSeatNumber(), booking.getDate(), booking.getPrice(), booking.getUser().getUsername());
 
 				bookingDtos.add(bookingDto);
 			}
@@ -75,14 +76,13 @@ public class BookingService {
 		return bookingDtos;
 	}
 
-	public Page<Booking> getAllBookings(Pageable pageable) {
+	public Page<BookingAllDto> getAllBookings(Pageable pageable) {
 		Page<Booking> bookings = repository.findAll(pageable);
 		if(bookings.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No bookings found.");
 		}
-		else {
-			return bookings;
-		}
+		return bookings.map(booking -> new BookingAllDto( booking.getFlight(), booking.getPassenger(), booking.getSeatNumber(), booking.getDate(), booking.getPrice(), booking.getUser().getUsername()));
+
 	}
 
 	public Booking getById(Long id) {
@@ -116,7 +116,7 @@ public class BookingService {
 		List<BookingDto> bookingDtos = new ArrayList<>();
 		List<Booking> bookings = this.repository.findAllByFlightId(id);
 		for( Booking booking : bookings) {
-			BookingDto dto = new BookingDto( booking.getFlight().getId(), booking.getPassenger().getId(), booking.getSeatNumber(), booking.getDate(), booking.getPrice());
+			BookingDto dto = new BookingDto( booking.getFlight().getId(), booking.getPassenger().getId(), booking.getSeatNumber(), booking.getDate(), booking.getPrice(), booking.getUser().getUsername());
 			bookingDtos.add(dto);
 		}
 		return bookingDtos;
@@ -126,7 +126,7 @@ public class BookingService {
 		List<BookingDto> bookingDtos = new ArrayList<>();
 		List<Booking> bookings = this.repository.findAllByPassengerId(id);
 		for( Booking booking : bookings) {
-			BookingDto dto = new BookingDto( booking.getFlight().getId(), booking.getPassenger().getId(), booking.getSeatNumber(), booking.getDate(), booking.getPrice());
+			BookingDto dto = new BookingDto( booking.getFlight().getId(), booking.getPassenger().getId(), booking.getSeatNumber(), booking.getDate(), booking.getPrice(),booking.getUser().getUsername());
 			bookingDtos.add(dto);
 		}
 		return bookingDtos;

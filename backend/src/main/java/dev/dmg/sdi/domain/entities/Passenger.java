@@ -1,5 +1,7 @@
 package dev.dmg.sdi.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.dmg.sdi.domain.entities.User.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,6 +36,10 @@ public class Passenger {
 
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Booking> bookings ;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
 
 

@@ -81,8 +81,7 @@ public class FlightService {
 
 		return flights.map(
 				flight -> new FlightAllDto(flight.getId(), flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(), flight.getArrivalAirport(),
-						flight.getAirline(), this.bookingRepository.countByFlight_Id(flight.getId())));
-
+						flight.getAirline(), this.bookingRepository.countByFlight_Id(flight.getId()), flight.getUser().getUsername()));
 
 
 }

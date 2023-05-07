@@ -19,9 +19,11 @@ def insert_data_flights():
             fake = Faker()
             with conn.cursor() as cursor:
                 cursor.execute("SELECT id from airline")
+                airline_ids = [el[0] for el in cursor.fetchall()]
+                cursor.execute("SELECT id from users")
                 user_ids = [el[0] for el in cursor.fetchall()]
                 insert_query = \
-                    "INSERT INTO flight (call_sign, capacity, departure_airport, arrival_airport, airline_id) VALUES "
+                    "INSERT INTO flight (call_sign, capacity, departure_airport, arrival_airport, airline_id, user_id) VALUES "
                 values = []
 
                 for i in range(1000000):
@@ -31,7 +33,7 @@ def insert_data_flights():
                     number = ''.join(random.choices(string.digits, k=4))
                     call_sign = prefix + number
 
-                    airline_id = random.choice(user_ids)
+                    airline_id = random.choice(airline_ids)
 
                     airports_list = ["JFK", "LAX", "ATL", "ORD", "DXB", "HND", "LHR", "CDG", "SYD", "PEK", "SFO", "DEN", "AMS", "FRA", "MUC", "MEL", "ICN", "SIN", "BKK", "FCO", "NRT", "SHA", "PVG", "BOM", "DEL", "GRU", "GIG", "MEX", "EZE", "LIM"]
                     departure_airport = random.choice(airports_list)
@@ -39,8 +41,10 @@ def insert_data_flights():
 
                     capacity = random.randint(50, 1000)
 
+                    user_id = random.choice(user_ids)
+
                     values.append(
-                        f"('{call_sign}', {capacity}, '{departure_airport}', '{arrival_airport}', {airline_id})")
+                        f"('{call_sign}', {capacity}, '{departure_airport}', '{arrival_airport}', {airline_id}, {user_id})")
 
                     if len(values) == 1000:
                         f.write(insert_query + ", ".join(values) + ";\n")

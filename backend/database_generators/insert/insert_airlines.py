@@ -20,8 +20,10 @@ def insert_data_airlines():
         with open("./queries/insert_airlines.sql", "w", encoding="utf-8") as f:
             fake = Faker()
             with conn.cursor() as cursor:
+                cursor.execute("SELECT id from users")
+                user_ids = [el[0] for el in cursor.fetchall()]
                 insert_query = \
-                    "INSERT INTO airline (name, iata_code, fleet_size, website, country) VALUES "
+                    "INSERT INTO airline (name, iata_code, fleet_size, website, country, user_id) VALUES "
                 values = []
 
                 for i in range(1000000):
@@ -42,8 +44,10 @@ def insert_data_airlines():
 
                     name = fake.company()
 
+                    user_id = random.choice(user_ids)
+
                     values.append(
-                        f"('{name}', '{iataCode}', {fleet_size}, '{website}', '{country}')")
+                        f"('{name}', '{iataCode}', {fleet_size}, '{website}', '{country}', {user_id})")
 
                     if len(values) == 1000:
                         f.write(insert_query + ", ".join(values) + ";\n")

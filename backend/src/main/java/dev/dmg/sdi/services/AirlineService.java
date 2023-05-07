@@ -81,7 +81,7 @@ public class AirlineService {
 		}
 
 		return airlines.map(airline -> new AirlineDto(airline.getId(), airline.getName(), airline.getIataCode(), airline.getFleetSize(), airline.getWebsite(),
-				airline.getCountry(), this.flightRepository.countByAirline_Id(airline.getId())));
+				airline.getCountry(), this.flightRepository.countByAirline_Id(airline.getId()), airline.getUser().getUsername()));
 	}
 
 //	public ResponseEntity<List<Airline>> filterByFleetSizeGreaterThan(Integer fleetSize) {
@@ -94,8 +94,13 @@ public class AirlineService {
 //		}
 //	}
 
-	public Page<Airline> filterByFleetSizeGreaterThan(Integer fleetSize, Pageable pageable) {
-		return repository.findByFleetSizeGreaterThan(fleetSize, pageable);
+	public Page<AirlineDto> filterByFleetSizeGreaterThan(Integer fleetSize, Pageable pageable) {
+		Page<Airline> airlines = repository.findByFleetSizeGreaterThan(fleetSize,pageable);
+		if (airlines.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No airlines found.");
+		}
+		return airlines.map(airline -> new AirlineDto(airline.getId(), airline.getName(), airline.getIataCode(), airline.getFleetSize(), airline.getWebsite(),
+				airline.getCountry(), this.flightRepository.countByAirline_Id(airline.getId()), airline.getUser().getUsername()));
 	}
 
 
@@ -118,7 +123,7 @@ public class AirlineService {
 
 			for (Flight flight : flights) {
 				FlightAllDto flightDto = new FlightAllDto(flight.getId(), flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(),
-						flight.getArrivalAirport(), flight.getAirline(), this.bookingRepository.countByFlight_Id(flight.getId()));
+						flight.getArrivalAirport(), flight.getAirline(), this.bookingRepository.countByFlight_Id(flight.getId()), flight.getUser().getUsername());
 				flightDtos.add(flightDto);
 			}
 			AirlineFlightDto airlineFlightDto = new AirlineFlightDto(airlineOptional.get().getId(), airlineOptional.get().getName(),

@@ -65,7 +65,7 @@ public class PassengerService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No passengers found.");
 		}
 		return passengers.map(passenger -> new PassengerDto(passenger.getId(), passenger.getFirstName(), passenger.getLastName(), passenger.getDateOfBirth(), passenger.getNationality(), passenger.getPassportNumber(), this.bookingRepository.countByPassenger_Id(
-				passenger.getId())));
+				passenger.getId()), passenger.getUser().getUsername()));
 	}
 
 	public Passenger getById(Long id) {

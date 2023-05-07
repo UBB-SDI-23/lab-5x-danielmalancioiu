@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 		uniqueConstraints = {
 				@UniqueConstraint(columnNames = "username"),
 		})
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer" }, ignoreUnknown = true)
 public class User {
 
 	@Id

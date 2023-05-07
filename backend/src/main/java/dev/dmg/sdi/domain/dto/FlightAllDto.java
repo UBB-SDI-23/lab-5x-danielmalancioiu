@@ -21,7 +21,10 @@ public class FlightAllDto {
 
 	private Long numberOfBookings;
 
-	public FlightAllDto(Long id, String callSign, Integer capacity, String departureAirport, String arrivalAirport, Airline airline, Long numberOfBookings) {
+	private String username;
+
+	public FlightAllDto(Long id, String callSign, Integer capacity, String departureAirport, String arrivalAirport, Airline airline, Long numberOfBookings,
+			String username) {
 		this.id = id;
 		this.callSign = callSign;
 		this.capacity = capacity;
@@ -29,6 +32,6 @@ public class FlightAllDto {
 		this.arrivalAirport = arrivalAirport;
 		this.airline = airline;
 		this.numberOfBookings = numberOfBookings;
+		this.username = username;
 	}
-
 }

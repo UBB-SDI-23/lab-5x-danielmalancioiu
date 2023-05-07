@@ -22,7 +22,10 @@ public class PassengerDto {
 
 	private Long numberOfBookings;
 
-	public PassengerDto(Long id, String firstName, String lastName, LocalDate dateOfBirth, String nationality, String passportNumber, Long numberOfBookings) {
+	private String username;
+
+	public PassengerDto(Long id, String firstName, String lastName, LocalDate dateOfBirth, String nationality, String passportNumber, Long numberOfBookings,
+			String username) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -30,6 +33,7 @@ public class PassengerDto {
 		this.nationality = nationality;
 		this.passportNumber = passportNumber;
 		this.numberOfBookings = numberOfBookings;
+		this.username = username;
 	}
 }
 
