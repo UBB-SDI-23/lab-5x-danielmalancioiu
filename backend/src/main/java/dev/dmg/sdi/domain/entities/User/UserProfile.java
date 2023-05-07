@@ -1,14 +1,19 @@
 package dev.dmg.sdi.domain.entities.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import lombok.Data;
+import javax.persistence.*;
+
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Data
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user_profiles")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" }, ignoreUnknown = true)
 public class UserProfile {
@@ -18,11 +23,11 @@ public class UserProfile {
 	@Column(name = "id")
 	private Long id;
 
-	@NotEmpty
+
 	@Column(name = "bio")
 	private String bio;
 
-	@NotEmpty
+
 	@Column(name = "location")
 	private String location;
 
@@ -35,16 +40,5 @@ public class UserProfile {
 	@Column(name = "status")
 	private String status;
 
-	public UserProfile(Long id, String bio, String location, Date birthDate, String gender, String status) {
-		this.id = id;
-		this.bio = bio;
-		this.location = location;
-		this.birthDate = birthDate;
-		this.gender = gender;
-		this.status = status;
-	}
 
-	public UserProfile() {
-
-	}
 }

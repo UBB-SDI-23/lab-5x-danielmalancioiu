@@ -16,4 +16,6 @@ public interface AirlineRepository extends JpaRepository<Airline, Long> {
 
 	List<Airline> findByNameContainingIgnoreCaseOrderByName(String query, PageRequest name);
 
+	List<Airline> findByUserId(Long id);
+
 }
