@@ -1,6 +1,8 @@
 package dev.dmg.sdi.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.dmg.sdi.domain.entities.User.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -38,5 +40,9 @@ public class Booking {
 	@Positive(message = "Price must be a positive integer")
 	@Column(name = "price")
 	private Integer price;
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
 }

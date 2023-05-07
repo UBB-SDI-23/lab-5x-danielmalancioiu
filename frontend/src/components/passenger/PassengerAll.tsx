@@ -82,6 +82,7 @@ export const PassengersTable = () => {
                                 <TableCell>Nationality</TableCell>
                                 <TableCell>Passport Number</TableCell>
                                 <TableCell> Number of Bookings</TableCell>
+                                <TableCell >Added By</TableCell>
                                 <TableCell >Operations</TableCell>
                             </TableRow>
                         </TableHead>
@@ -95,6 +96,9 @@ export const PassengersTable = () => {
                                     <TableCell align="center">{row.nationality}</TableCell>
                                     <TableCell align="center">{row.passportNumber}</TableCell>
                                     <TableCell align="center">{row.numberOfBookings}</TableCell>
+                                    <TableCell align="center" >
+                                        <Link to={`/profile/${row.username}`}>{row.username}</Link>
+                                    </TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}

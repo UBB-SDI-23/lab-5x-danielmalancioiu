@@ -9,6 +9,7 @@ export interface Flight {
     numberOfBookings?: number;
     airline?: Airline;
     airlineId?: number;
+    username?: string;
     [key: string]: any;
 }
 

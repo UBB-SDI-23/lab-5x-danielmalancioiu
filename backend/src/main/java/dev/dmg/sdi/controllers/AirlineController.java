@@ -112,14 +112,14 @@ public class AirlineController {
 //	}
 
 	@GetMapping("/filter/{fleetSize}")
-	public ResponseEntity<Page<Airline>> filterAirlinesByFleetSizeGreaterThan(
+	public ResponseEntity<Page<AirlineDto>> filterAirlinesByFleetSizeGreaterThan(
 			@PathVariable("fleetSize") int fleetSize,
 			@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "10") int size,
 			@RequestParam(defaultValue = "id,desc") String[] sort) {
 
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sort[0]).descending());
-		Page<Airline> airlines = service.filterByFleetSizeGreaterThan(fleetSize, pageable);
+		Page<AirlineDto> airlines = service.filterByFleetSizeGreaterThan(fleetSize, pageable);
 
 		return ResponseEntity.ok(airlines);
 	}

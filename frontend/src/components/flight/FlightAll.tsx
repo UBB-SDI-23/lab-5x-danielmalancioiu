@@ -80,6 +80,7 @@ export const FlightsTable = () => {
                                 <TableCell> Arrival Airport</TableCell>
                                 <TableCell> Airline Name</TableCell>
                                 <TableCell> Number of bookings</TableCell>
+                                <TableCell>Added By</TableCell>
                                 <TableCell> Operations</TableCell>
                             </TableRow>
                         </TableHead>
@@ -93,6 +94,9 @@ export const FlightsTable = () => {
                                     <TableCell align="center">{row.arrivalAirport}</TableCell>
                                     <TableCell align="center">{row.airline?.name}</TableCell>
                                     <TableCell align="center">{row.numberOfBookings}</TableCell>
+                                    <TableCell align="center" >
+                                        <Link to={`/profile/${row.username}`}>{row.username}</Link>
+                                    </TableCell>
                                     <TableCell align="center">
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/flights/${row.id}/details`}>
                                             <Tooltip title="View flight details" arrow>

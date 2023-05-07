@@ -22,8 +22,10 @@ def insert_data_bookings():
                 # flight_ids = [el[0] for el in cursor.fetchall()]
                 # cursor.execute("SELECT id from passenger")
                 # passenger_ids = [el[0] for el in cursor.fetchall()]
+                cursor.execute("SELECT id from users")
+                user_ids = [el[0] for el in cursor.fetchall()]
                 insert_query = \
-                    "INSERT INTO booking (flight_id, passenger_id, seat_number, booking_date, price) VALUES "
+                    "INSERT INTO booking (flight_id, passenger_id, seat_number, booking_date, price, user_id) VALUES "
                 values = []
 
                 for i in range(1000000):
@@ -40,8 +42,10 @@ def insert_data_bookings():
 
                     booking_date = fake.date_between(start_date='-60d', end_date='+60d')
                     price = fake.pyint(min_value=50, max_value=50000)
+                    user_id = random.choice(user_ids)
+
                     values.append(
-                        f"({flight_id}, {passenger_id}, '{seat_number}', '{booking_date}', {price})")
+                        f"({flight_id}, {passenger_id}, '{seat_number}', '{booking_date}', {price}, {user_id})")
 
                     if len(values) == 1000:
                         f.write(insert_query + ", ".join(values) + ";\n")

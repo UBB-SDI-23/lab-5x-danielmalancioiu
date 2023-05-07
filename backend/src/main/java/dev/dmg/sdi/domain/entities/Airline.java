@@ -1,6 +1,8 @@
 package dev.dmg.sdi.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import dev.dmg.sdi.domain.entities.User.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -42,6 +44,10 @@ public class Airline {
 
 	@OneToMany(mappedBy = "airline", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Flight> flights ;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
 	public Airline(long id, String name, String iataCode, Integer fleetSize, String website, String country, List<Flight> flights) {
 		this.id = id;

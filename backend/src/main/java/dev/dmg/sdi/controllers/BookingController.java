@@ -1,5 +1,6 @@
 package dev.dmg.sdi.controllers;
 
+import dev.dmg.sdi.domain.dto.BookingAllDto;
 import dev.dmg.sdi.domain.dto.BookingDto;
 import dev.dmg.sdi.domain.dto.BookingFlightDto;
 import dev.dmg.sdi.domain.dto.BookingPassengerDto;
@@ -23,8 +24,8 @@ public class BookingController {
 	BookingService service;
 
 	@GetMapping("")
-	public ResponseEntity<Page<Booking>> getAllBookings(Pageable pageable) {
-		Page<Booking> bookings = this.service.getAllBookings(pageable);
+	public ResponseEntity<Page<BookingAllDto>> getAllBookings(Pageable pageable) {
+		Page<BookingAllDto> bookings = this.service.getAllBookings(pageable);
 		return ResponseEntity.ok(bookings);
 	}
 

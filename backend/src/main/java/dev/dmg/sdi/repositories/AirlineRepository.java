@@ -1,5 +1,6 @@
 package dev.dmg.sdi.repositories;
 
+import dev.dmg.sdi.domain.dto.AirlineDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

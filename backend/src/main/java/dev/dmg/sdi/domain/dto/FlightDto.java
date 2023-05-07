@@ -19,7 +19,6 @@ public class FlightDto {
 	private Long airlineId;
 
 
-
 	public FlightDto(Long id, String callSign, Integer capacity, String departureAirport, String arrivalAirport, Long airlineId) {
 		this.id = id;
 		this.callSign = callSign;
