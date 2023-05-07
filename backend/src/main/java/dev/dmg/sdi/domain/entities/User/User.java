@@ -1,13 +1,18 @@
 package dev.dmg.sdi.domain.entities.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import lombok.Data;
+import javax.persistence.*;
+
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 
-@Data
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users",
 		uniqueConstraints = {
 				@UniqueConstraint(columnNames = "username"),
@@ -32,13 +37,8 @@ public class User {
 	@JoinColumn(name = "user_profile_id", nullable = false)
 	private UserProfile userProfile;
 
-	public User(Long id, String username, String password) {
-		this.id = id;
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
-	}
-
-	public User() {
-
 	}
 }

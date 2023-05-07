@@ -2,7 +2,7 @@ package dev.dmg.sdi.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.dmg.sdi.domain.entities.User.User;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
