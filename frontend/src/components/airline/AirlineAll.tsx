@@ -106,6 +106,7 @@ export const AirlinesTable = () => {
                                 <TableCell>Website</TableCell>
                                 <TableCell>Country</TableCell>
                                 <TableCell>Number of flights</TableCell>
+                                <TableCell >Added by</TableCell>
                                 <TableCell>Operations</TableCell>
                             </TableRow>
                         </TableHead>
@@ -119,6 +120,9 @@ export const AirlinesTable = () => {
                                     <TableCell align="center">{row.website}</TableCell>
                                     <TableCell align="center">{row.country}</TableCell>
                                     <TableCell align="center">{row.numberOfFlights}</TableCell>
+                                    <TableCell align="center" >
+                                        <Link to={`/profile/${row.username}`}>{row.username}</Link>
+                                    </TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}

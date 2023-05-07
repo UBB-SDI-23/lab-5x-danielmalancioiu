@@ -10,6 +10,7 @@ export interface Passenger {
     numberOfBookings?: number;
     averagePrice?: number;
     bookings?: Booking[];
+    username?: string;
     [key: string]: any;
 }
 

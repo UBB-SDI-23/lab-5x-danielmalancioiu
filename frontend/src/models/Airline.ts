@@ -7,6 +7,7 @@ export interface Airline {
     fleetSize: number;  
     website: string;
     country: string;
+    username?: string;
     numberOfFlights?: number;
     averageCapacity?: number;
     flights?: Flight[];

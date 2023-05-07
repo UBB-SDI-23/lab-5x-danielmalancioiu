@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="Add user and user profile entities">
+    <list default="true" id="8c639166-8c8a-41ed-b6f9-cbc460f94254" name="Changes" comment="Generate new sql scripts with user">
+      <change afterPath="$PROJECT_DIR$/database_generators/insert/insert_user_profiles.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database_generators/insert/insert_users.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database_generators/queries/insert_user_profiles.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database_generators/queries/insert_users.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/domain/dto/BookingAllDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/User/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/User/UserProfile.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database_generators/insert/insert_airlines.py" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/insert/insert_airlines.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database_generators/insert/insert_bookings.py" beforeDir="false" afterPath="$PROJECT_DIR$/database_generators/insert/insert_bookings.py" afterDir="false" />
@@ -34,6 +41,30 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/PassengerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/dmg/sdi/services/PassengerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/AirlineController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/BookingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/controllers/BookingController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/AirlineDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/BookingDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/FlightAllDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/FlightAllDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/FlightDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/FlightDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/dto/PassengerDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Airline.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Airline.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Booking.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Flight.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Flight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Passenger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/domain/entities/Passenger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/AirlineService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/BookingService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/BookingService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/FlightService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/FlightService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/PassengerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/dev/dmg/sdi/services/PassengerService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/airline/AirlineAll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/airline/AirlineAll.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/airline/AirlineFiltered.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/airline/AirlineFiltered.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/booking/BookingAll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/booking/BookingAll.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/flight/FlightAll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/flight/FlightAll.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/passenger/PassengerAll.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/passenger/PassengerAll.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/models/Airline.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/models/Airline.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/models/Booking.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/models/Booking.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/models/Flight.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/models/Flight.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/models/Passenger.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/models/Passenger.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -241,7 +272,7 @@
       <workItem from="1683364181721" duration="2048000" />
       <workItem from="1683371677237" duration="13987000" />
       <workItem from="1683401349905" duration="7140000" />
-      <workItem from="1683451433654" duration="6143000" />
+      <workItem from="1683451433654" duration="6578000" />
     </task>
     <task id="LOCAL-00001" summary="Swagger">
       <created>1680425239098</created>
@@ -488,7 +519,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683408598130</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Generate new sql scripts with user">
+      <created>1683458780252</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1683458780252</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +562,8 @@
     <MESSAGE value="jar update" />
     <MESSAGE value="Lab7 finish" />
     <MESSAGE value="Add user and user profile entities" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add user and user profile entities" />
+    <MESSAGE value="Generate new sql scripts with user" />
+    <option name="LAST_COMMIT_MESSAGE" value="Generate new sql scripts with user" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

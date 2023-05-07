@@ -80,6 +80,7 @@ export const SortableTable = () => {
                                 <TableCell>Date</TableCell>
                                 <TableCell>Seat Number</TableCell>
                                 <TableCell>Price</TableCell>
+                                <TableCell>Added By</TableCell>
                                 <TableCell>Operations</TableCell>
                             </TableRow>
                         </TableHead>
@@ -92,6 +93,9 @@ export const SortableTable = () => {
                                     <TableCell align="center">{row.date}</TableCell>
                                     <TableCell align="center">{row.seatNumber}</TableCell>
                                     <TableCell align="center">{row.price.toFixed(2)}</TableCell>
+                                    <TableCell align="center" >
+                                        <Link to={`/profile/${row.username}`}>{row.username}</Link>
+                                    </TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}

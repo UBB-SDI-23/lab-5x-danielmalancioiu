@@ -122,6 +122,7 @@ export const AirlinesFiltered = () => {
                                     Country
 
                                 </TableCell>
+                                <TableCell>Added by</TableCell>
                                 
                                 <TableCell align="center">Operations</TableCell>
                             </TableRow>
@@ -135,7 +136,7 @@ export const AirlinesFiltered = () => {
                                     <TableCell>{row.fleetSize}</TableCell>
                                     <TableCell>{row.website}</TableCell>
                                     <TableCell>{row.country}</TableCell>
-                                    
+                                    <TableCell>{row.username}</TableCell>
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}
