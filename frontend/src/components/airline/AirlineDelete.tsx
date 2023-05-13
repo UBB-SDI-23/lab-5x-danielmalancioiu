@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { BACKEND_API_URL } from "../../constants";
+import { toast } from "react-toastify";
 
 
 export const AirlineDelete = () => {
@@ -12,9 +13,10 @@ export const AirlineDelete = () => {
 	const handleDelete = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
 		await axios.delete(`${BACKEND_API_URL}/airlines/${airlineId}`);
-
+		toast.success("Airline deleted successfully");
 		navigate("/airlines");
 	};
+	
 
 	const handleCancel = (event: { preventDefault: () => void }) => {
 		event.preventDefault();

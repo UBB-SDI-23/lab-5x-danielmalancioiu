@@ -9,36 +9,44 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { Airline } from "../../models/Airline";
 import { BACKEND_API_URL } from "../../constants";
+import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
 export const BookingEdit = () => {
     const navigate = useNavigate();
     const { bookingId } = useParams();
-	
-    const [booking, setBooking] = useState<Booking>({ 
+
+    const [booking, setBooking] = useState<Booking>({
         flightId: 0,
         passengerId: 0,
         seatNumber: "",
         date: "",
         price: 0,
+        username: StorageService.getUser().username
     });
 
+    useEffect(() => {
+        const fetchBooking = async () => {
+            try {
+                const response = await fetch(`${BACKEND_API_URL}/bookings/${bookingId}`);
+                const booking = await response.json();
+                setBooking(booking);
+            } catch (error: any) {
+                toast.error(error.response.data);
 
-
-	useEffect(() => {
-		const fetchBooking = async () => {
-			const response = await fetch(`${BACKEND_API_URL}/bookings/${bookingId}`);
-			const booking = await response.json();
-			setBooking(booking);
-		};
-		fetchBooking();
-	}, [bookingId]);
+            }
+        };
+        fetchBooking();
+    }, [bookingId]);
 
     const updateBooking = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
             await axios.put(`${BACKEND_API_URL}/bookings/${bookingId}`, booking);
             navigate("/bookings");
-        } catch (error) {
+            toast.success("Booking updated successfully");  
+        } catch (error: any) {
             console.log(error);
+            toast.error(error.response.data);
         }
     };
 
@@ -49,8 +57,8 @@ export const BookingEdit = () => {
                     <IconButton component={Link} sx={{ mr: 3 }} to={`/bookings`}>
                         <ArrowBackIcon />
                     </IconButton>{" "}
-                    <form onSubmit={updateBooking}>                 
-                    <TextField
+                    <form onSubmit={updateBooking}>
+                        <TextField
                             id="flight-id"
                             label="Flight ID"
                             variant="outlined"
@@ -60,7 +68,7 @@ export const BookingEdit = () => {
                             onChange={(event) => setBooking({ ...booking, flightId: Number(event.target.value) })}
                         />
                         <TextField
-                            id="passenger-id"   
+                            id="passenger-id"
                             label="Passenger ID"
                             variant="outlined"
                             fullWidth
@@ -95,6 +103,7 @@ export const BookingEdit = () => {
                             label="Price"
                             variant="outlined"
                             fullWidth
+                            type="number"
                             sx={{ mb: 2 }}
                             value={booking.price}
                             onChange={(event) => setBooking({ ...booking, price: Number(event.target.value) })}

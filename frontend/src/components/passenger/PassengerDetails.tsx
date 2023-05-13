@@ -13,6 +13,7 @@ import { Passenger } from "../../models/Passenger";
 import { ArrowBack } from "@mui/icons-material";
 
 import { BACKEND_API_URL } from "../../constants";
+import { toast } from "react-toastify";
 export const PassengerDetails = () => {
     const { passengerId } = useParams();
     const [passenger, setPassenger] = useState<Passenger>();
@@ -20,6 +21,7 @@ export const PassengerDetails = () => {
 
     useEffect(() => {
         const fetchPassenger = async () => {
+            try{
             const response = await fetch(`${BACKEND_API_URL}/passengers/${passengerId}`);
             const response1 = await fetch(`${BACKEND_API_URL}/passengers/${passengerId}/averagePrice`);
             const passenger = await response.json();
@@ -27,6 +29,9 @@ export const PassengerDetails = () => {
 
             setPassenger(passenger);
             setPassengerCapacity(passengerCapacity);
+            } catch (error: any) {
+                toast.error(error.response.data);
+            }
         };
         fetchPassenger();
     }, [passengerId]);

@@ -7,39 +7,52 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
-import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
+import { Passenger } from "../../models/Passenger";
 import { BACKEND_API_URL } from "../../constants";
-import { ToastContainer, toast } from "react-toastify";
-import { useAuth } from "../../services/AuthContext";
 import { StorageService } from "../../services/StorageService";
-
-
-export const AirlineAdd = () => {
+import { UserProfile } from "../../models/UserProfile";
+import { User } from "../../models/User";
+import { toast } from "react-toastify";
+export const ProfileEdit = () => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
-
-    const [airline, setAirline] = useState<Airline>({
-        name: "",
-        iataCode: "",
-        fleetSize: 0,
-        website: "",
-        country: "",
-        username: StorageService.getUser().username
+    const { username } = useParams();
+	const [user,setUser] = useState<User>();
+    const [userProfile, setUserProfile] = useState<UserProfile>({ 
+        bio: "",
+        location: "",
+        birthDate: "",
+        gender: "",
+        status: ""
     });
 
+	useEffect(() => {
+		const fetchUserProfile = async () => {
+            try{
+            const response = await fetch(`${BACKEND_API_URL}/user-profile-username/${username}`);
+            const response_user = await fetch(`${BACKEND_API_URL}/user/${username}`);
+            const userProfile = await response.json();
+            const user = await response_user.json();
 
-    const addAirline = async (event: { preventDefault: () => void }) => {
+            setUser(user);
+            setUserProfile(userProfile);
+            } catch (error: any) {
+                toast.error(error.response.data);
+            }
+		};
+		fetchUserProfile();
+	}, [username]);
+
+    const updateUserProfile = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-            //setAirline({ ...airline, username: user })
-            await axios.post(`${BACKEND_API_URL}/airlines`, airline);
-            toast.success("Airline added successfully");
-            navigate("/airlines");
-        } catch (error: any) {
+            const id = user?.id;
+            await axios.put(`${BACKEND_API_URL}/user-profile/${id}`, userProfile);
+            navigate(`/profile/${username}`);
+            toast.success("User profile updated succesfully.");
+        } catch (error : any) {
             toast.error(error.response.data);
-            //console.log(error);
-
+            
         }
     };
 
@@ -47,54 +60,28 @@ export const AirlineAdd = () => {
         <Container>
             <Card>
                 <CardContent>
-                    <h1>Add Airline</h1>
-                    <IconButton component={Link} sx={{ mr: 3 }} to={`/airlines`}>
+                    <IconButton component={Link} sx={{ mr: 3 }} to={`/passengers`}>
                         <ArrowBackIcon />
                     </IconButton>{" "}
-                    <form onSubmit={addAirline}>
-                        <TextField
-                            id="name"
-                            label="Name"
+                    <form onSubmit={updateUserProfile}>                 
+                    <TextField
+                            id="first-name"
+                            label="Bio"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
+                            value={userProfile.bio}
                             required
-                            error={airline.name.trim() === ''}
-                            helperText={airline.name.trim() === '' ? 'Name is required' : ''}
+                            error={userProfile.bio === ''}
+                            helperText={userProfile.bio === '' ? 'Bio is required' : ''}
                             onChange={(event) => {
                                 const target = event.target as HTMLInputElement;
-                                target.setCustomValidity(target.value.trim() === '' ? 'Name is required' : '');
-                                setAirline({ ...airline, name: target.value })
+                                target.setCustomValidity(target.value === '' ? 'Name is required' : '');
+                                setUserProfile({ ...userProfile, bio: target.value })
                             }}
                             onInvalid={(event) => {
                                 const target = event.target as HTMLInputElement;
-                                target.setCustomValidity('The name cannot be empty')
-                            }}
-                            onInput={(event) => {
-                                const target = event.target as HTMLInputElement;
-                                target.setCustomValidity('')
-                            }}
-                        />
-
-
-
-                        <TextField
-                            id="iata-code"
-                            label="Iata Code"
-                            variant="outlined"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            required
-                            error={airline.iataCode.trim() === ''}
-                            helperText={airline.iataCode.trim() === '' ? 'IataCode is required' : ''}
-                            onChange={(event) => {
-                                const target = event.target as HTMLInputElement;
-                                target.setCustomValidity(target.value.trim() === '' ? 'IataCode is required' : '');
-                                setAirline({ ...airline, iataCode: target.value })
-                            }}
-                            onInvalid={(event) => {
-                                const target = event.target as HTMLInputElement;
-                                target.setCustomValidity('The iata code cannot be empty')
+                                target.setCustomValidity('The bio cannot be empty')
                             }}
                             onInput={(event) => {
                                 const target = event.target as HTMLInputElement;
@@ -102,49 +89,23 @@ export const AirlineAdd = () => {
                             }}
                         />
                         <TextField
-                            id="fleet-size"
-                            label="Fleet Size"
+                            id="last-name"
+                            label="Location"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
+                            value={userProfile.location}
                             required
-                            error={airline.fleetSize < 0}
-                            helperText={airline.fleetSize < 0 ? 'Fleet size must be positive' : ''}
+                            error={userProfile.location === ''}
+                            helperText={userProfile.location === '' ? 'Location is required' : ''}
                             onChange={(event) => {
                                 const target = event.target as HTMLInputElement;
-                                target.setCustomValidity(target.value.trim().startsWith('-') ? 'Fleet size must be positive' : '');
-                                setAirline({ ...airline, fleetSize: Number(event.target.value) })
+                                target.setCustomValidity(target.value === '' ? 'Location is required' : '');
+                                setUserProfile({ ...userProfile, location: target.value })
                             }}
                             onInvalid={(event) => {
                                 const target = event.target as HTMLInputElement;
-                                target.setCustomValidity('Fleet size must be positive')
-                            }}
-                            onInput={(event) => {
-                                const target = event.target as HTMLInputElement;
-                                target.setCustomValidity('')
-                            }}
-                        />
-
-
-
-
-                        <TextField
-                            id="website"
-                            label="Website"
-                            variant="outlined"
-                            fullWidth
-                            sx={{ mb: 2 }}
-                            required
-                            error={airline.website.trim() === ''}
-                            helperText={airline.website.trim() === '' ? 'Website is required' : ''}
-                            onChange={(event) => {
-                                const target = event.target as HTMLInputElement;
-                                target.setCustomValidity(target.value.trim() === '' ? 'Website is required' : '');
-                                setAirline({ ...airline, website: target.value })
-                            }}
-                            onInvalid={(event) => {
-                                const target = event.target as HTMLInputElement;
-                                target.setCustomValidity('The website cannot be empty')
+                                target.setCustomValidity('The location cannot be empty')
                             }}
                             onInput={(event) => {
                                 const target = event.target as HTMLInputElement;
@@ -152,22 +113,60 @@ export const AirlineAdd = () => {
                             }}
                         />
                         <TextField
-                            id="country"
-                            label="Country"
+                            id="date-of-birth"
+                            label="Date of Birth"
+                            variant="outlined"
+                            fullWidth
+                            type="date"
+                            sx={{ mb: 2 }}
+                            value={userProfile.birthDate}
+                            onChange={(event) => setUserProfile({ ...userProfile, birthDate: event.target.value })}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                        <TextField
+                            id="nationality"
+                            label="Gender"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
+                            value={userProfile.gender}
                             required
-                            error={airline.country.trim() === ''}
-                            helperText={airline.country.trim() === '' ? 'Country is required' : ''}
+                            error={userProfile.gender === ''}
+                            helperText={userProfile.gender === '' ? 'Gender is required' : ''}
                             onChange={(event) => {
                                 const target = event.target as HTMLInputElement;
-                                target.setCustomValidity(target.value.trim() === '' ? 'Country is required' : '');
-                                setAirline({ ...airline, country: target.value })
+                                target.setCustomValidity(target.value === '' ? 'Gender is required' : '');
+                                setUserProfile({ ...userProfile, gender: target.value })
                             }}
                             onInvalid={(event) => {
                                 const target = event.target as HTMLInputElement;
-                                target.setCustomValidity('The country cannot be empty')
+                                target.setCustomValidity('The gender cannot be empty')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
+                        />
+                        <TextField
+                            id="passport-number"
+                            label="Status"
+                            variant="outlined"
+                            fullWidth
+                            sx={{ mb: 2 }}
+                            value={userProfile.status}
+                            required
+                            error={userProfile.status === ''}
+                            helperText={userProfile.status === '' ? 'Status is required' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value === '' ? 'Status is required' : '');
+                                setUserProfile({ ...userProfile, status: target.value })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('The status cannot be empty')
                             }}
                             onInput={(event) => {
                                 const target = event.target as HTMLInputElement;
@@ -175,14 +174,12 @@ export const AirlineAdd = () => {
                             }}
                         />
 
-
-                        <Button type="submit">Add Airline</Button>
+                        <Button type="submit">Update User Profile</Button>
                     </form>
-                    <ToastContainer />
                 </CardContent>
                 <CardActions></CardActions>
             </Card>
         </Container>
-
     );
 };
+

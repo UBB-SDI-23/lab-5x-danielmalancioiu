@@ -11,6 +11,8 @@ import { Flight } from "../../models/Flight";
 import { Airline } from "../../models/Airline";
 import { Passenger } from "../../models/Passenger";
 import { BACKEND_API_URL } from "../../constants";
+import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
 
 export const PassengerAdd = () => {
     const navigate = useNavigate();
@@ -21,16 +23,17 @@ export const PassengerAdd = () => {
         dateOfBirth: "",
         nationality: "",
         passportNumber: "",
+        username: StorageService.getUser().username
     });
 
     const addPassenger = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-
             await axios.post(`${BACKEND_API_URL}/passengers`, passenger);
             navigate("/passengers");
-        } catch (error) {
-            console.log(error);
+            toast.success("Passenger added successfully!");
+        } catch (error : any) {
+            toast.error(error.response.data);
         }
     };
 

@@ -25,6 +25,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Passenger } from "../../models/Passenger";
 import BarChartIcon from '@mui/icons-material/BarChart';
+import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
 
 interface TableRowData extends Passenger { }
 
@@ -37,15 +39,56 @@ export const PassengersTable = () => {
     const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
-        setLoading(true);
-        fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${rowsPerPage}`)
-            .then((response) => response.json())
-            .then((data) => {
+        // setLoading(true);
+        // fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${rowsPerPage}`)
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         setTableData(data.content);
+        //         setTotalPages(data.totalPages);
+        //         setLoading(false);
+        //     });
+
+        const fetchDataUser = async () => {
+            setLoading(true);
+
+            try {
+                const response = await fetch(`${BACKEND_API_URL}/user/rows-per-page/${StorageService.getUser()?.id}`);
+                const settings = await response.json();
+                if (StorageService.isLoggedIn()) {
+                    setRowsPerPage(settings);
+                    console.log(rowsPerPage);
+                }
+
+                const response2 = await fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${settings}`);
+                const data = await response2.json();
                 setTableData(data.content);
                 setTotalPages(data.totalPages);
-                setLoading(false);
-            });
-    }, [page, rowsPerPage]);
+            } catch (error) {
+                console.log(error);
+            }
+
+            setLoading(false);
+        };
+        const fetchDataGuest = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${rowsPerPage}`);
+                const data = await response.json();
+                setTableData(data.content);
+                setTotalPages(data.totalPages);
+                console.log(data);
+            } catch (error: any) {
+               toast.error(error.message);
+            }
+            setLoading(false);
+        }
+        if (StorageService.isLoggedIn()) {
+            fetchDataUser();
+        } else {
+    
+            fetchDataGuest();
+        }
+    }, [page]);
 
     const handleChangePage = (event: any, newPage: number) => {
         setPage(newPage);

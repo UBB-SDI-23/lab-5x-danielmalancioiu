@@ -109,6 +109,8 @@ import axios from "axios";
 import { Flight } from "../../models/Flight";
 import { BACKEND_API_URL } from "../../constants";
 import { Airline } from "../../models/Airline";
+import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
 
 export const FlightAdd = () => {
     const navigate = useNavigate();
@@ -119,6 +121,7 @@ export const FlightAdd = () => {
         departureAirport: "",
         arrivalAirport: "",
         airlineId: 0,
+        username: StorageService.getUser().username
     });
 
     const [airlineSuggestions, setAirlineSuggestions] = useState<Airline[]>([]);
@@ -128,8 +131,8 @@ export const FlightAdd = () => {
             const query = event.target.value;
             const response = await axios.get(`${BACKEND_API_URL}/airlines/autocomplete?query=${query}&maxResults=5`);
             setAirlineSuggestions(response.data);
-        } catch (error) {
-            console.log(error);
+        } catch (error : any) {
+            toast.error(error.response.data);
         }
     };
 
@@ -144,8 +147,9 @@ export const FlightAdd = () => {
         try {
             await axios.post(`${BACKEND_API_URL}/flights`, flight);
             navigate("/flights");
-        } catch (error) {
-            console.log(error);
+            toast.success("Flight added successfully");
+        } catch (error : any) {
+            toast.error(error.response.data);
         }
     };
 

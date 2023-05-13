@@ -10,6 +10,8 @@ import axios from "axios";
 import { BACKEND_API_URL } from "../../constants";
 import { Flight } from "../../models/Flight";
 import { Passenger } from "../../models/Passenger";
+import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
 
 
 export const BookingAdd = () => {
@@ -21,6 +23,7 @@ export const BookingAdd = () => {
         seatNumber: "",
         date: "",
         price: 0,
+        username: StorageService.getUser().username
     });
 
     const [flightSuggestions, setFlightSuggestions] = useState<Flight[]>([]);
@@ -30,7 +33,8 @@ export const BookingAdd = () => {
             const query = event.target.value;
             const response = await axios.get(`${BACKEND_API_URL}/flights/autocomplete?query=${query}&maxResults=5`);
             setFlightSuggestions(response.data);
-        } catch (error) {
+        } catch (error : any) {
+            toast.error(error.response.data);
             console.log(error);
         }
     };
@@ -48,7 +52,8 @@ export const BookingAdd = () => {
             const query = event.target.value;
             const response = await axios.get(`${BACKEND_API_URL}/passengers/autocomplete?query=${query}&maxResults=5`);
             setPassengerSuggestions(response.data);
-        } catch (error) {
+        } catch (error : any) {
+            toast.error(error.response.data);
             console.log(error);
         }
     };
@@ -65,8 +70,10 @@ export const BookingAdd = () => {
 
             await axios.post(`${BACKEND_API_URL}/bookings`, booking);
             navigate("/bookings");
-        } catch (error) {
-            console.log(error);
+            toast.success("Booking added successfully");
+        } catch (error : any) {
+            console.log(error );
+            toast.error(error.response.data);
         }
     };
 

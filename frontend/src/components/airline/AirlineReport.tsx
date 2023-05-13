@@ -27,7 +27,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Passenger } from "../../models/Passenger";
 import { PassengerBooking } from "../../models/PassengerBooking";
 import { AirlineCapacity } from "../../models/AirlineCapacity";
-
+import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 interface TableRowData extends AirlineCapacity { }
 
 export const AirlineReport = () => {
@@ -42,16 +44,56 @@ export const AirlineReport = () => {
 
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`${BACKEND_API_URL}/airlines/statistics?page=${page}&size=${rowsPerPage}`)
-      .then((response) => response.json())
-      .then((data) => {
+    // setLoading(true);
+    // fetch(`${BACKEND_API_URL}/airlines/statistics?page=${page}&size=${rowsPerPage}`)
+    //   .then((response) => response.json())
+    //   .then((data) => {
 
-        setTableData(data.content);
-        setTotalPages(data.totalPages);
-        setLoading(false);
-      });
-  }, [page, rowsPerPage]);
+    //     setTableData(data.content);
+    //     setTotalPages(data.totalPages);
+    //     setLoading(false);
+    //   });
+    const fetchDataUser = async () => {
+      setLoading(true);
+
+      try {
+          const response = await fetch(`${BACKEND_API_URL}/user/rows-per-page/${StorageService.getUser()?.id}`);
+          const settings = await response.json();
+          if (StorageService.isLoggedIn()) {
+              setRowsPerPage(settings);
+              console.log(rowsPerPage);
+          }
+
+          const response2 = await fetch(`${BACKEND_API_URL}/airlines/statistics?page=${page}&size=${settings}`);
+          const data = await response2.json();
+          setTableData(data.content);
+          setTotalPages(data.totalPages);
+      } catch (error) {
+          console.log(error);
+      }
+
+      setLoading(false);
+  };
+  const fetchDataGuest = async () => {
+      setLoading(true);
+      try {
+          const response = await fetch(`${BACKEND_API_URL}/airlines/statistics?page=${page}&size=${rowsPerPage}`);
+          const data = await response.json();
+          setTableData(data.content);
+          setTotalPages(data.totalPages);
+          console.log(data);
+      } catch (error: any) {
+         toast.error(error.message);
+      }
+      setLoading(false);
+  }
+  if (StorageService.isLoggedIn()) {
+      fetchDataUser();
+  } else {
+
+      fetchDataGuest();
+  }
+  }, [page]);
 
   const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
@@ -64,6 +106,9 @@ export const AirlineReport = () => {
 
   return (
     <Container>
+      <IconButton component={Link} sx={{ mr: 3 }} to={`/airlines`}>
+                        <ArrowBackIcon />
+                    </IconButton>
       <h1 style={{ margin: "100px 0 30px 0" }}>Airlines Ordered By Average Flight Capacity</h1>
       {loading && <CircularProgress />}
       {!loading && tableData.length === 0 && <p>No airlines found</p>}

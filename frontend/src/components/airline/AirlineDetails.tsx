@@ -109,6 +109,7 @@ import { Passenger } from "../../models/Passenger";
 import { ArrowBack } from "@mui/icons-material";
 
 import { BACKEND_API_URL } from "../../constants";
+import { toast } from "react-toastify";
 export const AirlineDetails = () => {
     const { airlineId } = useParams();
     const [airline, setAirline] = useState<Airline>();
@@ -116,6 +117,7 @@ export const AirlineDetails = () => {
 
     useEffect(() => {
         const fetchAirline = async () => {
+            try{
             const response = await fetch(`${BACKEND_API_URL}/airlines/${airlineId}`);
             const response1 = await fetch(`${BACKEND_API_URL}/airlines/${airlineId}/averageCapacity`);
             const airline = await response.json();
@@ -123,6 +125,9 @@ export const AirlineDetails = () => {
 
             setAirline(airline);
             setAirlineCapacity(airlineCapacity);
+            }catch(error : any){
+                toast.error(error.response.data);
+            }
         };
         fetchAirline();
     }, [airlineId]);

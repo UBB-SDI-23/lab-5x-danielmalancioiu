@@ -10,6 +10,8 @@ import axios from "axios";
 import { Airline } from "../../models/Airline";
 import { Passenger } from "../../models/Passenger";
 import { BACKEND_API_URL } from "../../constants";
+import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
 export const PassengerEdit = () => {
     const navigate = useNavigate();
     const { passengerId } = useParams();
@@ -20,13 +22,18 @@ export const PassengerEdit = () => {
         dateOfBirth: "",
         nationality: "",
         passportNumber: "",
+        username: StorageService.getUser().username
     });
 
 	useEffect(() => {
 		const fetchPassenger = async () => {
+            try{
 			const response = await fetch(`${BACKEND_API_URL}/passengers/${passengerId}`);
 			const passenger = await response.json();
 			setPassenger(passenger);
+            } catch (error: any) {
+                toast.error(error.response.data);
+            }
 		};
 		fetchPassenger();
 	}, [passengerId]);
@@ -36,8 +43,9 @@ export const PassengerEdit = () => {
         try {
             await axios.put(`${BACKEND_API_URL}/passenger/${passengerId}`, passenger);
             navigate("/passengers");
-        } catch (error) {
-            console.log(error);
+            toast.success("Passenger updated successfully");
+        } catch (error : any) {
+            toast.error(error.response.data);
         }
     };
 

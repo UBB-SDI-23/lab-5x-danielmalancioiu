@@ -9,6 +9,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { Airline } from "../../models/Airline";
 import { BACKEND_API_URL } from "../../constants";
+import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
 
 export const AirlineEdit = () => {
     const navigate = useNavigate();
@@ -20,6 +22,7 @@ export const AirlineEdit = () => {
         fleetSize: 0,
         website: "",
         country: "",
+        username: StorageService.getUser().username
     });
 
     const [airlineOld, setAirlineOld] = useState<Airline>({ 
@@ -32,9 +35,13 @@ export const AirlineEdit = () => {
 
 	useEffect(() => {
 		const fetchAirline = async () => {
+            try{
 			const response = await fetch(`${BACKEND_API_URL}/airlines/${airlineId}`);
 			const airlineOld = await response.json();
 			setAirlineOld(airlineOld);
+            } catch (error: any) {
+                toast.error(error.response.data);
+            }
 		};
 		fetchAirline();
 	}, [airlineId]);
@@ -43,9 +50,10 @@ export const AirlineEdit = () => {
         event.preventDefault();
         try {
             await axios.put(`${BACKEND_API_URL}/airlines/${airlineId}`, airlineOld);
+            toast.success("Airline updated successfully");
             navigate("/airlines");
-        } catch (error) {
-            console.log(error);
+        } catch (error : any) {
+            toast.error(error.response.data);
         }
     };
 

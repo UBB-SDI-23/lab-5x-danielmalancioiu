@@ -31,6 +31,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Passenger } from "../../models/Passenger";
 import { Airline } from "../../models/Airline";
+import { StorageService } from "../../services/StorageService";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 interface TableRowData extends Airline { }
 
@@ -44,15 +47,47 @@ export const AirlinesTable = () => {
 
 
     useEffect(() => {
-        setLoading(true);
-        fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${rowsPerPage}`)
-            .then((response) => response.json())
-            .then((data) => {
+        const fetchDataUser = async () => {
+            setLoading(true);
+
+            try {
+                const response = await fetch(`${BACKEND_API_URL}/user/rows-per-page/${StorageService.getUser()?.id}`);
+                const settings = await response.json();
+                if (StorageService.isLoggedIn()) {
+                    setRowsPerPage(settings);
+                    console.log(rowsPerPage);
+                }
+
+                const response2 = await fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${settings}`);
+                const data = await response2.json();
                 setTableData(data.content);
                 setTotalPages(data.totalPages);
-                setLoading(false);
-            });
-    }, [page, rowsPerPage]);
+            } catch (error) {
+                console.log(error);
+            }
+
+            setLoading(false);
+        };
+        const fetchDataGuest = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${rowsPerPage}`);
+                const data = await response.json();
+                setTableData(data.content);
+                setTotalPages(data.totalPages);
+                console.log(data);
+            } catch (error: any) {
+               toast.error(error.message);
+            }
+            setLoading(false);
+        }
+        if (StorageService.isLoggedIn()) {
+            fetchDataUser();
+        } else {
+    
+            fetchDataGuest();
+        }
+    }, [page]);
 
 
 
@@ -60,8 +95,8 @@ export const AirlinesTable = () => {
         setPage(newPage);
     };
 
-    const startIndex = page * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
+    //const startIndex = page * rowsPerPage;
+    //const endIndex = startIndex + rowsPerPage;
 
     return (
         <Container>
@@ -74,7 +109,7 @@ export const AirlinesTable = () => {
                 InputProps={{ inputProps: { type: 'number' } }}
                 value={fleetSize}
                 onChange={(e) => setFleetSize(e.target.value)}
-                sx={{ mr: 4, width: '150px', height: '50px' }} 
+                sx={{ mr: 4, width: '150px', height: '50px' }}
             />
             <Button
                 component={Link}

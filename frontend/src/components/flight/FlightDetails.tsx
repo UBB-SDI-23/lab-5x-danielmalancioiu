@@ -8,15 +8,20 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Flight } from "../../models/Flight";
 import { BACKEND_API_URL } from "../../constants";
+import { toast } from "react-toastify";
 export const FlightDetails = () => {
     const { flightId } = useParams();
     const [flight, setFlight] = useState<Flight>();
 
     useEffect(() => {
         const fetchFlight = async () => {
+            try{
             const response = await fetch(`${BACKEND_API_URL}/flights/${flightId}`);
             const flight = await response.json();
             setFlight(flight);
+            } catch (error: any) {
+                toast.error(error.response.data);
+            }
         };
         fetchFlight();
     }, [flightId]);

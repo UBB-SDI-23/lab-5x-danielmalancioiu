@@ -32,18 +32,25 @@ import { FlightEdit } from './components/flight/FlightEdit'
 import PassengerReport from './components/passenger/PassengerReport'
 import AirlineReport from './components/airline/AirlineReport'
 import AirlinesFiltered from './components/airline/AirlineFiltered'
+import { LoginForm } from './components/user/LoginForm'
+import { RegisterForm } from './components/user/RegisterForm'
+import { ProfilePage } from './components/user/ProfilePage'
+import { AuthProvider } from './services/AuthContext'
+import { ProfileEdit } from './components/user/ProfileEdit'
+
 
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    
+  
     <React.Fragment>
       <Router>
-        <AppMenu />
+      <AuthProvider>
+        <AppMenu  />
         <Routes>
+          
           {/* Booking */}
           <Route path="/" element={<AppHome />} />
           <Route path="/bookings" element={<SortableTable />} />
@@ -75,8 +82,14 @@ function App() {
           <Route path="/passengers/:passengerId/edit" element={<PassengerEdit />} />
           <Route path="/passengers/add" element={<PassengerAdd   />} />
           <Route path="/passengers/statistics" element={<PassengerReport   />} />
+
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/profile/:username" element={<ProfilePage />} />
+          <Route path="/profile/:username/edit" element={<ProfileEdit />} />
         </Routes>
         <ToastContainer />
+        </AuthProvider>
       </Router>
       
     </React.Fragment>

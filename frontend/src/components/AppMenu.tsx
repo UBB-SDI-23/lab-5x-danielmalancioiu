@@ -9,78 +9,11 @@ import BookIcon from "@mui/icons-material/Book";
 import FlightIcon from "@mui/icons-material/Flight";
 import AirlineSeatReclineExtraIcon from "@mui/icons-material/AirlineSeatReclineExtra";
 import SchoolIcon from "@mui/icons-material/School";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { BACKEND_API_URL } from "../constants";
+import { StorageService } from '../services/StorageService';
 
-// export const AppMenu = () => {
-//   const location = useLocation();
-//   const path = location.pathname;
-
-//   return (
-//     <Box sx={{ flexGrow: 1 }}>
-//       <AppBar position="fixed" sx={{ marginBottom: "20px" }}>
-//         <Toolbar>
-//           <IconButton
-//             component={Link}
-//             to="/"
-//             size="large"
-//             edge="start"
-//             color="inherit"
-//             aria-label="school"
-//             sx={{ mr: 5 }}
-//           >
-//             <SchoolIcon />
-//           </IconButton>
-//           <Typography variant="h6" component="div" sx={{ mr: 5 }}>
-//             Booking management
-//           </Typography>
-//           <Button
-//             variant={path.startsWith("/bookings") ? "outlined" : "text"}
-//             to="/bookings"
-//             component={Link}
-//             color="inherit"
-//             sx={{ mr: 5 }}
-//             startIcon={<LocalLibraryIcon />}
-//           >
-//             Bookings
-//           </Button>
-
-//           <Button
-//             variant={path.startsWith("/flights") ? "outlined" : "text"}
-//             to="/flights"
-//             component={Link}
-//             color="inherit"
-//             sx={{ mr: 5 }}
-//             startIcon={<FlightIcon />}
-//           >
-//             Flights
-//           </Button>
-
-//           <Button
-//             variant={path.startsWith("/airlines") ? "outlined" : "text"}
-//             to="/airlines"
-//             component={Link}
-//             color="inherit"
-//             sx={{ mr: 5 }}
-//             startIcon={<LocalLibraryIcon />}
-//           >
-//             Airlines
-//           </Button>
-
-//           <Button
-//             variant={path.startsWith("/passengers") ? "outlined" : "text"}
-//             to="/passengers"
-//             component={Link}
-//             color="inherit"
-//             sx={{ mr: 5 }}
-//             startIcon={<PeopleIcon />}
-//           >
-//             Passengers
-//           </Button>
-//         </Toolbar>
-//       </AppBar>
-//     </Box>
-//   );
-// };
 
 const menuItems = [
   {
@@ -105,13 +38,81 @@ const menuItems = [
   }
 ];
 
+
 export const AppMenu = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    initialiseNavbar();
+  }, []);
+
+  const initialiseNavbar = () => {
+    //setIsLoggedIn(!!sessionStorage.getItem('auth-user'));
+    setIsLoggedIn(StorageService.isLoggedIn());
+    //console.log(isLoggedIn);
+    const user = StorageService.getUser();
+    setUsername(user.username);
+    console.log(user.username);
+    if (isLoggedIn) {
+      //const user = JSON.parse(sessionStorage.getItem('auth-user') ?? '{}');
+      const user = StorageService.getUser();
+      console.log(user);
+      //const roles = user.roles;
+      
+      setUsername(user.username);
+      console.log(username);
+      
+    } 
+  };
+  
+  const httpOptions = {
+    headers: { 'Content-Type': 'application/json' },
+  };
 
   const toggleDrawer = (isOpen: boolean | ((prevState: boolean) => boolean)) => () => {
     setIsDrawerOpen(isOpen);
   };
+
+  function login(username: string, password: string) {
+  return axios.post(
+    `${BACKEND_API_URL}/auth/signin`,
+    {
+      username,
+      password,
+    },
+    httpOptions
+  );
+}
+
+function register(username: string, password: string){
+  return axios.post(
+    `${BACKEND_API_URL}/auth/register`,
+    {
+      username,
+      password,
+    },
+    httpOptions
+  );
+}
+
+function confirmRegistration(token: string){
+  console.log(`${BACKEND_API_URL}/auth/register/${token}`)
+  return axios.post(`${BACKEND_API_URL}/auth/register/${token}`, httpOptions);
+}
+
+
+  const logout = () => {
+    StorageService.clean();
+    //StorageService.updateUserField('rowsPerPage',10);
+    setIsLoggedIn(false);
+    window.location.reload();
+    return axios.post(`${BACKEND_API_URL}/auth/signout`, httpOptions);
+    
+  }
+
 
   const drawer = (
     <Box
@@ -160,6 +161,29 @@ export const AppMenu = () => {
           <Typography variant="h6" component="div">
             Airport management
           </Typography>
+          {/* {isLoggedIn && (
+      
+          )} */}
+          {!isLoggedIn && (
+            <>
+              <Typography variant="h6" component="div" style={{ marginLeft: "auto" }}>
+                Guest
+              </Typography>
+              <Button variant="contained" color="secondary" component={Link} to="/login" style={{ marginLeft: "auto" }}>
+                Login
+              </Button>
+            </>
+          )}
+          {isLoggedIn && (
+            <>
+              <Typography variant="h6" component={Link}  to={`/profile/${username}`} style={{ marginLeft: "auto" }}>
+                Welcome,  {username} !
+              </Typography>
+              <Button variant="contained" color="secondary" onClick={logout} style={{ marginLeft: "auto" }}>
+                Logout
+              </Button>
+            </>
+          )}
         </Toolbar>
       </Box>
       <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer(false)}>
