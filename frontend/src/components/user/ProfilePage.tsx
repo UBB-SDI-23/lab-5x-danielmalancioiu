@@ -51,7 +51,7 @@ export const ProfilePage = () => {
             try{
                 axios.post(`${BACKEND_API_URL}/user/rows-per-page`, userSettings);
                 toast.success(`Rows per page updated to ${number}`);
-                navigate('/');
+                navigate('dmg-frontend.netlify.app');
                 window.location.reload();
             } catch (error: any) {
                 toast.error(error.response.data);
