@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import React from 'react'
 import { AllBookings } from './components/booking/BookingShowAll'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter as Router, Routes, Route, HashRouter } from "react-router-dom"
 import { AppHome } from './components/AppHome'
 import { AppMenu } from './components/AppMenu'
 import { BookingDetails } from './components/booking/BookingDetails'
@@ -46,7 +46,7 @@ function App() {
   return (
   
     <React.Fragment>
-      <Router>
+      <HashRouter>
       <AuthProvider>
         <AppMenu  />
         <Routes>
@@ -90,7 +90,7 @@ function App() {
         </Routes>
         <ToastContainer />
         </AuthProvider>
-      </Router>
+      </HashRouter>
       
     </React.Fragment>
     
