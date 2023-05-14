@@ -43,7 +43,7 @@ public class FlightService {
 	private BookingRepository bookingRepository;
 
 	@Autowired
-	private UserService userService;
+	UserService userService;
 
 	@Autowired
 	UserRepository userRepository;
@@ -111,7 +111,7 @@ public class FlightService {
 
 			for (Flight flight : flights) {
 				FlightDto flightDto = new FlightDto(flight.getId(),flight.getCallSign(), flight.getCapacity(), flight.getDepartureAirport(), flight.getArrivalAirport(),
-						flight.getAirline().getId() );
+						flight.getAirline().getId(), flight.getUser().getUsername() );
 
 				flightDtos.add(flightDto);
 			}

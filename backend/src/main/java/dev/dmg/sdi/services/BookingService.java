@@ -38,7 +38,7 @@ public class BookingService {
 	private PassengerService passengerService;
 
 	@Autowired
-	private UserService userService;
+	UserService userService;
 
 	@Autowired
 	UserRepository userRepository;

@@ -21,13 +21,14 @@ public class FlightDto {
 	private String username;
 
 
-	public FlightDto(Long id, String callSign, Integer capacity, String departureAirport, String arrivalAirport, Long airlineId) {
+	public FlightDto(Long id, String callSign, Integer capacity, String departureAirport, String arrivalAirport, Long airlineId, String username) {
 		this.id = id;
 		this.callSign = callSign;
 		this.capacity = capacity;
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
 		this.airlineId = airlineId;
+		this.username = username;
 
 	}
 

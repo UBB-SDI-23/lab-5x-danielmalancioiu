@@ -47,7 +47,7 @@ public class PassengerService {
 	private BookingRepository bookingRepository;
 
 	@Autowired
-	private UserService userService;
+	UserService userService;
 
 	private EntityManagerFactory entityManagerFactory;
 

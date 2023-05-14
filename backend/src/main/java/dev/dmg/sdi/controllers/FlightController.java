@@ -16,13 +16,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/flights")
+@Validated
 public class FlightController {
 
 	@Autowired
@@ -61,7 +64,7 @@ public class FlightController {
 	}
 
 	@PostMapping("")
-	public Flight addFlight(@RequestBody FlightDto dto,
+	public Flight addFlight(@Valid @RequestBody FlightDto dto,
 			@RequestHeader("Authorization") String token) {
 
 		String username = this.jwtUtils.getUserNameFromJwtToken(token);
