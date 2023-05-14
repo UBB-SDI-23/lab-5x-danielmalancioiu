@@ -44,6 +44,7 @@ export const AirlinesTable = () => {
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [totalPages, setTotalPages] = useState(0);
     const [fleetSize, setFleetSize] = useState('');
+    const [message, setMessage] = useState('');
 
 
     useEffect(() => {
@@ -60,8 +61,14 @@ export const AirlinesTable = () => {
 
                 const response2 = await fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${settings}`);
                 const data = await response2.json();
-                setTableData(data.content);
-                setTotalPages(data.totalPages);
+                if (response2.status === 404) {
+                    setMessage("No airlines found");
+                } else {
+                    setTableData(data.content);
+                    setTotalPages(data.totalPages);
+                }
+
+
             } catch (error) {
                 console.log(error);
             }
@@ -74,18 +81,22 @@ export const AirlinesTable = () => {
                 const response = await fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${rowsPerPage}`);
                 const data = await response.json();
                 console.log(data);
-                setTableData(data.content);
-                setTotalPages(data.totalPages);
-                
+                if (response.status === 404) {
+                    setMessage("No airlines found");
+                } else {
+                    setTableData(data.content);
+                    setTotalPages(data.totalPages);
+                }
+
             } catch (error: any) {
-               toast.error(error.message);
+                toast.error(error.message);
             }
             setLoading(false);
         }
         if (StorageService.isLoggedIn()) {
             fetchDataUser();
         } else {
-    
+
             fetchDataGuest();
         }
     }, [page]);
@@ -123,7 +134,7 @@ export const AirlinesTable = () => {
 
             {loading && <CircularProgress />}
             {!loading && tableData.length === 0 && <p>No airlines found</p>}
-            {!loading && (
+            {!loading && StorageService.isLoggedIn() && (
                 <IconButton component={Link} sx={{ mr: 3 }} to={`/airlines/add`}>
                     <Tooltip title="Add a new airline" arrow>
                         <AddIcon color="primary" />
@@ -144,6 +155,7 @@ export const AirlinesTable = () => {
                                 <TableCell>Number of flights</TableCell>
                                 <TableCell >Added by</TableCell>
                                 <TableCell>Operations</TableCell>
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -159,6 +171,7 @@ export const AirlinesTable = () => {
                                     <TableCell align="center" >
                                         <Link to={`/profile/${row.username}`}>{row.username}</Link>
                                     </TableCell>
+
                                     <TableCell align="center">
                                         <IconButton
                                             component={Link}
@@ -168,7 +181,8 @@ export const AirlinesTable = () => {
                                                 <ReadMoreIcon color="primary" />
                                             </Tooltip>
                                         </IconButton>
-
+                                        {StorageService.isLoggedIn() && (
+                                            <>
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/airlines/${row.id}/edit`}>
                                             <EditIcon />
                                         </IconButton>
@@ -176,7 +190,11 @@ export const AirlinesTable = () => {
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/airlines/${row.id}/delete`} >
                                             <DeleteForeverIcon sx={{ color: "red" }} />
                                         </IconButton>
+                                        </>
+                                        )}
                                     </TableCell>
+
+
                                 </TableRow>
                             ))}
                         </TableBody>

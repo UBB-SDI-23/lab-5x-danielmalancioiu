@@ -9,16 +9,18 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { BACKEND_API_URL } from "../../constants";
 import { toast } from "react-toastify";
+import { StorageService } from "../../services/StorageService";
 export const BookingDetails = () => {
 	const { bookingId } = useParams();
 	const [booking, setBooking] = useState<Booking>();
 
 	useEffect(() => {
 		const fetchBooking = async () => {
-			try{
-			const response = await fetch(`${BACKEND_API_URL}/bookings/${bookingId}`);
-			const booking = await response.json();
-			setBooking(booking);
+			try {
+				const response = await fetch(`${BACKEND_API_URL}/bookings/${bookingId}`);
+				const booking = await response.json();
+				setBooking(booking);
+				//console.log(booking);
 			} catch (error: any) {
 				toast.error(error.response.data);
 			}
@@ -142,33 +144,34 @@ export const BookingDetails = () => {
 								</TableRow>
 								<TableRow>
 									<TableCell component="th" scope="row">
-									Seat Number
-								</TableCell>
-								<TableCell align="right">
-									{booking?.seatNumber}
-								</TableCell>
-							</TableRow>
-							<TableRow>
-								<TableCell component="th" scope="row">
-									Date of Booking
-								</TableCell>
-								<TableCell align="right">
-									{booking?.date}
-								</TableCell>
-							</TableRow>
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</CardContent>
-
-	<CardActions>
-		<IconButton component={Link} sx={{ mr: 3 }} to={`/bookings/${bookingId}/edit`}>
-			<EditIcon />
-		</IconButton>
-		<IconButton component={Link} sx={{ mr: 3 }} to={`/bookings/${bookingId}/delete`}>
-			<DeleteForeverIcon sx={{ color: "red" }} />
-		</IconButton>
-	</CardActions>
+										Seat Number
+									</TableCell>
+									<TableCell align="right">
+										{booking?.seatNumber}
+									</TableCell>
+								</TableRow>
+								<TableRow>
+									<TableCell component="th" scope="row">
+										Date of Booking
+									</TableCell>
+									<TableCell align="right">
+										{booking?.date}
+									</TableCell>
+								</TableRow>
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</CardContent>
+				{StorageService.isLoggedIn() && (
+					<CardActions>
+						<IconButton component={Link} sx={{ mr: 3 }} to={`/bookings/${bookingId}/edit`}>
+							<EditIcon />
+						</IconButton>
+						<IconButton component={Link} sx={{ mr: 3 }} to={`/bookings/${bookingId}/delete`}>
+							<DeleteForeverIcon sx={{ color: "red" }} />
+						</IconButton>
+					</CardActions>
+				)}
 			</Card >
 		</Container >
 

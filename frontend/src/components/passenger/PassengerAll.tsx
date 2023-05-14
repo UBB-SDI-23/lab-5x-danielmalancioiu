@@ -37,6 +37,7 @@ export const PassengersTable = () => {
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         // setLoading(true);
@@ -61,8 +62,12 @@ export const PassengersTable = () => {
 
                 const response2 = await fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${settings}`);
                 const data = await response2.json();
-                setTableData(data.content);
-                setTotalPages(data.totalPages);
+                if (response2.status === 404) {
+                    setMessage("No passengers found");
+                } else {
+                    setTableData(data.content);
+                    setTotalPages(data.totalPages);
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -74,9 +79,12 @@ export const PassengersTable = () => {
             try {
                 const response = await fetch(`${BACKEND_API_URL}/passengers?page=${page}&size=${rowsPerPage}`);
                 const data = await response.json();
-                setTableData(data.content);
-                setTotalPages(data.totalPages);
-                console.log(data);
+                if (response.status === 404) {
+                    setMessage("No passengers found");
+                } else {
+                    setTableData(data.content);
+                    setTotalPages(data.totalPages);
+                }
             } catch (error: any) {
                toast.error(error.message);
             }
@@ -106,7 +114,7 @@ export const PassengersTable = () => {
             </IconButton>
             {loading && <CircularProgress />}
             {!loading && tableData.length === 0 && <p>No passengers found</p>}
-            {!loading && (
+            {!loading && StorageService.isLoggedIn() && (
                 <IconButton component={Link} sx={{ mr: 3 }} to={`/passengers/add`}>
                     <Tooltip title="Add a new passenger" arrow>
                         <AddIcon color="primary" />
@@ -152,6 +160,8 @@ export const PassengersTable = () => {
                                             </Tooltip>
                                         </IconButton>
 
+                                        {StorageService.isLoggedIn() && (
+                                            <>
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/passengers/${row.id}/edit`}>
                                             <EditIcon />
                                         </IconButton>
@@ -159,6 +169,8 @@ export const PassengersTable = () => {
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/passengers/${row.id}/delete`} >
                                             <DeleteForeverIcon sx={{ color: "red" }} />
                                         </IconButton>
+                                        </>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}

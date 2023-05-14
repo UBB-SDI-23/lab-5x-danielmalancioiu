@@ -110,6 +110,7 @@ import { ArrowBack } from "@mui/icons-material";
 
 import { BACKEND_API_URL } from "../../constants";
 import { toast } from "react-toastify";
+import { StorageService } from "../../services/StorageService";
 export const AirlineDetails = () => {
     const { airlineId } = useParams();
     const [airline, setAirline] = useState<Airline>();
@@ -222,6 +223,7 @@ export const AirlineDetails = () => {
                         </Table>
                     </TableContainer>
                 </CardContent>
+                {StorageService.isLoggedIn() && (
                 <CardActions sx={{ borderTop: "1px solid #E0E0E0", justifyContent: "center" }}>
                     <IconButton component={Link} sx={{ mr: 3, fontSize: "16px", color: "#444", borderRadius: "12px", "&:hover": { backgroundColor: "#E0E0E0" } }} to={`/airlines/${airlineId}/edit`} >
                         <EditIcon sx={{ fontSize: "20px", mr: "8px" }} /> Edit Profile
@@ -230,9 +232,8 @@ export const AirlineDetails = () => {
                     <IconButton component={Link} sx={{ fontSize: "16px", borderRadius: "12px", "&:hover": { backgroundColor: "#E0E0E0" } }} to={`/airlines/${airlineId}/delete`} >
                         <DeleteForeverIcon sx={{ fontSize: "20px", mr: "8px", color: "#f44336" }} /> Delete Account
                     </IconButton>
-
-
                 </CardActions>
+                )}
             </Card>
         </Container >
     );

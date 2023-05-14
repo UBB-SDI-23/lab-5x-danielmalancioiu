@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Card, CardActions, CardContent, Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Card, CardActions, CardContent, Checkbox, CircularProgress, FormControlLabel, FormGroup, Grid, IconButton, Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -35,8 +35,27 @@ export const AdminBoard = () => {
         moderator: false,
         admin: false
     });
+    const [entitiesPerPage, setEntitiesPerPage] = useState(10);
 
+    const [insertingAirline, setInsertingAirline] = useState(false);
+    const [deletingAirline, setDeletingAirline] = useState(false);
+    const [insertingFlight, setInsertingFlight] = useState(false);
+    const [deletingFlight, setDeletingFlight] = useState(false);
+    const [insertingBooking, setInsertingBooking] = useState(false);
+    const [deletingBooking, setDeletingBooking] = useState(false);
+    const [insertingPassenger, setInsertingPassenger] = useState(false);
+    const [deletingPassenger, setDeletingPassenger] = useState(false);
 
+    useEffect(() => {
+        
+        const fetchRowsPerPage = async () => {
+            const response_rows = await fetch(`${BACKEND_API_URL}/user/rows-per-page/${StorageService.getUser()?.id}`);
+            const settings = await response_rows.json();
+
+            setEntitiesPerPage(settings);
+        }
+        fetchRowsPerPage();
+    }, []);
 
     const handleUserInputChange = _.debounce(async (event: React.ChangeEvent<HTMLInputElement>) => {
         try {
@@ -109,22 +128,42 @@ export const AdminBoard = () => {
         }
     };
 
+    const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEntitiesPerPage(Number(event.target.value));
+
+    };
+    const handleRowsPerPageChange = async () => {
+
+        try {
+            const response = await axios.put(`${BACKEND_API_URL}/users/rows-per-page/${entitiesPerPage}`, null, { headers });
+            console.log(response);
+            toast.success(`${response.data} to ${entitiesPerPage}`);
+            // toast.success(`Rows per page updated to ${entitiesPerPage}`);
+        } catch (error: any) {
+            toast.error(error.response.data);
+
+        }
+
+    };
+
+    //-------------------------------------------------------------------------------------------------------------
     const [messages, setMessages] = useState<string[]>([]);
 
     const insertAirlines = async () => {
+
         const authToken = StorageService.getToken();
         const headers = { Authorization: authToken };
         console.log(headers);
         setMessages((prevMessages) => [...prevMessages, 'Inserting airlines...']);
-        setLoading(true);
+        setInsertingAirline(true);
         try {
             const response = await axios.post(`${BACKEND_API_URL}/run-insert-airlines-script`, null, { headers });
             setMessages((prevMessages) => [...prevMessages, response.data.message]);
         } catch (error: any) {
             setMessages((prevMessages) => [...prevMessages, error.data.message]);
-        
+
         }
-        setLoading(false);
+        setInsertingAirline(false);
     };
 
     const insertFlights = async () => {
@@ -132,14 +171,14 @@ export const AdminBoard = () => {
         const headers = { Authorization: authToken };
         console.log(headers);
         setMessages((prevMessages) => [...prevMessages, 'Inserting flights...']);
-        setLoading(true);
+        setInsertingFlight(true);
         try {
             const response = await axios.post(`${BACKEND_API_URL}/run-insert-flights-script`, null, { headers });
             setMessages((prevMessages) => [...prevMessages, response.data.message]);
         } catch (error: any) {
             setMessages((prevMessages) => [...prevMessages, error.data.message]);
         }
-        setLoading(false);
+        setInsertingFlight(false);
     };
 
     const insertPassengers = async () => {
@@ -147,14 +186,14 @@ export const AdminBoard = () => {
         const headers = { Authorization: authToken };
         console.log(headers);
         setMessages((prevMessages) => [...prevMessages, 'Inserting passengers...']);
-        setLoading(true);
+        setInsertingPassenger(true);
         try {
             const response = await axios.post(`${BACKEND_API_URL}/run-insert-passengers-script`, null, { headers });
             setMessages((prevMessages) => [...prevMessages, response.data.message]);
         } catch (error: any) {
             setMessages((prevMessages) => [...prevMessages, error.data.message]);
         }
-        setLoading(false);
+        setInsertingPassenger(false);
     };
 
     const insertBookings = async () => {
@@ -162,14 +201,14 @@ export const AdminBoard = () => {
         const headers = { Authorization: authToken };
         console.log(headers);
         setMessages((prevMessages) => [...prevMessages, 'Inserting bookings...']);
-        setLoading(true);
+        setInsertingBooking(true);
         try {
             const response = await axios.post(`${BACKEND_API_URL}/run-insert-bookings-script`, null, { headers });
             setMessages((prevMessages) => [...prevMessages, response.data.message]);
         } catch (error: any) {
             setMessages((prevMessages) => [...prevMessages, error.data.message]);
         }
-        setLoading(false);
+        setInsertingBooking(false);
     };
 
     const deleteAirlines = async () => {
@@ -177,14 +216,14 @@ export const AdminBoard = () => {
         const headers = { Authorization: authToken };
         console.log(headers);
         setMessages((prevMessages) => [...prevMessages, 'Deleting airlines...']);
-        setLoading(true);
+        setDeletingAirline(true);
         try {
             const response = await axios.post(`${BACKEND_API_URL}/run-delete-airlines-script`, null, { headers });
             setMessages((prevMessages) => [...prevMessages, response.data.message]);
         } catch (error: any) {
             setMessages((prevMessages) => [...prevMessages, error.data.message]);
         }
-        setLoading(false);
+        setDeletingAirline(false);
     };
 
     const deleteFlights = async () => {
@@ -192,14 +231,14 @@ export const AdminBoard = () => {
         const headers = { Authorization: authToken };
         console.log(headers);
         setMessages((prevMessages) => [...prevMessages, 'Deleting flights...']);
-        setLoading(true);
+        setDeletingFlight(true);
         try {
             const response = await axios.post(`${BACKEND_API_URL}/run-delete-flights-script`, null, { headers });
             setMessages((prevMessages) => [...prevMessages, response.data.message]);
         } catch (error: any) {
             setMessages((prevMessages) => [...prevMessages, error.data.message]);
         }
-        setLoading(false);
+        setDeletingFlight(false);
     };
 
     const deletePassengers = async () => {
@@ -207,14 +246,14 @@ export const AdminBoard = () => {
         const headers = { Authorization: authToken };
         console.log(headers);
         setMessages((prevMessages) => [...prevMessages, 'Deleting passengers...']);
-        setLoading(true);
+        setDeletingPassenger(true);
         try {
             const response = await axios.post(`${BACKEND_API_URL}/run-delete-passengers-script`, null, { headers });
             setMessages((prevMessages) => [...prevMessages, response.data.message]);
         } catch (error: any) {
             setMessages((prevMessages) => [...prevMessages, error.data.message]);
         }
-        setLoading(false);
+        setDeletingPassenger(false);
     };
 
     const deleteBookings = async () => {
@@ -222,23 +261,23 @@ export const AdminBoard = () => {
         const headers = { Authorization: authToken };
         console.log(headers);
         setMessages((prevMessages) => [...prevMessages, 'Deleting bookings...']);
-        setLoading(true);
+        setDeletingBooking(true);
         try {
             const response = await axios.post(`${BACKEND_API_URL}/run-delete-bookings-script`, null, { headers });
             setMessages((prevMessages) => [...prevMessages, response.data.message]);
         } catch (error: any) {
             setMessages((prevMessages) => [...prevMessages, error.data.message]);
         }
-        setLoading(false);
+        setDeletingBooking(false);
     };
 
 
     return (
 
-        <Container>
+        <Container >
             <Card>
-                <CardContent>
-                
+                <CardContent sx={{ marginTop: "5rem" }}>
+
                     <Typography variant="h4">Admin Board</Typography>
                     <Typography variant="h6">Search for a user</Typography>
                     <Autocomplete
@@ -301,96 +340,132 @@ export const AdminBoard = () => {
                         Update roles
                     </Button>
                 </CardContent>
+
+                <CardContent>
+                    <Typography variant="h5">Edit all users entities per page number:</Typography>
+                    <Box display="flex" alignItems="center">
+                        <TextField
+                            label="Entities per page"
+                            type="number"
+                            value={entitiesPerPage}
+                            onChange={handleNumberChange}
+                            margin="normal"
+                            variant="outlined"
+                            inputProps={{
+                                min: 1,
+                                step: 1,
+                            }}
+                        />
+                        <Box marginLeft={2}>
+                            <Button variant="contained" color="primary" onClick={handleRowsPerPageChange}>
+                                Update
+                            </Button>
+                        </Box>
+                    </Box>
+                </CardContent>
+
             </Card>
             <Card>
                 <CardContent>
                     <Typography variant="h4">Database</Typography>
-            <Grid container spacing={2}>
-                <Grid item xs={6}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={insertAirlines}
-                        disabled={loading}
-                        fullWidth
-                        startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
-                    >
-                        Insert Airlines
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={deleteAirlines}
-                        disabled={loading}
-                        fullWidth
-                        startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
-                    >
-                        Delete Airlines
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={insertFlights}
-                        fullWidth
-                    >
-                        Insert Flights
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={deleteFlights}
-                        fullWidth
-                    >
-                        Delete Flights
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={insertPassengers}
-                        fullWidth
-                    >
-                        Insert Passengers
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={deletePassengers}
-                        fullWidth
-                    >
-                        Delete Passengers
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={insertBookings}
-                        fullWidth
-                    >
-                        Insert Bookings
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={deleteBookings}
-                        fullWidth
-                    >
-                        Delete Bookings
-                    </Button>
-                </Grid>
-            </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={insertAirlines}
+                                disabled={insertingAirline}
+                                fullWidth
+                                startIcon={insertingAirline ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Insert Airlines
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={deleteAirlines}
+                                disabled={deletingAirline}
+                                fullWidth
+                                startIcon={deletingAirline ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Delete Airlines
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={insertFlights}
+                                disabled={insertingFlight}
+                                fullWidth
+                                startIcon={insertingFlight ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Insert Flights
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={deleteFlights}
+                                disabled={deletingFlight}
+                                fullWidth
+                                startIcon={deletingFlight ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Delete Flights
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={insertPassengers}
+                                disabled={insertingPassenger}
+                                fullWidth
+                                startIcon={insertingPassenger ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Insert Passengers
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={deletePassengers}
+                                disabled={deletingPassenger}
+                                fullWidth
+                                startIcon={deletingPassenger ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Delete Passengers
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={insertBookings}
+                                disabled={insertingBooking}
+                                fullWidth
+                                startIcon={insertingBooking ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Insert Bookings
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={deleteBookings}
+                                disabled={deletingBooking}
+                                fullWidth
+                                startIcon={deletingBooking ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Delete Bookings
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </CardContent>
             </Card>
 

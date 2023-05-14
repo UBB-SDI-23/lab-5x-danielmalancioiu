@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -31,90 +31,95 @@ export const ProfilePage = () => {
     const [number, setNumber] = useState<number>(10);
     const [loading, setLoading] = useState(false);
     const [userSettings, setUserSettings] = useState<UserSettings>();
+    const [isUser, setIsUser] = useState<boolean>(false);
+
     const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNumber(Number(event.target.value));
-       
     };
+
 
     const handleUpdateProfile = () => {
         navigate(`/profile/${username}/edit`)
     }
 
     const handleRowsPerPageChange = () => {
-        if( username == StorageService.getUser().username){
+        if (username == StorageService.getUser().username) {
             setUser(StorageService.getUser());
-            const userSettings = {id: StorageService.getUser().id, entitiesPerPage: number};
+            const userSettings = { id: StorageService.getUser().id, entitiesPerPage: number };
             setUserSettings(userSettings);
 
             console.log(userSettings);
             console.log(StorageService.getUser().id);
-            try{
+            try {
                 axios.post(`${BACKEND_API_URL}/user/rows-per-page`, userSettings);
                 toast.success(`Rows per page updated to ${number}`);
                 //navigate('/airlines');
-               // window.location.reload();
+                // window.location.reload();
             } catch (error: any) {
                 toast.error(error.response.data);
-            
-            //StorageService.updateUserField('rowsPerPage', number);
+
+                //StorageService.updateUserField('rowsPerPage', number);
+            }
         }
-    }
-        else{
+        else {
             toast.error("You can only change your own rows per page");
         }
     };
 
     useEffect(() => {
         const fetchUserProfile = async () => {
-            try{
+            try {
 
-            const response_rows = await fetch(`${BACKEND_API_URL}/user/rows-per-page/${StorageService.getUser()?.id}`);
-            const settings = await response_rows.json();
-            
-            setNumber(settings);
+                const response_rows = await fetch(`${BACKEND_API_URL}/user/rows-per-page/${StorageService.getUser()?.id}`);
+                const settings = await response_rows.json();
 
-            const response = await fetch(`${BACKEND_API_URL}/user-profile-username/${username}`);
-            const response_user = await fetch(`${BACKEND_API_URL}/user/${username}`);
+                setNumber(settings);
 
-
-            const userProfile = await response.json();
-            const user = await response_user.json();
-
-            setUser(user);
-            setuserProfile(userProfile);
-
-            const response_airlines = await fetch(`${BACKEND_API_URL}/user-number-airlines/${username}`);
-            const response_flights = await fetch(`${BACKEND_API_URL}/user-number-flights/${username}`);
-            const response_bookings = await fetch(`${BACKEND_API_URL}/user-number-bookings/${username}`);
-            const response_passengers = await fetch(`${BACKEND_API_URL}/user-number-passengers/${username}`);
+                const response = await fetch(`${BACKEND_API_URL}/user-profile-username/${username}`);
+                const response_user = await fetch(`${BACKEND_API_URL}/user/${username}`);
 
 
-            const user_airlines = await response_airlines.json();
-            const user_flights = await response_flights.json();
-            const user_bookings = await response_bookings.json();
-            const user_passengers = await response_passengers.json();
+                const userProfile = await response.json();
+                const user = await response_user.json();
 
-            setUserPassengers(user_passengers);
-            setUserBookings(user_bookings);
-            setUserFlights(user_flights);
-            setUserAirlines(user_airlines);
-        
-            } catch (error : any) {
+                setUser(user);
+                setuserProfile(userProfile);
+
+                const response_airlines = await fetch(`${BACKEND_API_URL}/user-number-airlines/${username}`);
+                const response_flights = await fetch(`${BACKEND_API_URL}/user-number-flights/${username}`);
+                const response_bookings = await fetch(`${BACKEND_API_URL}/user-number-bookings/${username}`);
+                const response_passengers = await fetch(`${BACKEND_API_URL}/user-number-passengers/${username}`);
+
+
+                const user_airlines = await response_airlines.json();
+                const user_flights = await response_flights.json();
+                const user_bookings = await response_bookings.json();
+                const user_passengers = await response_passengers.json();
+
+                setUserPassengers(user_passengers);
+                setUserBookings(user_bookings);
+                setUserFlights(user_flights);
+                setUserAirlines(user_airlines);
+
+            } catch (error: any) {
                 toast.error(error.response.data);
             }
 
         };
         fetchUserProfile();
+        if (username == StorageService.getUser().username) {
+            setIsUser(true);
+        }
     }, [username]);
 
     return (
-        <Container sx={{ marginTop: "2rem" }}>
+        <Container sx={{ marginTop: "4rem" }}>
             <Card sx={{ maxWidth: "800px", margin: "auto" }}>
-                <CardContent>
+                <CardContent style={{ display: 'flex', flexDirection: 'column' , alignItems: 'center'}}>
                     <IconButton component={Link} sx={{ mr: 3 }} to={`/airlines`}>
                         <ArrowBack />
                     </IconButton>
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="h5" gutterBottom>
                         User Profile
                     </Typography>
                     <TableContainer component={Paper} sx={{ marginBottom: "2rem" }}>
@@ -171,49 +176,67 @@ export const ProfilePage = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <Typography variant="h5" gutterBottom>
-                        Statistics
-                    </Typography>
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>No. Airlines</TableCell>
-                                    <TableCell>No. Flights</TableCell>
-                                    <TableCell>No. Passengers</TableCell>
-                                    <TableCell>No. Bookings</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-
-                                <TableRow>
-                                    <TableCell>{user_airlines}</TableCell>
-                                    <TableCell>{user_flights}</TableCell>
-                                    <TableCell>{user_passengers} </TableCell>
-                                    <TableCell>{user_bookings}</TableCell>
-                                </TableRow>
-
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <Box>
+                        <Button variant="contained" color="primary" onClick={handleUpdateProfile} >Update Profile</Button>
+                    </Box>
                 </CardContent>
-                <div>
-                    <input type="number"  onChange={handleNumberChange} />
-                    <button onClick={handleRowsPerPageChange}>Update Number</button>
-                </div>
-                <div>
-                <button onClick={handleUpdateProfile}>Update Profile</button>
-                </div>
-                {/* <CardActions sx={{ borderTop: "1px solid #E0E0E0", justifyContent: "center" }}>
-                    <IconButton component={Link} sx={{ mr: 3, fontSize: "16px", color: "#444", borderRadius: "12px", "&:hover": { backgroundColor: "#E0E0E0" } }} to={`/airlines/${airlineId}/edit`} >
-                        <EditIcon sx={{ fontSize: "20px", mr: "8px" }} /> Edit Profile
-                    </IconButton>
 
-                    <IconButton component={Link} sx={{ fontSize: "16px", borderRadius: "12px", "&:hover": { backgroundColor: "#E0E0E0" } }} to={`/airlines/${airlineId}/delete`} >
-                        <DeleteForeverIcon sx={{ fontSize: "20px", mr: "8px", color: "#f44336" }} /> Delete Account
-                    </IconButton>
-                </CardActions> */}
-            </Card>
+                <CardContent >
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                <Typography variant="h5" gutterBottom>
+                    User Statistics
+                </Typography></Box>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>No. Airlines</TableCell>
+                                <TableCell>No. Flights</TableCell>
+                                <TableCell>No. Passengers</TableCell>
+                                <TableCell>No. Bookings</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+
+                            <TableRow>
+                                <TableCell>{user_airlines}</TableCell>
+                                <TableCell>{user_flights}</TableCell>
+                                <TableCell>{user_passengers} </TableCell>
+                                <TableCell>{user_bookings}</TableCell>
+                            </TableRow>
+
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </CardContent>
+            {isUser && (
+
+                <CardContent>
+                    
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                        <Typography variant="h5">Edit entities per page number:</Typography>
+                        <TextField
+                            label="Entities per page"
+                            type="number"
+                            value={number}
+                            onChange={handleNumberChange}
+                            margin="normal"
+                            variant="outlined"
+                            inputProps={{
+                                min: 1,
+                                step: 1,
+                            }}
+                        />
+                        <Box marginLeft={2}>
+                            <Button variant="contained" color="primary" onClick={handleRowsPerPageChange}>
+                                Update
+                            </Button>
+                        </Box>
+                    </Box>
+
+                </CardContent>
+            )}
+        </Card>
         </Container >
     );
 };

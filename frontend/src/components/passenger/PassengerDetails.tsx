@@ -14,6 +14,7 @@ import { ArrowBack } from "@mui/icons-material";
 
 import { BACKEND_API_URL } from "../../constants";
 import { toast } from "react-toastify";
+import { StorageService } from "../../services/StorageService";
 export const PassengerDetails = () => {
     const { passengerId } = useParams();
     const [passenger, setPassenger] = useState<Passenger>();
@@ -26,7 +27,7 @@ export const PassengerDetails = () => {
             const response1 = await fetch(`${BACKEND_API_URL}/passengers/${passengerId}/averagePrice`);
             const passenger = await response.json();
             const passengerCapacity = await response1.json();
-
+            console.log(passenger);
             setPassenger(passenger);
             setPassengerCapacity(passengerCapacity);
             } catch (error: any) {
@@ -107,7 +108,7 @@ export const PassengerDetails = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Flight</TableCell>
+                                    {/* <TableCell>Flight</TableCell> */}
                                     <TableCell>Date</TableCell>
                                     <TableCell>Seat No.</TableCell>
                                     <TableCell>Price</TableCell>
@@ -116,7 +117,7 @@ export const PassengerDetails = () => {
                             <TableBody>
                                 {passenger?.bookings?.map((booking) => (
                                     <TableRow key={booking.id}>
-                                        <TableCell>{booking.flight?.callSign}</TableCell>
+                                        {/* <TableCell>{booking.flight?.callSign}</TableCell> */}
                                         <TableCell>{booking.date}</TableCell>
                                         <TableCell>{booking.seatNumber}</TableCell>
                                         <TableCell>{booking.price.toFixed(2)}</TableCell>
@@ -126,6 +127,7 @@ export const PassengerDetails = () => {
                         </Table>
                     </TableContainer>
                 </CardContent>
+                {StorageService.isLoggedIn() && (
                 <CardActions sx={{ borderTop: "1px solid #E0E0E0", justifyContent: "center" }}>
                     <IconButton component={Link} sx={{ mr: 3, fontSize: "16px", color: "#444", borderRadius: "12px", "&:hover": { backgroundColor: "#E0E0E0" } }} to={`/passengers/${passengerId}/edit`} >
                         <EditIcon sx={{ fontSize: "20px", mr: "8px" }} /> Edit Profile
@@ -134,9 +136,8 @@ export const PassengerDetails = () => {
                     <IconButton component={Link} sx={{ fontSize: "16px", borderRadius: "12px", "&:hover": { backgroundColor: "#E0E0E0" } }} to={`/passengers/${passengerId}/delete`} >
                         <DeleteForeverIcon sx={{ fontSize: "20px", mr: "8px", color: "#f44336" }} /> Delete Account
                     </IconButton>
-
-
                 </CardActions>
+                )}
             </Card>
         </Container >
     );

@@ -1,5 +1,5 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemIcon, ListItemText, Drawer } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Box, AppBar, Toolbar, IconButton, Typography, Button, List, ListItem, ListItemIcon, ListItemText, Drawer, colors } from "@mui/material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 
@@ -40,6 +40,7 @@ const menuItems = [
 
 
 export const AppMenu = () => {
+  const navigate = useNavigate();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,7 +50,7 @@ export const AppMenu = () => {
 
   useEffect(() => {
     initialiseNavbar();
-    
+
   }, []);
 
   const initialiseNavbar = () => {
@@ -71,11 +72,11 @@ export const AppMenu = () => {
       console.log('admin board' + ' ' + showAdminBoard);
       setUsername(user.username);
       console.log(username);
-      
-    } 
+
+    }
     console.log(roles);
   };
-  
+
   const httpOptions = {
     headers: { 'Content-Type': 'application/json' },
   };
@@ -85,31 +86,31 @@ export const AppMenu = () => {
   };
 
   function login(username: string, password: string) {
-  return axios.post(
-    `${BACKEND_API_URL}/auth/signin`,
-    {
-      username,
-      password,
-    },
-    httpOptions
-  );
-}
+    return axios.post(
+      `${BACKEND_API_URL}/auth/signin`,
+      {
+        username,
+        password,
+      },
+      httpOptions
+    );
+  }
 
-function register(username: string, password: string){
-  return axios.post(
-    `${BACKEND_API_URL}/auth/register`,
-    {
-      username,
-      password,
-    },
-    httpOptions
-  );
-}
+  function register(username: string, password: string) {
+    return axios.post(
+      `${BACKEND_API_URL}/auth/register`,
+      {
+        username,
+        password,
+      },
+      httpOptions
+    );
+  }
 
-function confirmRegistration(token: string){
-  console.log(`${BACKEND_API_URL}/auth/register/${token}`)
-  return axios.post(`${BACKEND_API_URL}/auth/register/${token}`, httpOptions);
-}
+  function confirmRegistration(token: string) {
+    console.log(`${BACKEND_API_URL}/auth/register/${token}`)
+    return axios.post(`${BACKEND_API_URL}/auth/register/${token}`, httpOptions);
+  }
 
 
   const logout = () => {
@@ -117,9 +118,10 @@ function confirmRegistration(token: string){
     //StorageService.updateUserField('rowsPerPage',10);
     setIsLoggedIn(false);
     setShowAdminBoard(false);
+    navigate('/');
     window.location.reload();
     return axios.post(`${BACKEND_API_URL}/auth/signout`, httpOptions);
-    
+
   }
 
 
@@ -156,7 +158,7 @@ function confirmRegistration(token: string){
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, position: "fixed", top: 0, left: 0, backgroundColor: "#22bd4b", width: '100%', color: 'white' }}>
+      <Box sx={{ position: "fixed", top: 0, left: 0, backgroundColor: "#22bd4b", width: '100%', color: 'white' }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -185,18 +187,22 @@ function confirmRegistration(token: string){
           )}
           {isLoggedIn && (
             <>
-              <Typography variant="h6" component={Link}  to={`/profile/${username}`} style={{ marginLeft: "auto" }}>
-                Welcome,  {username} !
-              </Typography>
+              <Box display="flex" alignItems="center" justifyContent="center" sx={{ml: 40}}>
+                <Typography variant="h6" component={Link} to={`/profile/${username}`} style={{ marginLeft: "auto" }}>
+                  Welcome,  {username} !
+                </Typography>
 
-              {showAdminBoard && (
-                <Button variant="contained" color="secondary" component={Link} to="/admin" style={{ marginLeft: "auto" }}>
-                  Admin Board
+                {showAdminBoard && (
+                  <Button variant="contained" color="secondary" component={Link} to="/admin" sx={{ml:20}}>
+                    Admin Board
+                  </Button>
+                )}
+                <Button variant="contained" color="secondary" onClick={logout} sx={{ml: 20}}>
+                  Logout
                 </Button>
-              )}
-              <Button variant="contained" color="secondary" onClick={logout} style={{ marginLeft: "auto" }}>
-                Logout
-              </Button>
+              </Box>
+
+
             </>
           )}
         </Toolbar>

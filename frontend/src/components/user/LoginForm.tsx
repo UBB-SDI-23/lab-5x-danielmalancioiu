@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { StorageService } from '../../services/StorageService';
 import axios from 'axios';
 import { BACKEND_API_URL } from '../../constants';
-import { Card, CardContent, CardHeader, Fab, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Button, Card, CardContent, CardHeader, Container, Fab, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { ToastContainer, toast } from 'react-toastify';
 import { useAuth } from '../../services/AuthContext';
@@ -84,7 +84,7 @@ export const LoginForm = () => {
                     setTimeout(() => {
                         navigate('/');
                         reloadPage();
-                        
+
                     }, 1500);
 
 
@@ -103,60 +103,66 @@ export const LoginForm = () => {
 
 
     return (
-        <div className="container-fluid p-5 mb-5 d-flex align-items-center justify-content-center">
+        <Container maxWidth="sm" className="p-5 mb-5 d-flex align-items-center justify-content-center">
             <ToastContainer />
-            <Card className="card card-container p-5 m-5 align-center" style={{ display: isLoggedIn ? 'none' : 'block' }}>
-                <CardHeader className="centered-header mb-4" title="Please fill in your credentials" />
+            <Typography variant="h3" className="mb-5" > Log in</Typography>
+            <Card className="card-container" style={{ display: isLoggedIn ? 'none' : 'block' }}>
+                <CardHeader title="Please fill in your credentials" className="centered-header mb-4" />
                 <CardContent>
                     <form onSubmit={handleLogin} noValidate>
-                        <div className="form-group mb-2">
-                            <TextField
-                                fullWidth
-                                label="Username"
-                                margin="dense"
-                                name="username"
-                                onChange={handleFormChange}
-                                required
-                                value={form.username}
-                                variant="outlined"
-                            />
-                        </div>
-                        <div className="form-group mb-2">
-                            <TextField
-                                fullWidth
-                                label="Password"
-                                margin="dense"
-                                name="password"
-                                onChange={handleFormChange}
-                                required
-                                type={hidePassword ? 'password' : 'text'}
-                                value={form.password}
-                                variant="outlined"
-                                error={Boolean(formErrors.password)}
-                                helperText={formErrors.password}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton onClick={() => setHidePassword(!hidePassword)}>
-                                                {hidePassword ? <Visibility /> : <VisibilityOff />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </div>
-                        <p mb-2>
-                            You don't have an account? Sign up <Link to="/register">here</Link>
-                        </p>
-                        <div className="form-group" >
-                            <Fab color="primary" type="submit" variant="extended">
-                                Log in
-                            </Fab>
-                        </div>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Username"
+                                    margin="dense"
+                                    name="username"
+                                    onChange={handleFormChange}
+                                    required
+                                    value={form.username}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Password"
+                                    margin="dense"
+                                    name="password"
+                                    onChange={handleFormChange}
+                                    required
+                                    type={hidePassword ? 'password' : 'text'}
+                                    value={form.password}
+                                    variant="outlined"
+                                    error={Boolean(formErrors.password)}
+                                    helperText={formErrors.password}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton onClick={() => setHidePassword(!hidePassword)}>
+                                                    {hidePassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography variant="body1">
+                                    You don't have an account? Sign up <Link to="/register">here</Link>
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Button type="submit" variant="contained" color="primary" fullWidth>
+                                    Log in
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </form>
                 </CardContent>
             </Card>
-        </div>
+        </Container>
+
     );
 }
 

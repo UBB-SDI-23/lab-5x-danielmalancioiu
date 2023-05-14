@@ -37,7 +37,7 @@ export const FlightsTable = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
-
+    const [message, setMessage] = useState('');
     useEffect(() => {
         // setLoading(true);
         // fetch(`${BACKEND_API_URL}/flights?page=${page}&size=${rowsPerPage}`)
@@ -60,8 +60,12 @@ export const FlightsTable = () => {
 
                 const response2 = await fetch(`${BACKEND_API_URL}/flights?page=${page}&size=${settings}`);
                 const data = await response2.json();
-                setTableData(data.content);
-                setTotalPages(data.totalPages);
+                if (response2.status === 404) {
+                    setMessage("No flights found");
+                } else {
+                    setTableData(data.content);
+                    setTotalPages(data.totalPages);
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -73,9 +77,12 @@ export const FlightsTable = () => {
             try {
                 const response = await fetch(`${BACKEND_API_URL}/flights?page=${page}&size=${rowsPerPage}`);
                 const data = await response.json();
-                setTableData(data.content);
-                setTotalPages(data.totalPages);
-                console.log(data);
+                if (response.status === 404) {
+                    setMessage("No airlines found");
+                } else {
+                    setTableData(data.content);
+                    setTotalPages(data.totalPages);
+                }
             } catch (error: any) {
                toast.error(error.message);
             }
@@ -103,7 +110,7 @@ export const FlightsTable = () => {
             <h1 style={{ margin: "100px 0 30px 0" }}>All flights</h1>
             {loading && <CircularProgress />}
             {!loading && tableData.length === 0 && <p>No flights found</p>}
-            {!loading && (
+            {!loading && StorageService.isLoggedIn() && (
                 <IconButton component={Link} sx={{ mr: 3 }} to={`/flights/add`}>
                     <Tooltip title="Add a new flight" arrow>
                         <AddIcon color="primary" />
@@ -146,6 +153,8 @@ export const FlightsTable = () => {
                                             </Tooltip>
                                         </IconButton>
 
+                                        {StorageService.isLoggedIn() && (
+                                            <>
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/flights/${row.id}/edit`}>
                                             <EditIcon />
                                         </IconButton>
@@ -153,6 +162,8 @@ export const FlightsTable = () => {
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/flights/${row.id}/delete`} >
                                             <DeleteForeverIcon sx={{ color: "red" }} />
                                         </IconButton>
+                                        </>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}

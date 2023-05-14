@@ -35,6 +35,7 @@ export const SortableTable = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [page, setPage] = useState<number>(0);
     const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+    const [message, setMessage] = useState('');
 
 
     useEffect(() => {
@@ -59,8 +60,12 @@ export const SortableTable = () => {
 
                 const response2 = await fetch(`${BACKEND_API_URL}/bookings?page=${page}&size=${settings}`);
                 const data = await response2.json();
-                setTableData(data.content);
-                setTotalPages(data.totalPages);
+                if (response2.status === 404) {
+                    setMessage("No bookings found");
+                } else {
+                    setTableData(data.content);
+                    setTotalPages(data.totalPages);
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -72,9 +77,12 @@ export const SortableTable = () => {
             try {
                 const response = await fetch(`${BACKEND_API_URL}/bookings?page=${page}&size=${rowsPerPage}`);
                 const data = await response.json();
-                setTableData(data.content);
-                setTotalPages(data.totalPages);
-                console.log(data);
+                if (response.status === 404) {
+                    setMessage("No airlines found");
+                } else {
+                    setTableData(data.content);
+                    setTotalPages(data.totalPages);
+                }
             } catch (error: any) {
                toast.error(error.message);
             }
@@ -104,7 +112,7 @@ export const SortableTable = () => {
             <h1 style={{ margin: "100px 0 30px 0" }}>All bookings</h1>
             {loading && <CircularProgress />}
             {!loading && tableData.length === 0 && <p>No bookings found</p>}
-            {!loading && (
+            {!loading && StorageService.isLoggedIn() && (
                 <IconButton component={Link} sx={{ mr: 3 }} to={`/bookings/add`}>
                     <Tooltip title="Add a new booking" arrow>
                         <AddIcon color="primary" />
@@ -148,6 +156,8 @@ export const SortableTable = () => {
                                             </Tooltip>
                                         </IconButton>
 
+                                        {StorageService.isLoggedIn() && (
+                                            <>
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/bookings/${row.id}/edit`}>
                                             <EditIcon />
                                         </IconButton>
@@ -155,6 +165,8 @@ export const SortableTable = () => {
                                         <IconButton component={Link} sx={{ mr: 3 }} to={`/bookings/${row.id}/delete`} >
                                             <DeleteForeverIcon sx={{ color: "red" }} />
                                         </IconButton>
+                                        </>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}
