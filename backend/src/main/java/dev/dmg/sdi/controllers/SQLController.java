@@ -50,7 +50,7 @@ public class SQLController {
 		try {
 			String currentDir = System.getProperty("user.dir");
 //            String sql = Files.readString(Paths.get(currentDir + "\\src\\main\\java\\hw4\\hw4\\SQLScripts\\delete_cars.sql"));
-			String sql = Files.readString(Paths.get(currentDir + "/src/main/java/dev/dmg/sdi/SQLScripts/delete_airlines.sql"));
+			String sql = Files.readString(Paths.get(currentDir + "\\src\\main\\java\\dev\\dmg\\sdi\\SQLScripts\\delete_airlines.sql"));
 			jdbcTemplate.update(sql);
 			return ResponseEntity
 					.status(HttpStatus.OK)
@@ -93,7 +93,6 @@ public class SQLController {
 	ResponseEntity<?> deleteAllPassengers(@RequestHeader("Authorization") String token) {
 		String username = this.jwtUtils.getUserNameFromJwtToken(token);
 		User user = this.userService.getUserByUsername(username);
-
 		boolean isAdmin = user.getRoles().stream().anyMatch((role) ->
 				role.getName() == ERole.ROLE_ADMIN
 		);
@@ -103,6 +102,8 @@ public class SQLController {
 		}
 		try {
 			String currentDir = System.getProperty("user.dir");
+			System.out.println("Current directory: " + currentDir);
+
 //            String sql = Files.readString(Paths.get(currentDir + "\\src\\main\\java\\hw4\\hw4\\SQLScripts\\delete_races.sql"));
 			String sql = Files.readString(Paths.get(currentDir + "/src/main/java/dev/dmg/sdi/SQLScripts/delete_passengers.sql"));
 			jdbcTemplate.update(sql);
