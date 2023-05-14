@@ -25,11 +25,12 @@ export const PassengerAdd = () => {
         passportNumber: "",
         username: StorageService.getUser().username
     });
-
+    const authToken = StorageService.getToken();
+    const headers = { Authorization: authToken };
     const addPassenger = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-            await axios.post(`${BACKEND_API_URL}/passengers`, passenger);
+            await axios.post(`${BACKEND_API_URL}/passengers`, passenger, { headers });
             navigate("/passengers");
             toast.success("Passenger added successfully!");
         } catch (error : any) {

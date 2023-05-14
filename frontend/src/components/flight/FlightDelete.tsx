@@ -3,14 +3,18 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { BACKEND_API_URL } from "../../constants";
+import { StorageService } from "../../services/StorageService";
 
 export const FlightDelete = () => {
 	const { flightId } = useParams();
 	const navigate = useNavigate();
 
+	const authToken = StorageService.getToken();
+	const headers = { Authorization: authToken };
+
 	const handleDelete = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
-		await axios.delete(`${BACKEND_API_URL}/flights/${flightId}`);
+		await axios.delete(`${BACKEND_API_URL}/flights/${flightId}`,  { headers });
 
 		navigate("/flights");
 	};

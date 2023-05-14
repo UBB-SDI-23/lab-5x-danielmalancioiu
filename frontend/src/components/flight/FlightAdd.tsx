@@ -126,6 +126,8 @@ export const FlightAdd = () => {
 
     const [airlineSuggestions, setAirlineSuggestions] = useState<Airline[]>([]);
 
+
+
     const handleAirlineInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         try {
             const query = event.target.value;
@@ -144,10 +146,12 @@ export const FlightAdd = () => {
 
     const addFlight = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
+        const authToken = StorageService.getToken();
+        const headers = { Authorization: authToken };
         try {
-            await axios.post(`${BACKEND_API_URL}/flights`, flight);
-            navigate("/flights");
+            await axios.post(`${BACKEND_API_URL}/flights`, flight, { headers });
             toast.success("Flight added successfully");
+            navigate("/flights");
         } catch (error : any) {
             toast.error(error.response.data);
         }

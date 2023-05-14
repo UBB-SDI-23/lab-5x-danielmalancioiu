@@ -28,6 +28,7 @@ export const FlightEdit = () => {
     });
 
 
+
     useEffect(() => {
         const fetchFlight = async () => {
             try{
@@ -61,8 +62,10 @@ export const FlightEdit = () => {
 
     const updateFlight = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
+        const authToken = StorageService.getToken();
+        const headers = { Authorization: authToken };
         try {
-            await axios.put(`${BACKEND_API_URL}/flights/${flightId}`, flight);
+            await axios.put(`${BACKEND_API_URL}/flights/${flightId}`, flight, { headers });
             navigate("/flights");
             toast.success("Flight updated successfully");
         } catch (error : any) {

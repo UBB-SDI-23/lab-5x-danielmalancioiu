@@ -14,7 +14,8 @@ import { toast } from "react-toastify";
 export const BookingEdit = () => {
     const navigate = useNavigate();
     const { bookingId } = useParams();
-
+    const authToken = StorageService.getToken();
+    const headers = { Authorization: authToken };
     const [booking, setBooking] = useState<Booking>({
         flightId: 0,
         passengerId: 0,
@@ -41,7 +42,7 @@ export const BookingEdit = () => {
     const updateBooking = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-            await axios.put(`${BACKEND_API_URL}/bookings/${bookingId}`, booking);
+            await axios.put(`${BACKEND_API_URL}/bookings/${bookingId}`, booking, { headers });
             navigate("/bookings");
             toast.success("Booking updated successfully");  
         } catch (error: any) {
