@@ -1,5 +1,6 @@
 package dev.dmg.sdi.controllers;
 
+import dev.dmg.sdi.domain.dto.SQLRunResponseDTO;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.User.User;
 import dev.dmg.sdi.domain.entities.User.UserProfile;
@@ -100,6 +101,20 @@ public class UserController {
 		userSettings.setEntitiesPerPage(settings.getEntitiesPerPage());
 		this.userSettingsRepository.save(userSettings);
 		return new ResponseEntity<>(HttpStatus.ACCEPTED);
+	}
+
+	@PutMapping("/users/rows-per-page/{entitiesPerPage}")
+	public ResponseEntity<?> updateEntitiesPerPage(@PathVariable int entitiesPerPage, @RequestHeader("Authorization") String token) {
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+		try {
+			userService.updateEntitiesPerPageForAllUsers(entitiesPerPage, user.getId());
+			return ResponseEntity.ok("Entities per page setting updated successfully for all users.");
+		} catch (Exception e) {
+			return ResponseEntity
+					.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new SQLRunResponseDTO("Failed to update entities per page setting for all users."));
+		}
 	}
 
 

@@ -1,14 +1,12 @@
 package dev.dmg.sdi.services;
 
-import dev.dmg.sdi.domain.entities.User.ERole;
-import dev.dmg.sdi.domain.entities.User.Role;
-import dev.dmg.sdi.domain.entities.User.User;
-import dev.dmg.sdi.domain.entities.User.UserProfile;
+import dev.dmg.sdi.domain.entities.User.*;
 import dev.dmg.sdi.exceptions.RoleNotFoundException;
 import dev.dmg.sdi.exceptions.UserNotAuthorizedException;
 import dev.dmg.sdi.exceptions.UserNotFoundException;
 import dev.dmg.sdi.exceptions.UserProfileNotFoundException;
 import dev.dmg.sdi.repositories.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 
@@ -32,9 +30,13 @@ public class UserService {
 
 	private final RoleRepository roleRepository;
 
+	private final UserSettingsRepository userSettingsRepository;
+
+	private final JdbcTemplate jdbcTemplate;
 
 
-	public UserService(UserRepository userRepository, AirlineRepository airlineRepository, FlightRepository flightRepository, PassengerRepository passengerRepository, UserProfileRepository userProfileRepository, BookingRepository bookingRepository, RoleRepository roleRepository)  {
+
+	public UserService(UserRepository userRepository, AirlineRepository airlineRepository, FlightRepository flightRepository, PassengerRepository passengerRepository, UserProfileRepository userProfileRepository, BookingRepository bookingRepository, RoleRepository roleRepository, UserSettingsRepository userSettingsRepository, JdbcTemplate jdbcTemplate)  {
 		this.userRepository = userRepository;
 		this.airlineRepository = airlineRepository;
 		this.flightRepository = flightRepository;
@@ -42,6 +44,8 @@ public class UserService {
 		this.userProfileRepository = userProfileRepository;
 		this.bookingRepository = bookingRepository;
 		this.roleRepository = roleRepository;
+		this.userSettingsRepository = userSettingsRepository;
+		this.jdbcTemplate = jdbcTemplate;
 
 	}
 
@@ -131,5 +135,21 @@ public class UserService {
 		}
 		user.setRoles(roleSet);
 		return userRepository.save(user);
+	}
+
+	public void updateEntitiesPerPageForAllUsers(int entitiesPerPage, Long userID) {
+
+		User callerUser = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
+
+		boolean isAdmin = callerUser.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_ADMIN
+		);
+		if (!isAdmin) {
+			throw new UserNotAuthorizedException(String.format(callerUser.getUsername()));
+		}
+
+		String sql = "UPDATE user_settings SET entities_per_page = ?";
+		jdbcTemplate.update(sql, entitiesPerPage);
+
 	}
 }

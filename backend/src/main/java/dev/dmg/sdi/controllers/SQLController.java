@@ -104,7 +104,7 @@ public class SQLController {
 			String currentDir = System.getProperty("user.dir");
 			System.out.println("Current directory: " + currentDir);
 
-//            String sql = Files.readString(Paths.get(currentDir + "\\src\\main\\java\\hw4\\hw4\\SQLScripts\\delete_races.sql"));
+			//String sql = Files.readString(Paths.get(currentDir + "/src/main/java/dev/dmg/sdi/SQLScripts/delete_passengers.sql"));
 			String sql = Files.readString(Paths.get(currentDir + "/../src/main/java/dev/dmg/sdi/SQLScripts/delete_passengers.sql"));
 			jdbcTemplate.update(sql);
 			return ResponseEntity

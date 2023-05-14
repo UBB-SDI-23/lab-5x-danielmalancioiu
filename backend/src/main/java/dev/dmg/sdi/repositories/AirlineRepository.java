@@ -14,7 +14,7 @@ public interface AirlineRepository extends JpaRepository<Airline, Long> {
 
 	Page<Airline> findByFleetSizeGreaterThan(Integer fleetSize, Pageable pageable);
 
-	List<Airline> findByNameContainingIgnoreCaseOrderByName(String query, PageRequest name);
+	List<Airline> findByNameContainingIgnoreCaseOrderByName(String query, Pageable pageable);
 
 	List<Airline> findByUserId(Long id);
 
