@@ -7,6 +7,8 @@ import dev.dmg.sdi.domain.dto.FlightDto;
 import dev.dmg.sdi.domain.entities.Booking;
 import dev.dmg.sdi.domain.entities.Flight;
 import dev.dmg.sdi.domain.entities.Passenger;
+import dev.dmg.sdi.domain.entities.User.User;
+import dev.dmg.sdi.exceptions.BookingNotFoundException;
 import dev.dmg.sdi.repositories.BookingRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class BookingService {
 	@Autowired
 	private PassengerService passengerService;
 
+	@Autowired
+	private UserService userService;
+
 	public Booking create(BookingDto dto) {
 		Booking booking = new Booking();
 		BeanUtils.copyProperties(dto, booking );
@@ -42,6 +47,9 @@ public class BookingService {
 
 		Passenger passenger = this.passengerService.getById(dto.getPassengerId());
 		booking.setPassenger(passenger);
+
+		User user = this.userService.getUserByUsername(dto.getUsername());
+		booking.setUser(user);
 
 		return this.save(booking);
 	}
@@ -55,6 +63,9 @@ public class BookingService {
 
 		Passenger passenger = this.passengerService.getById(dto.getPassengerId());
 		booking.setPassenger(passenger);
+
+		User user = this.userService.getUserByUsername(dto.getUsername());
+		booking.setUser(user);
 
 		return this.save(booking);
 	}
@@ -81,18 +92,23 @@ public class BookingService {
 		if(bookings.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No bookings found.");
 		}
-		return bookings.map(booking -> new BookingAllDto( booking.getFlight(), booking.getPassenger(), booking.getSeatNumber(), booking.getDate(), booking.getPrice(), booking.getUser().getUsername()));
+		return bookings.map(booking -> new BookingAllDto(booking.getId(), booking.getFlight(), booking.getPassenger(), booking.getSeatNumber(), booking.getDate(), booking.getPrice(), booking.getUser().getUsername()));
 
 	}
 
+//	public Booking getById(Long id) {
+//		Optional<Booking> bookingOptional = repository.findById(id);
+//		if(bookingOptional.isPresent()) {
+//			return bookingOptional.get();
+//		}
+//		else {
+//			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not found with ID " + id);
+//		}
+//	}
+
 	public Booking getById(Long id) {
-		Optional<Booking> bookingOptional = repository.findById(id);
-		if(bookingOptional.isPresent()) {
-			return bookingOptional.get();
-		}
-		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not found with ID " + id);
-		}
+		return this.repository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
+
 	}
 
 	public BookingFlightDto getByDtoId(Long id) {
@@ -108,7 +124,7 @@ public class BookingService {
 
 		}
 		else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not found with ID " + id);
+			throw new BookingNotFoundException(id);
 		}
 	}
 

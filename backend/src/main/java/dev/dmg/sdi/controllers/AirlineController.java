@@ -6,9 +6,12 @@ import dev.dmg.sdi.domain.dto.AirlineFlightDto;
 import dev.dmg.sdi.domain.dto.PassengerBookingDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
+import dev.dmg.sdi.domain.entities.User.User;
 import dev.dmg.sdi.repositories.AirlineRepository;
+import dev.dmg.sdi.security.Jwt.JwtUtils;
 import dev.dmg.sdi.services.AirlineService;
 import dev.dmg.sdi.services.FlightService;
+import dev.dmg.sdi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +33,7 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/airlines")
+@Validated
 public class AirlineController {
 
 	@Autowired
@@ -40,6 +44,12 @@ public class AirlineController {
 
 	@Autowired
 	private FlightService flightService;
+
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	JwtUtils jwtUtils;
 
 	@GetMapping("")
 	public ResponseEntity<Page<AirlineDto>> getAllAirlines(Pageable pageable) {
@@ -72,37 +82,35 @@ public class AirlineController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<?> addAirline(@RequestBody @Valid AirlineDto dto, BindingResult result)  {
-		if(result.hasErrors()) {
-			List<String> errors = result.getFieldErrors()
-					.stream()
-					.map(FieldError::getDefaultMessage)
-					.collect(Collectors.toList());
-			Map<String, Object> response = new HashMap<>();
-			response.put("status", HttpStatus.BAD_REQUEST.value());
-			response.put("message", "Validation error");
-			response.put("errors", errors);
-			return ResponseEntity.badRequest().body(response);
-		}
+	public Airline addAirline(@Valid @RequestBody AirlineDto dto,
+			@RequestHeader("Authorization") String token)  {
 
-		Airline airline = this.service.create(dto);
-		return new ResponseEntity<>(airline, HttpStatus.CREATED);
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
+		return this.service.create(dto, user.getId());
+
 	}
 
-
-
 	@PutMapping("/{id}")
-	public ResponseEntity<Airline> updateAirline(@PathVariable Long id, @RequestBody AirlineDto dto) {
+	public Airline updateAirline(@PathVariable Long id, @RequestBody AirlineDto dto, @RequestHeader("Authorization") String token) {
 
-		Airline airline = this.service.update(dto, id);
-		return ResponseEntity.ok(airline);
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
+		 return this.service.update(dto, id, user.getId());
+
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteAirlineById(@PathVariable Long id) {
+	public void deleteAirlineById(@PathVariable Long id,
+			@RequestHeader("Authorization") String token) {
+
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
 
 		Airline airline = this.service.getById(id);
-		this.service.delete(airline);
+		this.service.delete(airline, user.getId());
 	}
 //
 //	@GetMapping("/filter/{fleetSize}")

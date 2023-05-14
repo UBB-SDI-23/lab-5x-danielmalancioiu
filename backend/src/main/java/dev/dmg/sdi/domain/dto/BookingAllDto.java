@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @Data
 public class BookingAllDto {
 
+	private Long id;
+
 	private Flight flight;
 
 	private Passenger passenger;
@@ -22,7 +24,8 @@ public class BookingAllDto {
 
 	private String username;
 
-	public BookingAllDto(Flight flight, Passenger passenger, String seatNumber, LocalDate date, Integer price, String username) {
+	public BookingAllDto(Long id,Flight flight, Passenger passenger, String seatNumber, LocalDate date, Integer price, String username) {
+		this.id = id;
 		this.flight = flight;
 		this.passenger = passenger;
 		this.seatNumber = seatNumber;

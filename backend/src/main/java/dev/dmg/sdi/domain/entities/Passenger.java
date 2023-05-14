@@ -3,7 +3,10 @@ package dev.dmg.sdi.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.dmg.sdi.domain.entities.User.User;
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -11,6 +14,8 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "passenger")
 public class Passenger {
 
@@ -37,7 +42,8 @@ public class Passenger {
 	@OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Booking> bookings ;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 

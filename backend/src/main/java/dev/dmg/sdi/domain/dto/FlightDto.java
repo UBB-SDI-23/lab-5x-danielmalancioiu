@@ -18,6 +18,8 @@ public class FlightDto {
 
 	private Long airlineId;
 
+	private String username;
+
 
 	public FlightDto(Long id, String callSign, Integer capacity, String departureAirport, String arrivalAirport, Long airlineId) {
 		this.id = id;

@@ -12,4 +12,7 @@ public interface FlightRepository  extends JpaRepository<Flight, Long> {
 	Long countByAirline_Id(Long id);
 
 	List<Flight> findByUserId(Long id);
+
+	List<Flight> findByUser_Username(String username);
+
 }

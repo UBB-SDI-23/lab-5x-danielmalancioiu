@@ -6,6 +6,7 @@ import javax.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -23,22 +24,19 @@ public class UserProfile {
 	@Column(name = "id")
 	private Long id;
 
-
 	@Column(name = "bio")
 	private String bio;
-
 
 	@Column(name = "location")
 	private String location;
 
 	@Column(name = "birth_date")
-	private Date birthDate;
+	private LocalDate birthDate;
 
 	@Column(name = "gender")
 	private String gender;
 
 	@Column(name = "status")
 	private String status;
-
 
 }

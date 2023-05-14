@@ -4,6 +4,9 @@ import dev.dmg.sdi.domain.dto.FlightAllDto;
 import dev.dmg.sdi.domain.dto.FlightDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
+import dev.dmg.sdi.domain.entities.User.User;
+import dev.dmg.sdi.exceptions.AirlineNotFoundException;
+import dev.dmg.sdi.exceptions.FlightNotFoundException;
 import dev.dmg.sdi.repositories.AirlineRepository;
 import dev.dmg.sdi.repositories.BookingRepository;
 import dev.dmg.sdi.repositories.FlightRepository;
@@ -34,6 +37,9 @@ public class FlightService {
 	@Autowired
 	private BookingRepository bookingRepository;
 
+	@Autowired
+	private UserService userService;
+
 
 	public Flight create(FlightDto dto) {
 		Flight flight = new Flight();
@@ -42,6 +48,9 @@ public class FlightService {
 
 		Airline airline = this.airlineService.getById(dto.getAirlineId());
 		flight.setAirline(airline);
+
+		User user = this.userService.getUserByUsername(dto.getUsername());
+		flight.setUser(user);
 		return this.save(flight);
 	}
 
@@ -52,6 +61,8 @@ public class FlightService {
 		Airline airline = this.airlineService.getById(dto.getAirlineId());
 		flight.setAirline(airline);
 
+		User user = this.userService.getUserByUsername(dto.getUsername());
+		flight.setUser(user);
 		return this.save(flight);
 	}
 
@@ -99,13 +110,17 @@ public Page<Flight> getFlights(Pageable pageable) {
 	}
 
 
+//	public Flight getById(Long id) {
+//		Optional<Flight> flightOptional = repository.findById(id);
+//		if (flightOptional.isPresent()) {
+//			return flightOptional.get();
+//		} else {
+//			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found with ID " + id);
+//		}
+//	}
+
 	public Flight getById(Long id) {
-		Optional<Flight> flightOptional = repository.findById(id);
-		if (flightOptional.isPresent()) {
-			return flightOptional.get();
-		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight not found with ID " + id);
-		}
+		return this.repository.findById(id).orElseThrow(() -> new FlightNotFoundException(id));
 	}
 
 	public Flight save(Flight flight) {return this.repository.save(flight);}
@@ -127,7 +142,7 @@ public Page<Flight> getFlights(Pageable pageable) {
 			}
 			return updatedFlights;
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Airline not found with ID " + airlineId);
+			throw new AirlineNotFoundException(airlineId);
 		}
 	}
 }

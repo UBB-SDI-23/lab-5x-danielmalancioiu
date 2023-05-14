@@ -1,0 +1,2 @@
+DELETE FROM airline;
+ALTER SEQUENCE airline_id_seq RESTART WITH 1;

@@ -18,4 +18,6 @@ public interface AirlineRepository extends JpaRepository<Airline, Long> {
 
 	List<Airline> findByUserId(Long id);
 
+	List<Airline> findByUser_Username(String username);
+
 }

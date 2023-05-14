@@ -5,6 +5,8 @@ import dev.dmg.sdi.domain.dto.PassengerBookingDto;
 import dev.dmg.sdi.domain.dto.PassengerDto;
 import dev.dmg.sdi.domain.entities.Booking;
 import dev.dmg.sdi.domain.entities.Passenger;
+import dev.dmg.sdi.domain.entities.User.User;
+import dev.dmg.sdi.exceptions.PassengerNotFoundException;
 import dev.dmg.sdi.repositories.BookingRepository;
 import dev.dmg.sdi.repositories.PassengerRepository;
 import javax.persistence.EntityManager;
@@ -37,6 +39,9 @@ public class PassengerService {
 	@Autowired
 	private BookingRepository bookingRepository;
 
+	@Autowired
+	private UserService userService;
+
 	private EntityManagerFactory entityManagerFactory;
 
 	public PassengerService(EntityManagerFactory entityManagerFactory) {
@@ -48,6 +53,8 @@ public class PassengerService {
 		Passenger passenger = new Passenger();
 		BeanUtils.copyProperties(dto, passenger);
 
+		User user = this.userService.getUserByUsername(dto.getUsername());
+		passenger.setUser(user);
 		return this.save(passenger);
 	}
 
@@ -55,6 +62,8 @@ public class PassengerService {
 		Passenger passenger = this.getById(id);
 		BeanUtils.copyProperties(dto, passenger);
 
+		User user = this.userService.getUserByUsername(dto.getUsername());
+		passenger.setUser(user);
 		return this.save(passenger);
 	}
 
@@ -68,13 +77,17 @@ public class PassengerService {
 				passenger.getId()), passenger.getUser().getUsername()));
 	}
 
+//	public Passenger getById(Long id) {
+//		Optional<Passenger> passengerOptional = repository.findById(id);
+//		if (passengerOptional.isPresent()) {
+//			return passengerOptional.get();
+//		} else {
+//			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Passenger not found with ID " + id);
+//		}
+//	}
+
 	public Passenger getById(Long id) {
-		Optional<Passenger> passengerOptional = repository.findById(id);
-		if (passengerOptional.isPresent()) {
-			return passengerOptional.get();
-		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Passenger not found with ID " + id);
-		}
+		return this.repository.findById(id).orElseThrow(() -> new PassengerNotFoundException(id));
 	}
 
 		public List<PassengerBookingDto> getAllPassengersOrderedByAverageBookingDate() {
@@ -111,7 +124,7 @@ public class PassengerService {
 			}
 		}
 
-		throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Passenger not found with ID " + id);
+		throw new PassengerNotFoundException(id);
 	}
 
 

@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.dmg.sdi.domain.entities.User.User;
 import javax.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,8 +16,9 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "airline")
-@JsonIgnoreProperties(value = { "hibernateLazyInitializer" }, ignoreUnknown = true)
 public class Airline {
 
 	@Id
@@ -45,20 +49,10 @@ public class Airline {
 	@OneToMany(mappedBy = "airline", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Flight> flights ;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	public Airline(long id, String name, String iataCode, Integer fleetSize, String website, String country, List<Flight> flights) {
-		this.id = id;
-		this.name = name;
-		this.iataCode = iataCode;
-		this.fleetSize = fleetSize;
-		this.website = website;
-		this.country = country;
-		this.flights = flights;
-	}
 
-	public Airline() {
-	}
 }

@@ -1,0 +1,2 @@
+DELETE FROM flight;
+ALTER SEQUENCE flight_id_seq RESTART WITH 1;
