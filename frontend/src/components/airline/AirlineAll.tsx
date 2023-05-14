@@ -73,9 +73,10 @@ export const AirlinesTable = () => {
             try {
                 const response = await fetch(`${BACKEND_API_URL}/airlines?page=${page}&size=${rowsPerPage}`);
                 const data = await response.json();
+                console.log(data);
                 setTableData(data.content);
                 setTotalPages(data.totalPages);
-                console.log(data);
+                
             } catch (error: any) {
                toast.error(error.message);
             }

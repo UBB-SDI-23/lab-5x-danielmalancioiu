@@ -44,28 +44,36 @@ export const AppMenu = () => {
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
+  const [roles, setRoles] = useState([]);
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
 
   useEffect(() => {
     initialiseNavbar();
+    
   }, []);
 
   const initialiseNavbar = () => {
     //setIsLoggedIn(!!sessionStorage.getItem('auth-user'));
     setIsLoggedIn(StorageService.isLoggedIn());
-    //console.log(isLoggedIn);
+
+    console.log('Logged in' + ' ' + StorageService.isLoggedIn());
+    //console.log('Logged in' + ' ' + isLoggedIn);
     const user = StorageService.getUser();
     setUsername(user.username);
-    console.log(user.username);
-    if (isLoggedIn) {
+    //console.log(user.username);
+    console.log(user)
+    //console.log(isLoggedIn);
+    if (StorageService.isLoggedIn()) {
       //const user = JSON.parse(sessionStorage.getItem('auth-user') ?? '{}');
-      const user = StorageService.getUser();
-      console.log(user);
-      //const roles = user.roles;
-      
+      //const user = StorageService.getUser();
+      setRoles(user.roles);
+      setShowAdminBoard(user.roles.includes('ROLE_ADMIN'));
+      console.log('admin board' + ' ' + showAdminBoard);
       setUsername(user.username);
       console.log(username);
       
     } 
+    console.log(roles);
   };
   
   const httpOptions = {
@@ -108,6 +116,7 @@ function confirmRegistration(token: string){
     StorageService.clean();
     //StorageService.updateUserField('rowsPerPage',10);
     setIsLoggedIn(false);
+    setShowAdminBoard(false);
     window.location.reload();
     return axios.post(`${BACKEND_API_URL}/auth/signout`, httpOptions);
     
@@ -179,6 +188,12 @@ function confirmRegistration(token: string){
               <Typography variant="h6" component={Link}  to={`/profile/${username}`} style={{ marginLeft: "auto" }}>
                 Welcome,  {username} !
               </Typography>
+
+              {showAdminBoard && (
+                <Button variant="contained" color="secondary" component={Link} to="/admin" style={{ marginLeft: "auto" }}>
+                  Admin Board
+                </Button>
+              )}
               <Button variant="contained" color="secondary" onClick={logout} style={{ marginLeft: "auto" }}>
                 Logout
               </Button>

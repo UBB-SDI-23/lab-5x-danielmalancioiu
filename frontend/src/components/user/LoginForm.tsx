@@ -82,8 +82,9 @@ export const LoginForm = () => {
 
                     toast.success('You have successfully logged in.');
                     setTimeout(() => {
-                        navigate('/airlines');
+                        navigate('/');
                         reloadPage();
+                        
                     }, 1500);
 
 

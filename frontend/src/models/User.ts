@@ -6,3 +6,7 @@ export interface User{
     [key: string]: any;
 }
 
+export interface SQLResponse {
+    message: string
+  }
+

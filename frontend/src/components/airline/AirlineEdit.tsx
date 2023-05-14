@@ -48,8 +48,10 @@ export const AirlineEdit = () => {
 
     const updateAirline = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
+        const authToken = StorageService.getToken();
+        const headers = { Authorization: authToken };
         try {
-            await axios.put(`${BACKEND_API_URL}/airlines/${airlineId}`, airlineOld);
+            await axios.put(`${BACKEND_API_URL}/airlines/${airlineId}`, airlineOld, { headers });
             toast.success("Airline updated successfully");
             navigate("/airlines");
         } catch (error : any) {

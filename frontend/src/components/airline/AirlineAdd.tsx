@@ -31,9 +31,11 @@ export const AirlineAdd = () => {
 
     const addAirline = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
+        const authToken = StorageService.getToken();
+        const headers = { Authorization: authToken };
         try {
             //setAirline({ ...airline, username: user })
-            await axios.post(`${BACKEND_API_URL}/airlines`, airline);
+            await axios.post(`${BACKEND_API_URL}/airlines`, airline, { headers });
             toast.success("Airline added successfully");
             navigate("/airlines");
         } catch (error: any) {

@@ -37,6 +37,7 @@ import { RegisterForm } from './components/user/RegisterForm'
 import { ProfilePage } from './components/user/ProfilePage'
 import { AuthProvider } from './services/AuthContext'
 import { ProfileEdit } from './components/user/ProfileEdit'
+import { AdminBoard } from './components/user/AdminBoard'
 
 
 
@@ -87,6 +88,7 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/profile/:username" element={<ProfilePage />} />
           <Route path="/profile/:username/edit" element={<ProfileEdit />} />
+          <Route path="/admin" element={<AdminBoard />} />
         </Routes>
         <ToastContainer />
         </AuthProvider>
