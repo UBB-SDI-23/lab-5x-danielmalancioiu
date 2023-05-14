@@ -4,8 +4,11 @@ import dev.dmg.sdi.domain.dto.FlightAllDto;
 import dev.dmg.sdi.domain.dto.FlightDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
+import dev.dmg.sdi.domain.entities.User.User;
 import dev.dmg.sdi.repositories.FlightRepository;
+import dev.dmg.sdi.security.Jwt.JwtUtils;
 import dev.dmg.sdi.services.FlightService;
+import dev.dmg.sdi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +30,12 @@ public class FlightController {
 
 	@Autowired
 	FlightRepository repository;
+
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	JwtUtils jwtUtils;
 
 	//	@GetMapping("")
 //	public ResponseEntity<List<FlightDto>> getAllFlights() {
@@ -52,23 +61,36 @@ public class FlightController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<Flight> addFlight(@RequestBody FlightDto dto) {
+	public Flight addFlight(@RequestBody FlightDto dto,
+			@RequestHeader("Authorization") String token) {
 
-		Flight flight = this.service.create(dto);
-		return new ResponseEntity<>(flight, HttpStatus.CREATED);
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
+		return this.service.create(dto, user.getId());
+
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Flight> updateFlight(@PathVariable Long id, @RequestBody FlightDto dto) {
+	public Flight updateFlight(@PathVariable Long id, @RequestBody FlightDto dto,
+			@RequestHeader("Authorization") String token) {
 
-		Flight flight = this.service.update(dto, id);
-		return ResponseEntity.ok(flight);
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
+		return this.service.update(dto, id, user.getId());
+
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteFlightById(@PathVariable Long id) {
+	public void deleteFlightById(@PathVariable Long id,
+			@RequestHeader("Authorization") String token) {
+
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
 
 		Flight flight = this.service.getById(id);
-		this.service.delete(flight);
+		 this.service.delete(flight, user.getId());
+
 	}
 }

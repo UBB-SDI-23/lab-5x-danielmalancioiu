@@ -5,8 +5,12 @@ import dev.dmg.sdi.domain.dto.PassengerBookingDto;
 import dev.dmg.sdi.domain.dto.PassengerDto;
 import dev.dmg.sdi.domain.entities.Booking;
 import dev.dmg.sdi.domain.entities.Passenger;
+import dev.dmg.sdi.domain.entities.User.ERole;
 import dev.dmg.sdi.domain.entities.User.User;
+import dev.dmg.sdi.exceptions.AirlineNotFoundException;
 import dev.dmg.sdi.exceptions.PassengerNotFoundException;
+import dev.dmg.sdi.exceptions.UserNotAuthorizedException;
+import dev.dmg.sdi.exceptions.UserNotFoundException;
 import dev.dmg.sdi.repositories.BookingRepository;
 import dev.dmg.sdi.repositories.PassengerRepository;
 import javax.persistence.EntityManager;
@@ -16,6 +20,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
+
+import dev.dmg.sdi.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +34,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 //5960
 @Service
@@ -44,26 +51,56 @@ public class PassengerService {
 
 	private EntityManagerFactory entityManagerFactory;
 
+	@Autowired
+	UserRepository userRepository;
+
 	public PassengerService(EntityManagerFactory entityManagerFactory) {
 		this.entityManagerFactory = entityManagerFactory;
 	}
 
 
-	public Passenger create(PassengerDto dto) {
+	public Passenger create(PassengerDto dto, Long userID) {
 		Passenger passenger = new Passenger();
 		BeanUtils.copyProperties(dto, passenger);
 
-		User user = this.userService.getUserByUsername(dto.getUsername());
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
 		passenger.setUser(user);
+
+		boolean userOrModOrAdmin = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_ADMIN
+						|| role.getName() == ERole.ROLE_MODERATOR
+						|| role.getName() == ERole.ROLE_USER
+		);
+
+		if (!userOrModOrAdmin) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
 		return this.save(passenger);
 	}
 
-	public Passenger update(PassengerDto dto, Long id) {
+	public Passenger update(PassengerDto dto, Long id, Long userID) {
 		Passenger passenger = this.getById(id);
 		BeanUtils.copyProperties(dto, passenger);
 
-		User user = this.userService.getUserByUsername(dto.getUsername());
-		passenger.setUser(user);
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
+		//airline.setUser(user);
+
+		boolean isUser = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_USER
+		);
+		if (!isUser) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
+
+		if (!Objects.equals(user.getId(), passenger.getUser().getId())) {
+			boolean modOrAdmin = user.getRoles().stream().anyMatch((role) ->
+					role.getName() == ERole.ROLE_ADMIN || role.getName() == ERole.ROLE_MODERATOR
+			);
+
+			if (!modOrAdmin) {
+				throw new UserNotAuthorizedException(String.format(user.getUsername()));
+			}
+		}
 		return this.save(passenger);
 	}
 
@@ -130,7 +167,20 @@ public class PassengerService {
 
 	public Passenger save(Passenger passenger) {return this.repository.save(passenger); }
 
-	public void delete(Passenger passenger) { this.repository.delete(passenger); }
+	public void delete(Passenger passenger, Long userID) {
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
+
+		boolean isAdmin = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_ADMIN
+		);
+		if (!isAdmin) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
+
+		if(!repository.existsById(passenger.getId()))
+			throw new AirlineNotFoundException((passenger.getId()));
+		repository.deleteById(passenger.getId());
+	}
 
 
 

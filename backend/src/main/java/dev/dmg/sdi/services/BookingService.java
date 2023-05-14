@@ -7,9 +7,14 @@ import dev.dmg.sdi.domain.dto.FlightDto;
 import dev.dmg.sdi.domain.entities.Booking;
 import dev.dmg.sdi.domain.entities.Flight;
 import dev.dmg.sdi.domain.entities.Passenger;
+import dev.dmg.sdi.domain.entities.User.ERole;
 import dev.dmg.sdi.domain.entities.User.User;
+import dev.dmg.sdi.exceptions.AirlineNotFoundException;
 import dev.dmg.sdi.exceptions.BookingNotFoundException;
+import dev.dmg.sdi.exceptions.UserNotAuthorizedException;
+import dev.dmg.sdi.exceptions.UserNotFoundException;
 import dev.dmg.sdi.repositories.BookingRepository;
+import dev.dmg.sdi.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,10 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BookingService {
@@ -38,7 +40,10 @@ public class BookingService {
 	@Autowired
 	private UserService userService;
 
-	public Booking create(BookingDto dto) {
+	@Autowired
+	UserRepository userRepository;
+
+	public Booking create(BookingDto dto, Long userID) {
 		Booking booking = new Booking();
 		BeanUtils.copyProperties(dto, booking );
 
@@ -48,13 +53,23 @@ public class BookingService {
 		Passenger passenger = this.passengerService.getById(dto.getPassengerId());
 		booking.setPassenger(passenger);
 
-		User user = this.userService.getUserByUsername(dto.getUsername());
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
 		booking.setUser(user);
+
+		boolean userOrModOrAdmin = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_ADMIN
+						|| role.getName() == ERole.ROLE_MODERATOR
+						|| role.getName() == ERole.ROLE_USER
+		);
+
+		if (!userOrModOrAdmin) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
 
 		return this.save(booking);
 	}
 
-	public Booking update(BookingDto dto, Long id) {
+	public Booking update(BookingDto dto, Long id, Long userID) {
 		Booking booking = this.getById(id);
 		BeanUtils.copyProperties(dto, booking);
 
@@ -64,8 +79,25 @@ public class BookingService {
 		Passenger passenger = this.passengerService.getById(dto.getPassengerId());
 		booking.setPassenger(passenger);
 
-		User user = this.userService.getUserByUsername(dto.getUsername());
-		booking.setUser(user);
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
+		//airline.setUser(user);
+
+		boolean isUser = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_USER
+		);
+		if (!isUser) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
+
+		if (!Objects.equals(user.getId(), booking.getUser().getId())) {
+			boolean modOrAdmin = user.getRoles().stream().anyMatch((role) ->
+					role.getName() == ERole.ROLE_ADMIN || role.getName() == ERole.ROLE_MODERATOR
+			);
+
+			if (!modOrAdmin) {
+				throw new UserNotAuthorizedException(String.format(user.getUsername()));
+			}
+		}
 
 		return this.save(booking);
 	}
@@ -151,5 +183,19 @@ public class BookingService {
 
 	public Booking save(Booking booking) { return this.repository.save(booking);}
 
-	public void delete(Booking booking) { this.repository.delete(booking); }
+	public void delete(Booking booking, Long userID) {
+
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
+
+		boolean isAdmin = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_ADMIN
+		);
+		if (!isAdmin) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
+
+		if(!repository.existsById(booking.getId()))
+			throw new AirlineNotFoundException((booking.getId()));
+		repository.deleteById(booking.getId());
+	}
 }

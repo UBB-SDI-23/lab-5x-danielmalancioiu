@@ -4,12 +4,16 @@ import dev.dmg.sdi.domain.dto.FlightAllDto;
 import dev.dmg.sdi.domain.dto.FlightDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Flight;
+import dev.dmg.sdi.domain.entities.User.ERole;
 import dev.dmg.sdi.domain.entities.User.User;
 import dev.dmg.sdi.exceptions.AirlineNotFoundException;
 import dev.dmg.sdi.exceptions.FlightNotFoundException;
+import dev.dmg.sdi.exceptions.UserNotAuthorizedException;
+import dev.dmg.sdi.exceptions.UserNotFoundException;
 import dev.dmg.sdi.repositories.AirlineRepository;
 import dev.dmg.sdi.repositories.BookingRepository;
 import dev.dmg.sdi.repositories.FlightRepository;
+import dev.dmg.sdi.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -40,8 +45,11 @@ public class FlightService {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	UserRepository userRepository;
 
-	public Flight create(FlightDto dto) {
+
+	public Flight create(FlightDto dto, Long userID) {
 		Flight flight = new Flight();
 		BeanUtils.copyProperties(dto, flight, "id");
 
@@ -49,20 +57,48 @@ public class FlightService {
 		Airline airline = this.airlineService.getById(dto.getAirlineId());
 		flight.setAirline(airline);
 
-		User user = this.userService.getUserByUsername(dto.getUsername());
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
 		flight.setUser(user);
+
+		boolean userOrModOrAdmin = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_ADMIN
+						|| role.getName() == ERole.ROLE_MODERATOR
+						|| role.getName() == ERole.ROLE_USER
+		);
+
+		if (!userOrModOrAdmin) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
 		return this.save(flight);
 	}
 
-	public Flight update(FlightDto dto, Long id) {
+	public Flight update(FlightDto dto, Long id, Long userID) {
 		Flight flight = this.getById(id);
 		BeanUtils.copyProperties(dto, flight, "id");
 
 		Airline airline = this.airlineService.getById(dto.getAirlineId());
 		flight.setAirline(airline);
 
-		User user = this.userService.getUserByUsername(dto.getUsername());
-		flight.setUser(user);
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
+		//airline.setUser(user);
+
+		boolean isUser = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_USER
+		);
+		if (!isUser) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
+
+		if (!Objects.equals(user.getId(), airline.getUser().getId())) {
+			boolean modOrAdmin = user.getRoles().stream().anyMatch((role) ->
+					role.getName() == ERole.ROLE_ADMIN || role.getName() == ERole.ROLE_MODERATOR
+			);
+
+			if (!modOrAdmin) {
+				throw new UserNotAuthorizedException(String.format(user.getUsername()));
+			}
+		}
+
 		return this.save(flight);
 	}
 
@@ -125,7 +161,21 @@ public Page<Flight> getFlights(Pageable pageable) {
 
 	public Flight save(Flight flight) {return this.repository.save(flight);}
 
-	public void delete(Flight flight) {this.repository.delete(flight);}
+	public void delete(Flight flight, Long userID) {
+
+		User user = this.userRepository.findById(userID).orElseThrow(() -> new UserNotFoundException(userID));
+
+		boolean isAdmin = user.getRoles().stream().anyMatch((role) ->
+				role.getName() == ERole.ROLE_ADMIN
+		);
+		if (!isAdmin) {
+			throw new UserNotAuthorizedException(String.format(user.getUsername()));
+		}
+
+		if(!repository.existsById(flight.getId()))
+			throw new AirlineNotFoundException((flight.getId()));
+		repository.deleteById(flight.getId());
+	}
 
 	public List<Flight> updateBulkAirline(Long airlineId, List<Long> flightIds) {
 		Optional<Airline> airlineOptional = airlineRepository.findById(airlineId);

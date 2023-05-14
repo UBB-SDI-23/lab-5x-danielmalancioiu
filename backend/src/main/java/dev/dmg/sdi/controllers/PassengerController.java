@@ -5,8 +5,11 @@ import dev.dmg.sdi.domain.dto.PassengerBookingDto;
 import dev.dmg.sdi.domain.dto.PassengerDto;
 import dev.dmg.sdi.domain.entities.Airline;
 import dev.dmg.sdi.domain.entities.Passenger;
+import dev.dmg.sdi.domain.entities.User.User;
 import dev.dmg.sdi.repositories.PassengerRepository;
+import dev.dmg.sdi.security.Jwt.JwtUtils;
 import dev.dmg.sdi.services.PassengerService;
+import dev.dmg.sdi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +32,12 @@ public class PassengerController {
 
 	@Autowired
 	PassengerRepository repository;
+
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	JwtUtils jwtUtils;
 
 	@GetMapping("")
 	public ResponseEntity<Page<PassengerDto>> getAllPassengers(Pageable pageable) {
@@ -63,24 +72,36 @@ public class PassengerController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<Passenger> addPassenger(@RequestBody PassengerDto dto) {
+	public Passenger addPassenger(@RequestBody PassengerDto dto,
+			@RequestHeader("Authorization") String token) {
 
-		Passenger passenger = this.service.create(dto);
-		return ResponseEntity.ok(passenger);
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
+		return this.service.create(dto, user.getId());
+
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Passenger> updatePassenger(@PathVariable Long id, @RequestBody PassengerDto dto) {
+	public Passenger updatePassenger(@PathVariable Long id, @RequestBody PassengerDto dto,
+			@RequestHeader("Authorization") String token) {
 
-		Passenger passenger = this.service.update(dto, id);
-		return ResponseEntity.ok(passenger);
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
+		return this.service.update(dto, id, user.getId());
+
 	}
 
 	@DeleteMapping("/{id}")
-	public void deletePassengerById(@PathVariable Long id) {
+	public void deletePassengerById(@PathVariable Long id,
+			@RequestHeader("Authorization") String token) {
+
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
 
 		Passenger passenger = this.service.getById(id);
-		this.service.delete(passenger);
+		 this.service.delete(passenger, user.getId());
 	}
 
 

@@ -5,7 +5,10 @@ import dev.dmg.sdi.domain.dto.BookingDto;
 import dev.dmg.sdi.domain.dto.BookingFlightDto;
 import dev.dmg.sdi.domain.dto.BookingPassengerDto;
 import dev.dmg.sdi.domain.entities.Booking;
+import dev.dmg.sdi.domain.entities.User.User;
+import dev.dmg.sdi.security.Jwt.JwtUtils;
 import dev.dmg.sdi.services.BookingService;
+import dev.dmg.sdi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +25,12 @@ public class BookingController {
 
 	@Autowired
 	BookingService service;
+
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	JwtUtils jwtUtils;
 
 	@GetMapping("")
 	public ResponseEntity<Page<BookingAllDto>> getAllBookings(Pageable pageable) {
@@ -55,20 +64,35 @@ public class BookingController {
 
 
 	@PostMapping("")
-	public ResponseEntity<Booking> addBooking(@RequestBody BookingDto dto) {
-		Booking booking = this.service.create(dto);
-		return ResponseEntity.ok(booking);
+	public Booking addBooking(@RequestBody BookingDto dto,
+			@RequestHeader("Authorization") String token) {
+
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
+		return this.service.create(dto, user.getId());
+
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<Booking> updateBooking(@PathVariable Long id, @RequestBody BookingDto dto) {
-		Booking booking = this.service.update(dto, id);
-		return ResponseEntity.ok(booking);
+	public Booking updateBooking(@PathVariable Long id, @RequestBody BookingDto dto,
+			@RequestHeader("Authorization") String token) {
+
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
+		return this.service.update(dto, id, user.getId());
+
 	}
 
 	@DeleteMapping("{id}")
-	public void deleteBookingById(@PathVariable Long id) {
+	public void deleteBookingById(@PathVariable Long id,
+			@RequestHeader("Authorization") String token) {
+
+		String username = this.jwtUtils.getUserNameFromJwtToken(token);
+		User user = this.userService.getUserByUsername(username);
+
 		Booking booking = this.service.getById(id);
-		this.service.delete(booking);
+		this.service.delete(booking, user.getId());
 	}
 }
