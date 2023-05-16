@@ -304,7 +304,7 @@ export const AdminBoard = () => {
       };
 
       const deleteData = async () => {
-        setDeletingAirline(true);
+        setDeletingAll(true);
         try {
           const authToken = StorageService.getToken();
           const headers = { Authorization: authToken };
@@ -330,7 +330,7 @@ export const AdminBoard = () => {
         } catch (error) {
           console.error('Error inserting data:', error);
         }
-        setDeletingAirline(false);
+        setDeletingAll(false);
       };
 
 
