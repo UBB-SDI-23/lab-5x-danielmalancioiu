@@ -45,7 +45,7 @@ public class BookingService {
 
 	public Booking create(BookingDto dto, Long userID) {
 		Booking booking = new Booking();
-		BeanUtils.copyProperties(dto, booking );
+		BeanUtils.copyProperties(dto, booking , "id");
 
 		Flight flight = this.flightService.getById(dto.getFlightId());
 		booking.setFlight(flight);
@@ -71,7 +71,7 @@ public class BookingService {
 
 	public Booking update(BookingDto dto, Long id, Long userID) {
 		Booking booking = this.getById(id);
-		BeanUtils.copyProperties(dto, booking);
+		BeanUtils.copyProperties(dto, booking, "id");
 
 		Flight flight = this.flightService.getById(dto.getFlightId());
 		booking.setFlight(flight);

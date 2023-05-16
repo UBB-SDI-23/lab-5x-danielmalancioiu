@@ -89,7 +89,7 @@ public class FlightService {
 			throw new UserNotAuthorizedException(String.format(user.getUsername()));
 		}
 
-		if (!Objects.equals(user.getId(), airline.getUser().getId())) {
+		if (!Objects.equals(user.getId(), flight.getUser().getId())) {
 			boolean modOrAdmin = user.getRoles().stream().anyMatch((role) ->
 					role.getName() == ERole.ROLE_ADMIN || role.getName() == ERole.ROLE_MODERATOR
 			);
@@ -156,7 +156,7 @@ public Page<Flight> getFlights(Pageable pageable) {
 //	}
 
 	public Flight getById(Long id) {
-		return this.repository.findById(id).orElseThrow(() -> new FlightNotFoundException(id));
+		return repository.findById(id).orElseThrow(() -> new FlightNotFoundException(id));
 	}
 
 	public Flight save(Flight flight) {return this.repository.save(flight);}

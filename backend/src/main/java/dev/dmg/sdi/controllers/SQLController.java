@@ -76,7 +76,7 @@ public class SQLController {
 		}
 		try {
 			String currentDir = System.getProperty("user.dir");
-			String sql = Files.readString(Paths.get(currentDir + "/../src/main/java/dev/dmg/sdi/SQLScripts/delete_flights.sql"));
+		String sql = Files.readString(Paths.get(currentDir + "/../src/main/java/dev/dmg/sdi/SQLScripts/delete_flights.sql"));
 			//String sql = Files.readString(Paths.get(currentDir + "/src/main/java/dev/dmg/sdi/SQLScripts/delete_flights.sql"));
 			jdbcTemplate.update(sql);
 			return ResponseEntity

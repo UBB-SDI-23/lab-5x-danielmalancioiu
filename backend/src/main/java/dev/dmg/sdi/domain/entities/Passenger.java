@@ -1,6 +1,7 @@
 package dev.dmg.sdi.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import dev.dmg.sdi.domain.entities.User.User;
 import javax.persistence.*;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "passenger")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Passenger {
 
 	@Id

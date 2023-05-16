@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "airline")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Airline {
 
 	@Id

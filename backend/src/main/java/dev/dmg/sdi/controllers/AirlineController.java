@@ -93,7 +93,8 @@ public class AirlineController {
 	}
 
 	@PutMapping("/{id}")
-	public Airline updateAirline(@PathVariable Long id, @RequestBody AirlineDto dto, @RequestHeader("Authorization") String token) {
+	public Airline updateAirline(@PathVariable Long id, @RequestBody AirlineDto dto,
+			@RequestHeader("Authorization") String token) {
 
 		String username = this.jwtUtils.getUserNameFromJwtToken(token);
 		User user = this.userService.getUserByUsername(username);

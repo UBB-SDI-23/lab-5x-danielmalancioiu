@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "flight")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Flight {
 
 	@Id
@@ -33,15 +34,14 @@ public class Flight {
 	@Column(name = "arrival_airport")
 	private String arrivalAirport;
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "airline_id")
-//	@JsonIgnoreProperties("flights")
-//	private Airline airline;
-
-	@ManyToOne
-	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "airline_id")
+	@JsonIgnoreProperties("flights")
 	private Airline airline;
+
+//	@ManyToOne
+//	@JoinColumn(name = "airline_id")
+//	private Airline airline;
 
 	@ManyToOne
 	@JsonIgnore

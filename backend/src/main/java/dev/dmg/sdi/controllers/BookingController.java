@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/bookings")
+@Validated
 public class BookingController {
 
 	@Autowired
@@ -39,8 +41,8 @@ public class BookingController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<BookingFlightDto> getBookingById(@PathVariable Long id) {
-		BookingFlightDto booking = this.service.getByDtoId(id);
+	public ResponseEntity<Booking> getBookingById(@PathVariable Long id) {
+		Booking booking = this.service.getById(id);
 		return ResponseEntity.ok(booking);
 	}
 

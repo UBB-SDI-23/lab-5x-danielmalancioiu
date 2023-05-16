@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "booking")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class Booking {
 
 	@Id
@@ -25,25 +26,25 @@ public class Booking {
 	@Column(name = "id")
 	private Long id;
 
-//	@ManyToOne
-//	@JoinColumn(name = "flight_id", referencedColumnName = "id")
-//	@JsonIgnoreProperties("bookings")
-//	private Flight flight;
-
 	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "flight_id")
+	@JoinColumn(name = "flight_id", referencedColumnName = "id")
+	@JsonIgnoreProperties("bookings")
 	private Flight flight;
 
 //	@ManyToOne
-//	@JoinColumn(name = "passenger_id", referencedColumnName = "id")
-//	@JsonIgnoreProperties("bookings")
-//	private Passenger passenger;
+//	@JsonIgnore
+//	@JoinColumn(name = "flight_id")
+//	private Flight flight;
 
 	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "passenger_id")
+	@JoinColumn(name = "passenger_id", referencedColumnName = "id")
+	@JsonIgnoreProperties("bookings")
 	private Passenger passenger;
+
+//	@ManyToOne
+//	@JsonIgnore
+//	@JoinColumn(name = "passenger_id")
+//	private Passenger passenger;
 
 
 	@Column(name = "seat_number")
