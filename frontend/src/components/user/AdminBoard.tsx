@@ -45,6 +45,8 @@ export const AdminBoard = () => {
     const [deletingBooking, setDeletingBooking] = useState(false);
     const [insertingPassenger, setInsertingPassenger] = useState(false);
     const [deletingPassenger, setDeletingPassenger] = useState(false);
+    const [insertingAll, setInsertingAll] = useState(false);
+    const [deletingAll, setDeletingAll] = useState(false);
 
     useEffect(() => {
         
@@ -271,6 +273,67 @@ export const AdminBoard = () => {
         setDeletingBooking(false);
     };
 
+    const insertData = async () => {
+        setInsertingAirline(true);
+        try {
+          const authToken = StorageService.getToken();
+          const headers = { Authorization: authToken };
+          const messages: string[] = [];
+      
+          // Insert airlines and wait for it to finish
+          
+          await insertAirlines();
+      
+          // Insert flights and wait for it to finish
+   
+          await insertFlights();
+      
+          // Insert passengers and wait for it to finish
+    
+          await insertPassengers();
+      
+          // Insert bookings and wait for it to finish
+
+          await insertBookings();
+      
+          console.log('All data inserted successfully:', messages);
+        } catch (error) {
+          console.error('Error inserting data:', error);
+        }
+        setInsertingAirline(false);
+      };
+
+      const deleteData = async () => {
+        setDeletingAirline(true);
+        try {
+          const authToken = StorageService.getToken();
+          const headers = { Authorization: authToken };
+          const messages: string[] = [];
+      
+          // Insert airlines and wait for it to finish
+          
+          await deleteBookings();
+      
+          // Insert flights and wait for it to finish
+          
+          await deleteFlights();
+      
+          // Insert passengers and wait for it to finish
+          
+          await deletePassengers();
+      
+          // Insert bookings and wait for it to finish
+    
+          await deleteAirlines();
+      
+          console.log('All data inserted successfully:', messages);
+        } catch (error) {
+          console.error('Error inserting data:', error);
+        }
+        setDeletingAirline(false);
+      };
+
+
 
     return (
 
@@ -463,6 +526,30 @@ export const AdminBoard = () => {
                                 startIcon={deletingBooking ? <CircularProgress size={20} color="inherit" /> : null}
                             >
                                 Delete Bookings
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={insertData}
+                                disabled={insertingAll}
+                                fullWidth
+                                startIcon={insertingAll ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Insert All
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={insertData}
+                                disabled={deletingAll}
+                                fullWidth
+                                startIcon={deletingAll ? <CircularProgress size={20} color="inherit" /> : null}
+                            >
+                                Delete All
                             </Button>
                         </Grid>
                     </Grid>
