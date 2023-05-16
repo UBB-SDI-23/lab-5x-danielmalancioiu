@@ -544,7 +544,7 @@ export const AdminBoard = () => {
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={insertData}
+                                onClick={deleteData}
                                 disabled={deletingAll}
                                 fullWidth
                                 startIcon={deletingAll ? <CircularProgress size={20} color="inherit" /> : null}
