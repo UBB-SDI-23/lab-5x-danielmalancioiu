@@ -274,7 +274,7 @@ export const AdminBoard = () => {
     };
 
     const insertData = async () => {
-        setInsertingAirline(true);
+        setInsertingAll(true);
         try {
           const authToken = StorageService.getToken();
           const headers = { Authorization: authToken };
@@ -300,7 +300,7 @@ export const AdminBoard = () => {
         } catch (error) {
           console.error('Error inserting data:', error);
         }
-        setInsertingAirline(false);
+        setInsertingAll(false);
       };
 
       const deleteData = async () => {
