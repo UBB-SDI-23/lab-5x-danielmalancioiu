@@ -172,7 +172,22 @@ export const FlightAdd = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setFlight({ ...flight, callSign: event.target.value })}
+                            required
+                            error={flight.callSign.trim() === ''}
+                            helperText={flight.callSign.trim() === '' ? 'CallSign is required' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim() === '' ? 'CallSign is required' : '');
+                                setFlight({ ...flight, callSign: target.value })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('The callsign cannot be empty')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
                         <TextField
                             id="capacity"
@@ -180,7 +195,22 @@ export const FlightAdd = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setFlight({ ...flight, capacity: Number(event.target.value) })}
+                            required
+                            error={flight.capacity < 0}
+                            helperText={flight.capacity < 0 ? 'Capacity must be positive' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim().startsWith('-') ? 'Capacity must be positive' : '');
+                                setFlight({ ...flight, capacity: Number(event.target.value) })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('Capacity must be positive')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
                         <TextField
                             id="departure-airport"
@@ -188,7 +218,22 @@ export const FlightAdd = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setFlight({ ...flight, departureAirport: event.target.value })}
+                            required
+                            error={flight.departureAirport.trim() === ''}
+                            helperText={flight.departureAirport.trim() === '' ? 'Departure Airport is required' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim() === '' ? 'Departure Airport is required' : '');
+                                setFlight({ ...flight, departureAirport: target.value })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('The departure airport cannot be empty')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
                         <TextField
                             id="arrival-airport"
@@ -196,17 +241,27 @@ export const FlightAdd = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setFlight({ ...flight, arrivalAirport: event.target.value })}
+                            required
+                            error={flight.arrivalAirport.trim() === ''}
+                            helperText={flight.arrivalAirport.trim() === '' ? 'Arrival Airport is required' : ''}
+                            onChange={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity(target.value.trim() === '' ? 'Arrival Airport is required' : '');
+                                setFlight({ ...flight, arrivalAirport: target.value })
+                            }}
+                            onInvalid={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('The arrivla airport cannot be empty')
+                            }}
+                            onInput={(event) => {
+                                const target = event.target as HTMLInputElement;
+                                target.setCustomValidity('')
+                            }}
                         />
                         <Autocomplete
                             id="airline-id"
                             options={airlineSuggestions}
                             getOptionLabel={(airline) => `${airline.name} - ${airline.country}`}
-                            // renderOption={(airline) => (
-                            //     <div>
-                            //         {airline.name} ({airline.country})
-                            //     </div>
-                            // )}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}

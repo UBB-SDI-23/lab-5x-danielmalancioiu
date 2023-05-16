@@ -14,16 +14,16 @@ export const AirlineDelete = () => {
 	const handleDelete = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
 		const authToken = StorageService.getToken();
-        const headers = { Authorization: authToken };
-		try{
-		await axios.delete(`${BACKEND_API_URL}/airlines/${airlineId}`, { headers });
-		toast.success("Airline deleted successfully");
-		navigate("/airlines");
+		const headers = { Authorization: authToken };
+		try {
+			await axios.delete(`${BACKEND_API_URL}/airlines/${airlineId}`, { headers });
+			toast.success("Airline deleted successfully");
+			navigate("/airlines");
 		} catch (error: any) {
 			toast.error(error.response.data);
 		}
 	};
-	
+
 
 	const handleCancel = (event: { preventDefault: () => void }) => {
 		event.preventDefault();

@@ -31,7 +31,7 @@ const menuItems = [
     icon: <AirlineSeatReclineExtraIcon />,
     path: "/airlines"
   },
-  {
+  { 
     text: "Passengers",
     icon: <SchoolIcon />,
     path: "/passengers"

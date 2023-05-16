@@ -56,6 +56,7 @@ export const AirlineEdit = () => {
             navigate("/airlines");
         } catch (error : any) {
             toast.error(error.response.data);
+            navigate("/airlines");
         }
     };
 

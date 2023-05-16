@@ -16,8 +16,7 @@ import { toast } from "react-toastify";
 
 export const BookingAdd = () => {
     const navigate = useNavigate();
-    const authToken = StorageService.getToken();
-    const headers = { Authorization: authToken };
+
     const [booking, setBooking] = useState<Booking>({
         flightId: 0,
         passengerId: 0,
@@ -55,7 +54,6 @@ export const BookingAdd = () => {
             setPassengerSuggestions(response.data);
         } catch (error : any) {
             toast.error(error.response.data);
-            console.log(error);
         }
     };
 
@@ -67,13 +65,14 @@ export const BookingAdd = () => {
 
     const addBooking = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
+        const authToken = StorageService.getToken();
+        const headers = { Authorization: authToken };
         try {
 
             await axios.post(`${BACKEND_API_URL}/bookings`, booking, { headers });
-            navigate("/bookings");
             toast.success("Booking added successfully");
+            navigate("/bookings");
         } catch (error : any) {
-            console.log(error );
             toast.error(error.response.data);
         }
     };

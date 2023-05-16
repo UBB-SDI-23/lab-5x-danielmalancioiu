@@ -4,6 +4,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { BACKEND_API_URL } from "../../constants";
 import { StorageService } from "../../services/StorageService";
+import { toast } from "react-toastify";
 
 export const PassengerDelete = () => {
 	const { passengerId } = useParams();
@@ -12,9 +13,13 @@ export const PassengerDelete = () => {
 	const headers = { Authorization: authToken };
 	const handleDelete = async (event: { preventDefault: () => void }) => {
 		event.preventDefault();
-		await axios.delete(`${BACKEND_API_URL}/passengers/${passengerId}`, { headers });
-
-		navigate("/passengers");
+		try {
+			await axios.delete(`${BACKEND_API_URL}/passengers/${passengerId}`, { headers });
+			toast.success("Passenger deleted successfully");
+			navigate("/passengers");
+		} catch (error: any) {
+			toast.error(error.response.data);
+		}
 	};
 
 	const handleCancel = (event: { preventDefault: () => void }) => {

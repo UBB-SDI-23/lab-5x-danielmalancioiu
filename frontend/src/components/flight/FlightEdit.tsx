@@ -29,14 +29,18 @@ export const FlightEdit = () => {
 
 
 
+
+
     useEffect(() => {
         const fetchFlight = async () => {
-            try{
-            const response = await fetch(`${BACKEND_API_URL}/flights/${flightId}`);
-            const flight = await response.json();
-            setFlight(flight);
-            } catch (error : any) {
+            try {
+                const response = await fetch(`${BACKEND_API_URL}/flights/${flightId}`);
+                const flight = await response.json();
+                setFlight(flight);
+                setFlight({ ...flight, airlineId: flight.airline?.id });
+            } catch (error: any) {
                 toast.error(error.response.data);
+                navigate("/flights");
             }
         };
         fetchFlight();
@@ -49,7 +53,7 @@ export const FlightEdit = () => {
             const query = event.target.value;
             const response = await axios.get(`${BACKEND_API_URL}/airlines/autocomplete?query=${query}&maxResults=5`);
             setAirlineSuggestions(response.data);
-        } catch (error : any) {
+        } catch (error: any) {
             toast.error(error.response.data);
         }
     };
@@ -57,6 +61,8 @@ export const FlightEdit = () => {
     const handleAirlineSelection = (event: React.ChangeEvent<{}>, value: Airline | null) => {
         if (value) {
             setFlight({ ...flight, airlineId: value.id });
+            console.log(value.id);
+            console.log(flight);
         }
     };
 
@@ -68,7 +74,7 @@ export const FlightEdit = () => {
             await axios.put(`${BACKEND_API_URL}/flights/${flightId}`, flight, { headers });
             navigate("/flights");
             toast.success("Flight updated successfully");
-        } catch (error : any) {
+        } catch (error: any) {
             toast.error(error.response.data);
         }
     };
@@ -120,17 +126,11 @@ export const FlightEdit = () => {
                         <Autocomplete
                             id="airline-id"
                             options={airlineSuggestions}
-                            
                             getOptionLabel={(airline) => `${airline.name} - ${airline.country}`}
-                            // renderOption={(airline) => (
-                            //     <div>
-                            //         {airline.name} ({airline.country})
-                            //     </div>
-                            // )}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    label={flight.airline?.name}
+                                    label={flight.airline?.name + ' - ' + flight.airline?.country}
                                     variant="outlined"
                                     fullWidth
                                     sx={{ mb: 2 }}

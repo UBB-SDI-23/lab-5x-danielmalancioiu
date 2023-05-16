@@ -15,8 +15,7 @@ import { toast } from "react-toastify";
 export const PassengerEdit = () => {
     const navigate = useNavigate();
     const { passengerId } = useParams();
-    const authToken = StorageService.getToken();
-    const headers = { Authorization: authToken };
+
     const [passenger, setPassenger] = useState<Passenger>({ 
         firstName: "",
         lastName: "",
@@ -32,6 +31,7 @@ export const PassengerEdit = () => {
 			const response = await fetch(`${BACKEND_API_URL}/passengers/${passengerId}`);
 			const passenger = await response.json();
 			setPassenger(passenger);
+            console.log(passenger);
             } catch (error: any) {
                 toast.error(error.response.data);
             }
@@ -41,12 +41,15 @@ export const PassengerEdit = () => {
 
     const updatePassenger = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
+        const authToken = StorageService.getToken();
+        const headers = { Authorization: authToken };
         try {
-            await axios.put(`${BACKEND_API_URL}/passenger/${passengerId}`, passenger, { headers });
-            navigate("/passengers");
+            await axios.put(`${BACKEND_API_URL}/passengers/${passengerId}`, passenger, { headers });
             toast.success("Passenger updated successfully");
+            navigate("/passengers");
         } catch (error : any) {
             toast.error(error.response.data);
+            navigate("/passengers");
         }
     };
 
